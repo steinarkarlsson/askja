@@ -1,36 +1,27 @@
-import * as React from "react";
+import * as React from 'react';
+import { Admin, Resource } from 'react-admin';
+import {firebaseConfig} from "./FIREBASE_CONFIG";
 import { PostList, PostShow, PostCreate, PostEdit } from "./posts";
-import { Admin, Resource } from "react-admin";
-import {
-  FirebaseDataProvider,
-  FirebaseAuthProvider,
-  RAFirebaseOptions
-} from "react-admin-firebase";
+import {FirebaseAuthProvider, FirebaseDataProvider,} from 'react-admin-firebase';
 
-const config = require("./FIREBASE_CONFIG.js").firebaseConfig;
-
-const options: RAFirebaseOptions = {
-  logging: true,
-  rootRef: "root_collection/some_document",
-  watch: ["posts"]
+const config = {
+    apiKey: firebaseConfig.apiKey,
+    authDomain: firebaseConfig.authDomain,
+    projectId: firebaseConfig.projectId,
+    storageBucket: firebaseConfig.storageBucket,
+    messagingSenderId: firebaseConfig.messagingSenderId,
 };
+
+const options = {};
+
 const dataProvider = FirebaseDataProvider(config, options);
 const authProvider = FirebaseAuthProvider(config, options);
 
-class App extends React.Component {
-  render() {
-    return (
-        <Admin dataProvider={dataProvider} authProvider={authProvider}>
-          <Resource
-              name="posts"
-              list={PostList}
-              show={PostShow}
-              create={PostCreate}
-              edit={PostEdit}
-          />
-        </Admin>
-    );
-  }
-}
-
-export default App;
+export const App = () => (
+<Admin
+    dataProvider={dataProvider}
+    //authProvider={authProvider}
+>
+    <Resource name="posts" list={PostList} show={PostShow} create={PostCreate} edit={PostEdit}/>
+</Admin>
+);

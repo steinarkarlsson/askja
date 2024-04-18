@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
     Datagrid,
     List,
@@ -18,7 +17,7 @@ import {
     FileField,
     FileInput
 } from "react-admin";
-import RichTextInput from "ra-input-rich-text";
+import {RichTextInput} from "ra-input-rich-text";
 
 const PostFilter = (props: any) => {
     return (<Filter {...props}>
