@@ -4,6 +4,7 @@ import {
     Create,
     Datagrid,
     Edit,
+    EditButton,
     FileField,
     FileInput,
     Filter,
@@ -13,7 +14,7 @@ import {
     SimpleForm,
     SimpleShowLayout,
     TextField,
-    TextInput, ReferenceField
+    TextInput
 } from 'react-admin';
 import {RichTextInput} from "ra-input-rich-text";
 
@@ -31,6 +32,7 @@ export const EmployeeList = (props: any) => (
             <TextField source="manager"/>
             <TextField source="jobTitle"/>
             <TextField source="level"/>
+            <EditButton label=""/>
         </Datagrid>
     </List>
 );
@@ -39,9 +41,6 @@ export const EmployeeShow = (props: any) => (
     <Show {...props}>
         <SimpleShowLayout>
             <TextField source="id"/>
-            <TextField source="name"/>
-            <TextField source="managerId"/>
-            <ReferenceField source="jobTitle"/>
         </SimpleShowLayout>
     </Show>
 );
