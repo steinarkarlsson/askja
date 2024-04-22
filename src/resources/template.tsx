@@ -21,7 +21,7 @@ import {
     TextInput,
     Toolbar,
     SaveButton,
-    DeleteButton, useRecordContext, useUpdate
+    DeleteButton
 } from 'react-admin';
 import {RichTextInput} from "ra-input-rich-text";
 import {levels} from "../schemas/levels";
@@ -30,15 +30,17 @@ import {types} from "../schemas/types";
 import {useChoices} from "../lib/useChoices";
 
 export const ReviewSaveButton = () => {
-    const record = useRecordContext();
-    const [update] = useUpdate();
-    const handleClick = () => {
-        update(
-            'status',
-            { id: record.id, data: {status: 'submitted'}, previousData: record }
-        )
-    }
-    return <SaveButton label="Submit" handleSubmitWithRedirect={handleClick}/>
+    // const record = useRecordContext();
+    // const [update] = useUpdate();
+    // const handleClick = () => {
+    //     update(
+    //         'status',
+    //         { id: record.id, data: {status: 'submitted'}, previousData: record }
+    //     )
+    // }
+    return <SaveButton label="Submit"
+                       //handleSubmit={handleClick}
+    />
 }
 
 const ReviewToolbar = () => (
