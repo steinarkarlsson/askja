@@ -1,10 +1,10 @@
 import {
-    AutocompleteInput,
     Create,
     Datagrid,
+    DateField,
+    DateInput,
     Edit,
-    FileField,
-    FileInput,
+    EditButton,
     Filter,
     List,
     SelectInput,
@@ -12,9 +12,10 @@ import {
     SimpleForm,
     SimpleShowLayout,
     TextField,
-    TextInput, ReferenceField, DateInput
+    TextInput
 } from 'react-admin';
-import {RichTextInput} from "ra-input-rich-text";
+import {reviewTypes} from "../schemas/reviewTypes";
+import {useChoices} from "../lib/useChoices";
 
 const ReviewPeriodFilter = (props: any) => {
     return (<Filter {...props}>
@@ -22,14 +23,14 @@ const ReviewPeriodFilter = (props: any) => {
     </Filter>);
 };
 
-
 export const ReviewPeriodList = (props: any) => (
     <List {...props} filters={<ReviewPeriodFilter/>}>
         <Datagrid>
             <TextField source="title"/>
-            <TextField source="start date"/>
-            <TextField source="end date"/>
+            <DateField source="start date"/>
+            <DateField source="end date"/>
             <TextField source="type"/>
+            <EditButton label=""/>
         </Datagrid>
     </List>
 );
@@ -37,28 +38,21 @@ export const ReviewPeriodList = (props: any) => (
 export const ReviewPeriodShow = (props: any) => (
     <Show {...props}>
         <SimpleShowLayout>
-            <TextField source="id"/>
-            <TextField source="managerId"/>
-            <ReferenceField source="jobTitle"/>
+            <TextField source="title"/>
+            <DateField source="start date"/>
+            <DateField source="end date"/>
+            <TextField source="type"/>
         </SimpleShowLayout>
     </Show>
 );
+
 export const ReviewPeriodEdit = (props: any) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput source="title"/>
-            <RichTextInput source="body"/>
-            <SelectInput
-                source="rating"
-                choices={[
-                    {id: 1, name: "Good"},
-                    {id: 2, name: "Okay"},
-                    {id: 3, name: "Bad"}
-                ]}
-            />
-            <FileInput source="file" label="File" accept="application/pdf">
-                <FileField source="src" title="title"/>
-            </FileInput>
+            <DateInput source="start date"/>
+            <DateInput source="end date"/>
+            <SelectInput source="type" choices={useChoices(reviewTypes)}/>
         </SimpleForm>
     </Edit>
 );
@@ -69,10 +63,7 @@ export const ReviewPeriodCreate = (props: any) => (
             <TextInput source="title"/>
             <DateInput source="start date"/>
             <DateInput source="end date"/>
-            <AutocompleteInput source="type" choices={[
-                {id: "endOfYear", name: "End of Year"},
-                {id: "midYear", name: "Mid Year"},
-            ]}/>
+            <SelectInput source="type" choices={useChoices(reviewTypes)}/>
         </SimpleForm>
     </Create>
 );
