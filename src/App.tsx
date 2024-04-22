@@ -25,7 +25,7 @@ export const App = () => (
         dataProvider={dataProvider}
         authProvider={authProvider}
     >
-        <Resource name="employee" options={{ label: 'Employees' }} list={EmployeeList} show={EmployeeShow} create={EmployeeCreate} edit={EmployeeEdit}/>
+        <Resource name="employee" options={{ label: 'Employees' }} list={EmployeeList} show={EmployeeShow} create={EmployeeCreate} edit={EmployeeEdit} recordRepresentation={(record:any) => `${record.name}`}/>
         <Resource name="reviewPeriod" options={{ label: 'Review Periods' }} list={ReviewPeriodList} show={ReviewPeriodShow} create={ReviewPeriodCreate} edit={ReviewPeriodEdit}/>
         <Resource name="template" options={{ label: 'Templates' }} list={TemplateList} show={TemplateShow} create={TemplateCreate} edit={TemplateEdit}/>
     </Admin>

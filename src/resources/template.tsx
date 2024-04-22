@@ -18,7 +18,10 @@ import {
     SimpleFormIterator,
     SimpleShowLayout,
     TextField,
-    TextInput
+    TextInput,
+    Toolbar,
+    SaveButton,
+    DeleteButton, useRecordContext, useUpdate
 } from 'react-admin';
 import {RichTextInput} from "ra-input-rich-text";
 import {levels} from "../schemas/levels";
@@ -26,12 +29,30 @@ import {categories} from "../schemas/categories";
 import {types} from "../schemas/types";
 import {useChoices} from "../lib/useChoices";
 
+export const ReviewSaveButton = () => {
+    const record = useRecordContext();
+    const [update] = useUpdate();
+    const handleClick = () => {
+        update(
+            'status',
+            { id: record.id, data: {status: 'submitted'}, previousData: record }
+        )
+    }
+    return <SaveButton label="Submit" handleSubmitWithRedirect={handleClick}/>
+}
+
+const ReviewToolbar = () => (
+    <Toolbar>
+        <ReviewSaveButton/>
+        <DeleteButton/>
+    </Toolbar>
+);
+
 const TemplateFilter = (props: any) => {
     return (<Filter {...props}>
         <TextInput label="Search" source="title" alwaysOn/>
     </Filter>);
 };
-
 
 export const TemplateList = (props: any) => (
     <List {...props} filters={<TemplateFilter/>}>
@@ -66,15 +87,14 @@ export const TemplateShow = (props: any) => (
 
 export const TemplateEdit = (props: any) => (
     <Edit {...props}>
-        <SimpleForm>
+        <SimpleForm toolbar={<ReviewToolbar/>}>
             <TextInput source="jobTitle"/>
             <SelectInput source="level" choices={useChoices(levels)} validate={required()}/>
             <BooleanInput source="active"/>
             <SelectInput source="type" choices={useChoices(types)} validate={required()}/>
             <ArrayInput source="competencies">
                 <SimpleFormIterator inline>
-                    <SelectInput source="Category" choices={useChoices(categories)}
-                    />
+                    <SelectInput source="Category" choices={useChoices(categories)}/>
                     <TextInput source="Title"/>
                     <RichTextInput source="Description"/>
                 </SimpleFormIterator>
@@ -92,8 +112,7 @@ export const TemplateCreate = (props: any) => (
             <SelectInput source="type" choices={useChoices(types)} validate={required()}/>
             <ArrayInput source="competencies">
                 <SimpleFormIterator inline>
-                    <SelectInput source="Category" choices={useChoices(categories)}
-                    />
+                    <SelectInput source="Category" choices={useChoices(categories)}/>
                     <TextInput source="Title"/>
                     <RichTextInput source="Description"/>
                 </SimpleFormIterator>

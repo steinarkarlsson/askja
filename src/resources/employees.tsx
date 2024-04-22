@@ -12,7 +12,8 @@ import {
     SimpleForm,
     SimpleShowLayout,
     TextField,
-    TextInput
+    TextInput,
+    ReferenceField
 } from 'react-admin';
 import {useChoices} from "../lib/useChoices";
 import {levels} from "../schemas/levels";
@@ -28,7 +29,7 @@ export const EmployeeList = (props: any) => (
     <List {...props} filters={<EmployeeFilter/>}>
         <Datagrid>
             <TextField source="name"/>
-            <TextField source="manager"/>
+            <ReferenceField source="manager" reference="employee"/>
             <TextField source="jobTitle"/>
             <TextField source="level"/>
             <EditButton label=""/>
@@ -62,7 +63,7 @@ export const EmployeeCreate = (props: any) => (
             <TextInput source="jobTitle"/>
             <AutocompleteInput source="level" choices={useChoices(levels)}/>
             <BooleanInput source="active"/>
-            <ReferenceInput source="employees" reference="employees"/>
+            <ReferenceInput source="manager" reference="employee"/>
         </SimpleForm>
     </Create>
 );
