@@ -15,7 +15,7 @@ import {
     TextInput,
     ReferenceField
 } from 'react-admin';
-import {useChoices} from "../lib/useChoices";
+import {mapArrayToChoices} from "../lib/mapArrayToChoices";
 import {levels} from "../schemas/levels";
 
 const EmployeeFilter = (props: any) => {
@@ -49,7 +49,7 @@ export const EmployeeEdit = (props: any) => (
         <SimpleForm>
             <TextInput source="name"/>
             <TextInput source="jobTitle"/>
-            <AutocompleteInput source="level" choices={useChoices(levels)}/>
+            <AutocompleteInput source="level" choices={mapArrayToChoices(levels)}/>
             <BooleanInput source="active"/>
             <ReferenceInput source="manager" reference="employee"/>
         </SimpleForm>
@@ -61,7 +61,7 @@ export const EmployeeCreate = (props: any) => (
         <SimpleForm>
             <TextInput source="name"/>
             <TextInput source="jobTitle"/>
-            <AutocompleteInput source="level" choices={useChoices(levels)}/>
+            <AutocompleteInput source="level" choices={mapArrayToChoices(levels)}/>
             <BooleanInput source="active"/>
             <ReferenceInput source="manager" reference="employee"/>
         </SimpleForm>

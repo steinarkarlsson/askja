@@ -15,7 +15,7 @@ import {
     TextInput
 } from 'react-admin';
 import {reviewTypes} from "../schemas/reviewTypes";
-import {useChoices} from "../lib/useChoices";
+import {mapArrayToChoices} from "../lib/mapArrayToChoices";
 
 const ReviewPeriodFilter = (props: any) => {
     return (<Filter {...props}>
@@ -52,7 +52,7 @@ export const ReviewPeriodEdit = (props: any) => (
             <TextInput source="title"/>
             <DateInput source="start date"/>
             <DateInput source="end date"/>
-            <SelectInput source="type" choices={useChoices(reviewTypes)}/>
+            <SelectInput source="type" choices={mapArrayToChoices(reviewTypes)}/>
         </SimpleForm>
     </Edit>
 );
@@ -63,7 +63,7 @@ export const ReviewPeriodCreate = (props: any) => (
             <TextInput source="title"/>
             <DateInput source="start date"/>
             <DateInput source="end date"/>
-            <SelectInput source="type" choices={useChoices(reviewTypes)}/>
+            <SelectInput source="type" choices={mapArrayToChoices(reviewTypes)}/>
         </SimpleForm>
     </Create>
 );

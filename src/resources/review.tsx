@@ -50,14 +50,14 @@ const ReviewToolbar = () => (
     </Toolbar>
 );
 
-const TemplateFilter = (props: any) => {
+const ReviewFilter = (props: any) => {
     return (<Filter {...props}>
         <TextInput label="Search" source="title" alwaysOn/>
     </Filter>);
 };
 
-export const TemplateList = (props: any) => (
-    <List {...props} filters={<TemplateFilter/>}>
+export const ReviewList = (props: any) => (
+    <List {...props} filters={<ReviewFilter/>}>
         <Datagrid>
             <TextField source="jobTitle"/>
             <TextField source="level"/>
@@ -69,7 +69,7 @@ export const TemplateList = (props: any) => (
     </List>
 );
 
-export const TemplateShow = (props: any) => (
+export const ReviewShow = (props: any) => (
     <Show {...props}>
         <SimpleShowLayout>
             <TextField source="jobTitle"/>
@@ -87,7 +87,7 @@ export const TemplateShow = (props: any) => (
     </Show>
 );
 
-export const TemplateEdit = (props: any) => (
+export const ReviewEdit = (props: any) => (
     <Edit {...props}>
         <SimpleForm toolbar={<ReviewToolbar/>}>
             <TextInput source="jobTitle"/>
@@ -105,7 +105,7 @@ export const TemplateEdit = (props: any) => (
     </Edit>
 );
 
-export const TemplateCreate = (props: any) => (
+export const ReviewCreate = (props: any) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput source="jobTitle"/>
