@@ -20,13 +20,13 @@ import {levels} from "../schemas/levels";
 
 const EmployeeFilter = (props: any) => {
     return (<Filter {...props}>
-        <TextInput label="Search" source="title" alwaysOn/>
+        <TextInput label="Search" source="title" alwaysOn sx={{padding:1}} />
     </Filter>);
 };
 
 
 export const EmployeeList = (props: any) => (
-    <List {...props} filters={<EmployeeFilter/>}>
+    <List {...props} filters={<EmployeeFilter/>} sx={{border: '1px solid #000000', borderRadius:'15px', padding:'20px'}}>
         <Datagrid>
             <TextField source="name"/>
             <ReferenceField source="manager" reference="employee"/>

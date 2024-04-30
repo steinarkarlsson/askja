@@ -51,7 +51,7 @@ const ReviewToolbar = () => (
 );
 
 const ReviewFilter = (props: any) => {
-    return (<Filter {...props}>
+    return (<Filter {...props} >
         <TextInput label="Search" source="title" alwaysOn/>
     </Filter>);
 };

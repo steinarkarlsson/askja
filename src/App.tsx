@@ -11,6 +11,7 @@ import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import {ReviewCreate, ReviewEdit, ReviewList, ReviewShow} from "./resources/review";
 import {JucyLayout} from "./components/JucyLayout";
+import {customTheme} from "./themes/customTheme";
 
 const config = {
     apiKey: firebaseConfig.apiKey,
@@ -26,19 +27,32 @@ const dataProvider = FirebaseDataProvider(config, options);
 
 const authProvider = FirebaseAuthProvider(config, options);
 
-export const App = () => (
-    <Admin
-        dataProvider={dataProvider}
-        authProvider={authProvider}
-    >
-        <Resource name="employee" options={{label: 'Employees'}} list={EmployeeList} show={EmployeeShow}
-                  create={EmployeeCreate} edit={EmployeeEdit} icon={PeopleIcon}
-                  recordRepresentation={(record: any) => `${record.name}`}/>
-        <Resource name="reviewPeriod" options={{label: 'Review Periods'}} list={ReviewPeriodList}
-                  show={ReviewPeriodShow} create={ReviewPeriodCreate} edit={ReviewPeriodEdit} icon={EditCalendarIcon}/>
-        <Resource name="template" options={{label: 'Templates'}} list={TemplateList} show={TemplateShow}
-                  create={TemplateCreate} edit={TemplateEdit} icon={CalendarViewMonthIcon}/>
-        <Resource name="review" options={{label: 'Reviews'}} list={ReviewList} show={ReviewShow}
-                  create={ReviewCreate} edit={ReviewEdit} icon={ReviewsIcon}/>
-    </Admin>
-);
+async function checkAuth() {
+    await authProvider.checkAuth(authProvider).then((res) => {
+        console.log(res)
+    });
+}
+
+export const App = () => {
+
+    const res = checkAuth();
+    return (
+        <Admin
+            theme={customTheme}
+            layout={JucyLayout}
+            dataProvider={dataProvider}
+            authProvider={authProvider}
+        >
+            <Resource name="employee" options={{label: 'Employees'}} list={EmployeeList} show={EmployeeShow}
+                      create={EmployeeCreate} edit={EmployeeEdit} icon={PeopleIcon}
+                      recordRepresentation={(record: any) => `${record.name}`}/>
+            <Resource name="reviewPeriod" options={{label: 'Review Periods'}} list={ReviewPeriodList}
+                      show={ReviewPeriodShow} create={ReviewPeriodCreate} edit={ReviewPeriodEdit}
+                      icon={EditCalendarIcon}/>
+            <Resource name="template" options={{label: 'Templates'}} list={TemplateList} show={TemplateShow}
+                      create={TemplateCreate} edit={TemplateEdit} icon={CalendarViewMonthIcon}/>
+            <Resource name="review" options={{label: 'Reviews'}} list={ReviewList} show={ReviewShow}
+                      create={ReviewCreate} edit={ReviewEdit} icon={ReviewsIcon}/>
+        </Admin>
+    );
+};
