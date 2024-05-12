@@ -26,7 +26,7 @@ const EmployeeFilter = (props: any) => {
 
 
 export const EmployeeList = (props: any) => (
-    <List {...props} filters={<EmployeeFilter/>} sx={{border: '1px solid #000000', borderRadius:'15px', padding:'20px'}}>
+    <List {...props} filters={<EmployeeFilter/>} sx={{padding:'20px'}}>
         <Datagrid>
             <TextField source="name"/>
             <ReferenceField source="manager" reference="employee"/>

@@ -23,11 +23,12 @@ import {
     SaveButton,
     DeleteButton
 } from 'react-admin';
-import {RichTextInput} from "ra-input-rich-text";
+import {RichTextInput, RichTextInputToolbar} from "ra-input-rich-text";
 import {levels} from "../schemas/levels";
 import {categories} from "../schemas/categories";
 import {types} from "../schemas/types";
 import {mapArrayToChoices} from "../lib/mapArrayToChoices";
+import {CustomRichTextInput} from "../components/CustomRichTextInput";
 
 export const ReviewSaveButton = () => {
     // const record = useRecordContext();
@@ -59,6 +60,7 @@ const ReviewFilter = (props: any) => {
 export const ReviewList = (props: any) => (
     <List {...props} filters={<ReviewFilter/>}>
         <Datagrid>
+            <TextField source="employeeName"/>
             <TextField source="jobTitle"/>
             <TextField source="level"/>
             <TextField source="type"/>
@@ -88,17 +90,21 @@ export const ReviewShow = (props: any) => (
 );
 
 export const ReviewEdit = (props: any) => (
-    <Edit {...props}>
+    <Edit {...props} >
         <SimpleForm toolbar={<ReviewToolbar/>}>
-            <TextInput source="jobTitle"/>
-            <SelectInput source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
-            <BooleanInput source="active"/>
-            <SelectInput source="type" choices={mapArrayToChoices(types)} validate={required()}/>
+            <TextField source="jobTitle" />
+            <TextField source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
+            <BooleanField source="active"/>
+            <TextField source="type" choices={mapArrayToChoices(types)} validate={required()}/>
             <ArrayInput source="competencies">
                 <SimpleFormIterator inline>
                     <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
                     <TextInput source="Title"/>
-                    <RichTextInput source="Description"/>
+                    <CustomRichTextInput source="description" label="Description"/>
+                    <CustomRichTextInput source="managerComment" label="Manager Comment"/>
+                    <SelectInput source="managerApproved" label="Manager Review" choices={mapArrayToChoices(['Approved', 'Request Changes'])} />
+                    <CustomRichTextInput source="HrComment" label="HR Comment"/>
+                    <SelectInput source="HrApproved" label="HR Review"choices={mapArrayToChoices(['Approved', 'Request Changes'])}/>
                 </SimpleFormIterator>
             </ArrayInput>
         </SimpleForm>

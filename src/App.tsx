@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Admin, Resource} from 'react-admin';
-import {firebaseConfig} from "./FIREBASE_CONFIG";
 import {FirebaseAuthProvider, FirebaseDataProvider} from 'react-admin-firebase';
 import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow} from "./resources/employees";
 import {TemplateCreate, TemplateEdit, TemplateList, TemplateShow} from "./resources/template";
@@ -12,20 +11,14 @@ import ReviewsIcon from '@mui/icons-material/Reviews';
 import {ReviewCreate, ReviewEdit, ReviewList, ReviewShow} from "./resources/review";
 import {JucyLayout} from "./components/JucyLayout";
 import {customTheme} from "./themes/customTheme";
-
-const config = {
-    apiKey: firebaseConfig.apiKey,
-    authDomain: firebaseConfig.authDomain,
-    projectId: firebaseConfig.projectId,
-    storageBucket: firebaseConfig.storageBucket,
-    messagingSenderId: firebaseConfig.messagingSenderId,
-};
+import {config} from "./config";
+import CustomLoginPage from "./components/CustomLoginPage";
 
 const options = {};
 
-const dataProvider = FirebaseDataProvider(config, options);
+const dataProvider = FirebaseDataProvider(config.firebaseConfig, options);
 
-const authProvider = FirebaseAuthProvider(config, options);
+const authProvider = FirebaseAuthProvider(config.firebaseConfig, options);
 
 async function checkAuth() {
     await authProvider.checkAuth(authProvider).then((res) => {
@@ -36,10 +29,12 @@ async function checkAuth() {
 export const App = () => {
 
     const res = checkAuth();
+
     return (
         <Admin
+            //loginPage={CustomLoginPage}
             theme={customTheme}
-            layout={JucyLayout}
+            //layout={JucyLayout}
             dataProvider={dataProvider}
             authProvider={authProvider}
         >
