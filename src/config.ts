@@ -9,6 +9,6 @@ export const config = {
     },
     msConfig: {
         tenantId: '388a7ead-88d2-4311-aaca-8af448624ddd',
-        clientId:'6fe4482e-610a-4a37-8348-3773c9e62227'
+        clientId: '68971ec6-8bba-4a15-9acd-007c8c2ad929'
     }
 }

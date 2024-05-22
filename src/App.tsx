@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {Admin, Resource} from 'react-admin';
 import {FirebaseAuthProvider, FirebaseDataProvider} from 'react-admin-firebase';
 import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow} from "./resources/employees";
@@ -9,7 +9,6 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import {ReviewCreate, ReviewEdit, ReviewList, ReviewShow} from "./resources/review";
-import {JucyLayout} from "./components/JucyLayout";
 import {customTheme} from "./themes/customTheme";
 import {config} from "./config";
 import CustomLoginPage from "./components/CustomLoginPage";
@@ -20,19 +19,12 @@ const dataProvider = FirebaseDataProvider(config.firebaseConfig, options);
 
 const authProvider = FirebaseAuthProvider(config.firebaseConfig, options);
 
-async function checkAuth() {
-    await authProvider.checkAuth(authProvider).then((res) => {
-        console.log(res)
-    });
-}
 
 export const App = () => {
 
-    const res = checkAuth();
-
     return (
         <Admin
-            //loginPage={CustomLoginPage}
+            loginPage={CustomLoginPage}
             theme={customTheme}
             //layout={JucyLayout}
             dataProvider={dataProvider}
