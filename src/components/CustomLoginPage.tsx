@@ -1,14 +1,24 @@
-import LockIcon from '@mui/icons-material/Lock';
-import {Alert, AlertTitle, Avatar, Box, Button, Card, CircularProgress, TextField, Theme} from '@mui/material';
+import {Alert, AlertTitle, Box, Button, CircularProgress} from '@mui/material';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import {LoginComponent, useLogin, useGetIdentity} from 'ra-core';
+import {LoginComponent, useLogin} from 'ra-core';
 import {LoginProps} from 'ra-ui-materialui';
-import React, {useEffect, useRef, useState} from 'react';
-import {getAuth, OAuthProvider, signInWithPopup} from "firebase/auth";
+import React, {useState} from 'react';
+import {
+    getAuth,
+    isSignInWithEmailLink,
+    OAuthProvider,
+    sendSignInLinkToEmail,
+    signInWithEmailLink,
+    signInWithPopup
+} from "firebase/auth";
 import {config} from "../config";
 import {useNotify} from "react-admin";
 import {Navigate} from "react-router-dom";
+import SignUpForm from "./authentification/SignUpForm";
+import Container from "./authentification/Container";
+import LoginForm from "./authentification/LoginForm";
+import useWaitForIdentity from "../lib/useWaitForIdentity";
 
 const provider = new OAuthProvider('microsoft.com');
 provider.setCustomParameters({
@@ -20,43 +30,72 @@ if (!firebase.apps.length) {
     firebase.initializeApp(config.firebaseConfig);
 }
 
-
-const auth = getAuth();
-
-const useWaitForIdentity = () => {
-    const { refetch} = useGetIdentity();
-  return async () => new Promise((resolve, reject) => {
-        const doRefetch = () => {
-            if (!refetch) {
-                resolve(null);
-                return
-            }
-            console.log('Fetching identity...')
-            refetch().then(({data}) => {
-                if (data) {
-                    console.log('   fetched identity', {data})
-                    resolve(data);
-                    return
-                }
-
-                console.log('   no identity data')
-                setTimeout(doRefetch, 100)
-            })
-        }
-        doRefetch();
-    });
-
-}
-
 const CustomLoginPage: React.FC<LoginProps> = () => {
     const notify = useNotify();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
     const [loginSuccess, setLoginSuccess] = useState(false);
+    const [signUpEmail, setSignUpEmail] = React.useState('');
+    const [showSIgnUp, setShowSignUp] = useState(false);
+
+    const login = useLogin();
+    const auth = getAuth();
+
+    const handleShowSignUpForm = () => {
+        setShowSignUp(true);
+    }
+
+    const handleSignUpRequest = (email: string) => {
+
+        setShowSignUp(false);
+        console.log('Sign up request', {email})
+
+        const actionCodeSettings = {
+            url: 'http://localhost:5173/#/review',
+            handleCodeInApp: true,
+        };
+
+        const auth = getAuth();
+
+        sendSignInLinkToEmail(auth, email, actionCodeSettings)
+            .then(() => {
+                window.localStorage.setItem('emailForSignIn', email);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+            });
+    }
+
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+        let email = window.localStorage.getItem('emailForSignIn');
+        if (!email) {
+            email = window.prompt('Please provide your email for confirmation');
+            setSignUpEmail(email as string)
+        }
+        // The client SDK will parse the code from the link for you.
+        if (email !== null) {
+            signInWithEmailLink(auth, email, window.location.href)
+                .then((result) => {
+                    console.log(result)
+                    window.localStorage.removeItem('emailForSignIn');
+                    // You can access the new user via result.user
+                    login(result.user).catch((error)=>console.log(error))
+                    // Additional user info profile not available via:
+                    // result.additionalUserInfo.profile == null
+                    // You can check if the user is new or existing:
+                    // result.additionalUserInfo.isNewUser
+                })
+                .catch((error) => console.log(error));
+        } else {
+            console.log('No email provided')
+        }
+    }
 
     const waitForIdentity = useWaitForIdentity()
     console.log({
-        loading,loginSuccess
+        loading, loginSuccess
     })
 
     const handleStaffLogin = () => {
@@ -77,11 +116,6 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
                     setLoading(false);
 
                 })
-                // setInterval(()=>{
-                //     refetch();
-                //     setLoading(false);
-                //
-                // },10000)
 
                 /// if we have accessToken and IdToken, redirect to home page
                 // Show error if not// toast thing
@@ -95,7 +129,6 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
             });
 
     }
-
 
     if (error) {
         return <Container>
@@ -118,103 +151,20 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
     }
 
     if (loginSuccess) {
-        console.log('Navigation home', {             loginSuccess        })
+        console.log('Navigation home', {loginSuccess})
         return <Navigate to={"/"}/>
     }
     return (
         <Container>
-            <LoginForm/>
+            {showSIgnUp ?
+                <SignUpForm setSignUpEmail={setSignUpEmail} signUpEmail={signUpEmail} handleSignUpRequest={handleSignUpRequest}/> :
+                <LoginForm handleShowSignUpForm={handleShowSignUpForm} login={login}/>
+            }
             <hr/>
             <Button onClick={handleStaffLogin}>Staff login</Button>
         </Container>
     );
 };
 
-const LoginForm = () => {
-    const login = useLogin();
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    return <>
-        <TextField
-            label="Email"
-            type="email"
-            margin="normal"
-            required
-            fullWidth
-            variant="filled"
-            onChange={(e) => setUsername(e.target.value as string)}
-            value={username}
-        />
-        <TextField
-            label="Password"
-            type="password"
-            margin="normal"
-            required
-            fullWidth
-            variant="filled"
-            onChange={(e) => setPassword(e.target.value as string)}
-            value={password}
-        />
-        <Button onClick={() => login({username, password})}>Submit</Button>
-    </>
-}
-
-const Container = ({children}: { children: React.ReactNode }) => {
-    return <Box
-        sx={{
-            height: '100vh',
-            '.RaLogin-card': {
-                position: 'relative',
-                zIndex: 1,
-            },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            background:
-                'url(https://aadcdn.msauthimages.net/81d6b03a-qoi1sj0b-jedyqhmr1ee2lkugok698aiatxhqseod0a/logintenantbranding/0/illustration?ts=637291661041084892)',
-            '&:after': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                zIndex: 0,
-                width: '100%',
-                height: '100%',
-                background: 'rgba(0,0,0,0.55)',
-            },
-        }}
-    >
-        <Card
-            sx={{
-                position: 'relative',
-                zIndex: 1,
-                minWidth: 300,
-                marginTop: '6em',
-            }}
-        >
-            <Box
-                sx={{
-                    margin: '1em',
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            >
-                <Avatar
-                    sx={(theme: Theme) => ({
-                        backgroundColor: theme.palette.grey['500'],
-                    })}
-                >
-                    <LockIcon/>
-                </Avatar>
-            </Box>
-            <Box paddingX={2} display="flex" flexDirection="column" alignItems="center" justifyContent="center"
-                 zIndex={1} position="relative">
-                {children}
-            </Box>
-        </Card>
-    </Box>
-}
 
 export default CustomLoginPage as LoginComponent;
