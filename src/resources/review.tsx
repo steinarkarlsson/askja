@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     ArrayField,
     ArrayInput,
@@ -23,7 +24,7 @@ import {
     SaveButton,
     DeleteButton
 } from 'react-admin';
-import {RichTextInput, RichTextInputToolbar} from "ra-input-rich-text";
+import {RichTextInput} from "ra-input-rich-text";
 import {levels} from "../schemas/levels";
 import {categories} from "../schemas/categories";
 import {types} from "../schemas/types";
@@ -104,7 +105,7 @@ export const ReviewEdit = (props: any) => (
                     <CustomRichTextInput source="managerComment" label="Manager Comment"/>
                     <SelectInput source="managerApproved" label="Manager Review" choices={mapArrayToChoices(['Approved', 'Request Changes'])} />
                     <CustomRichTextInput source="HrComment" label="HR Comment"/>
-                    <SelectInput source="HrApproved" label="HR Review"choices={mapArrayToChoices(['Approved', 'Request Changes'])}/>
+                    <SelectInput source="HrApproved" label="HR Review" choices={mapArrayToChoices(['Approved', 'Request Changes'])}/>
                 </SimpleFormIterator>
             </ArrayInput>
         </SimpleForm>

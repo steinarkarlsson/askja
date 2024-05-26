@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     ArrayField,
     ArrayInput,
@@ -5,7 +6,6 @@ import {
     BooleanInput,
     Create,
     Datagrid,
-    DeleteButton,
     Edit,
     EditButton,
     Filter,
@@ -21,7 +21,8 @@ import {
     SimpleShowLayout,
     TextField,
     TextInput,
-    Toolbar
+    useRecordContext,
+    useUpdate
 } from 'react-admin';
 import {RichTextInput} from "ra-input-rich-text";
 import {levels} from "../schemas/levels";
@@ -43,12 +44,12 @@ export const ReviewSaveButton = () => {
     />
 }
 
-const ReviewToolbar = () => (
-    <Toolbar>
-        <ReviewSaveButton/>
-        <DeleteButton/>
-    </Toolbar>
-);
+// const ReviewToolbar = () => (
+//     <Toolbar>
+//         <ReviewSaveButton/>
+//         <DeleteButton/>
+//     </Toolbar>
+// );
 
 const TemplateFilter = (props: any) => {
     return (<Filter {...props}>
@@ -89,36 +90,28 @@ export const TemplateShow = (props: any) => (
 
 export const TemplateEdit = (props: any) => (
     <Edit {...props}>
-        <SimpleForm toolbar={<ReviewToolbar/>}>
-            <TextInput source="jobTitle"/>
-            <SelectInput source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
-            <BooleanInput source="active"/>
-            <SelectInput source="type" choices={mapArrayToChoices(types)} validate={required()}/>
-            <ArrayInput source="competencies">
-                <SimpleFormIterator inline>
-                    <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
-                    <TextInput source="Title"/>
-                    <RichTextInput source="Description"/>
-                </SimpleFormIterator>
-            </ArrayInput>
-        </SimpleForm>
+        <TemplateEditCreate/>
     </Edit>
 );
 
 export const TemplateCreate = (props: any) => (
     <Create {...props}>
-        <SimpleForm>
-            <TextInput source="jobTitle"/>
-            <SelectInput source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
-            <BooleanInput source="active"/>
-            <SelectInput source="type" choices={mapArrayToChoices(types)} validate={required()}/>
-            <ArrayInput source="competencies">
-                <SimpleFormIterator inline>
-                    <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
-                    <TextInput source="Title"/>
-                    <RichTextInput source="Description"/>
-                </SimpleFormIterator>
-            </ArrayInput>
-        </SimpleForm>
+        <TemplateEditCreate/>
     </Create>
+);
+
+const TemplateEditCreate = () => (
+    <SimpleForm>
+        <TextInput source="jobTitle"/>
+        <SelectInput source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
+        <BooleanInput source="active"/>
+        <SelectInput source="type" choices={mapArrayToChoices(types)} validate={required()}/>
+        <ArrayInput source="competencies">
+            <SimpleFormIterator inline>
+                <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
+                <TextInput source="Title"/>
+                <RichTextInput source="Description"/>
+            </SimpleFormIterator>
+        </ArrayInput>
+    </SimpleForm>
 );
