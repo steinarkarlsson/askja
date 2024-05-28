@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 
 export const EmployeeLevel = z.enum([
     'Executive Leader - Grade 5',

@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 import {Competency, EmployeeLevel} from './index';
 
 export const ReviewTemplate = z.object({

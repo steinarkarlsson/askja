@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 import {EmployeeLevel} from './index';
 
 export const Employee = z.object({

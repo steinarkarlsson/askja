@@ -1,6 +1,6 @@
-import z from 'zod';
+import { z } from 'zod';
 import {CompetencyReview, ReviewStatus} from './index';
-import {ReviewType} from "./ReviewType";
+import {ReviewType} from './ReviewType';
 
 export const Review = z.object({
     id: z.string(),
