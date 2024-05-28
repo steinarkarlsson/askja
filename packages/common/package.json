@@ -1,0 +1,7 @@
+{
+  "name": "@jucy-askja/common",
+  "private": true,
+  "engines": {
+    "node": "18"
+  }
+}

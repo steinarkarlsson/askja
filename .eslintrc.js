@@ -15,5 +15,8 @@ module.exports = {
         "react": {
             "version": "detect"
         }
+    },
+    rules: {
+        "quotes": ["error", "single"]
     }
 }
