@@ -1,4 +1,6 @@
-export const categories = [
+import z from 'zod';
+
+export const competencyCategory = z.enum([
     'Financial',
     'Operational',
     'Customer',
@@ -7,4 +9,4 @@ export const categories = [
     'family',
     'passion',
     'pride'
-]
+]);
