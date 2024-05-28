@@ -24,11 +24,9 @@ import {
     useRecordContext,
     useUpdate
 } from 'react-admin';
-import {RichTextInput} from "ra-input-rich-text";
-import {levels} from "../schemas/levels";
-import {categories} from "../schemas/categories";
-import {types} from "../schemas/types";
-import {mapArrayToChoices} from "../lib/mapArrayToChoices";
+import {RichTextInput} from 'ra-input-rich-text';
+import {CompetencyCategory, CompetencyType, Levels} from '../schemas';
+import {mapArrayToChoices} from '../lib/mapArrayToChoices';
 
 export const ReviewSaveButton = () => {
     const record = useRecordContext();
@@ -103,12 +101,12 @@ export const TemplateCreate = (props: any) => (
 const TemplateEditCreate = () => (
     <SimpleForm>
         <TextInput source="jobTitle"/>
-        <SelectInput source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
+        <SelectInput source="level" choices={mapArrayToChoices(Levels)} validate={required()}/>
         <BooleanInput source="active"/>
-        <SelectInput source="type" choices={mapArrayToChoices(types)} validate={required()}/>
+        <SelectInput source="type" choices={mapArrayToChoices(CompetencyType.options)} validate={required()}/>
         <ArrayInput source="competencies">
             <SimpleFormIterator inline>
-                <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
+                <SelectInput source="Category" choices={mapArrayToChoices(CompetencyCategory.options)}/>
                 <TextInput source="Title"/>
                 <RichTextInput source="Description"/>
             </SimpleFormIterator>

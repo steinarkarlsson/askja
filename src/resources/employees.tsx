@@ -6,28 +6,22 @@ import {
     Datagrid,
     Edit,
     EditButton,
-    Filter,
     List,
+    ReferenceField,
     ReferenceInput,
     Show,
     SimpleForm,
     SimpleShowLayout,
     TextField,
-    TextInput,
-    ReferenceField
+    TextInput
 } from 'react-admin';
-import {mapArrayToChoices} from "../lib/mapArrayToChoices";
-import {levels} from "../schemas/levels";
-
-const EmployeeFilter = (props: any) => {
-    return (<Filter {...props}>
-        <TextInput label="Search" source="title" alwaysOn sx={{padding:1}} />
-    </Filter>);
-};
-
+import {mapArrayToChoices} from '../lib/mapArrayToChoices';
+import {Levels} from '../schemas';
 
 export const EmployeeList = (props: any) => (
-    <List {...props} filters={<EmployeeFilter/>} sx={{padding:'20px'}}>
+    <List {...props}
+        // filters={<EmployeeFilter/>}
+          sx={{padding: '20px'}}>
         <Datagrid>
             <TextField source="name"/>
             <ReferenceField source="manager" reference="employee"/>
@@ -50,9 +44,9 @@ export const EmployeeEdit = (props: any) => (
         <SimpleForm>
             <TextInput source="name"/>
             <TextInput source="jobTitle"/>
-            <AutocompleteInput source="level" choices={mapArrayToChoices(levels)}/>
+            <AutocompleteInput source="level" choices={mapArrayToChoices(Levels)}/>
             <BooleanInput source="active"/>
-            <ReferenceInput source="manager" reference="employee"/>
+            <ReferenceInput source="manager" reference="employee" allowEmpty/>
         </SimpleForm>
     </Edit>
 );
@@ -62,7 +56,7 @@ export const EmployeeCreate = (props: any) => (
         <SimpleForm>
             <TextInput source="name"/>
             <TextInput source="jobTitle"/>
-            <AutocompleteInput source="level" choices={mapArrayToChoices(levels)}/>
+            <AutocompleteInput source="level" choices={mapArrayToChoices(Levels)}/>
             <BooleanInput source="active"/>
             <ReferenceInput source="manager" reference="employee"/>
         </SimpleForm>

@@ -3,15 +3,16 @@ import {
     ArrayField,
     ArrayInput,
     BooleanField,
-    BooleanInput,
     Create,
     Datagrid,
+    DeleteButton,
     Edit,
     EditButton,
     Filter,
     List,
     required,
     RichTextField,
+    SaveButton,
     SelectInput,
     Show,
     ShowButton,
@@ -20,29 +21,14 @@ import {
     SimpleShowLayout,
     TextField,
     TextInput,
-    Toolbar,
-    SaveButton,
-    DeleteButton
+    Toolbar
 } from 'react-admin';
-import {RichTextInput} from "ra-input-rich-text";
-import {levels} from "../schemas/levels";
-import {categories} from "../schemas/categories";
-import {types} from "../schemas/types";
-import {mapArrayToChoices} from "../lib/mapArrayToChoices";
-import {CustomRichTextInput} from "../components/CustomRichTextInput";
+import {mapArrayToChoices} from '../lib/mapArrayToChoices';
+import {CustomRichTextInput} from '../components/CustomRichTextInput';
+import {CompetencyCategory, Levels, CompetencyType} from '../schemas';
 
 export const ReviewSaveButton = () => {
-    // const record = useRecordContext();
-    // const [update] = useUpdate();
-    // const handleClick = () => {
-    //     update(
-    //         'status',
-    //         { id: record.id, data: {status: 'submitted'}, previousData: record }
-    //     )
-    // }
-    return <SaveButton label="Submit"
-                       //handleSubmit={handleClick}
-    />
+    return <SaveButton label="Submit"/>
 }
 
 const ReviewToolbar = () => (
@@ -92,40 +78,34 @@ export const ReviewShow = (props: any) => (
 
 export const ReviewEdit = (props: any) => (
     <Edit {...props} >
-        <SimpleForm toolbar={<ReviewToolbar/>}>
-            <TextField source="jobTitle" />
-            <TextField source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
-            <BooleanField source="active"/>
-            <TextField source="type" choices={mapArrayToChoices(types)} validate={required()}/>
-            <ArrayInput source="competencies">
-                <SimpleFormIterator inline>
-                    <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
-                    <TextInput source="Title"/>
-                    <CustomRichTextInput source="description" label="Description"/>
-                    <CustomRichTextInput source="managerComment" label="Manager Comment"/>
-                    <SelectInput source="managerApproved" label="Manager Review" choices={mapArrayToChoices(['Approved', 'Request Changes'])} />
-                    <CustomRichTextInput source="HrComment" label="HR Comment"/>
-                    <SelectInput source="HrApproved" label="HR Review" choices={mapArrayToChoices(['Approved', 'Request Changes'])}/>
-                </SimpleFormIterator>
-            </ArrayInput>
-        </SimpleForm>
+        <ReviewCreateEdit/>
     </Edit>
 );
 
 export const ReviewCreate = (props: any) => (
     <Create {...props}>
-        <SimpleForm>
-            <TextInput source="jobTitle"/>
-            <SelectInput source="level" choices={mapArrayToChoices(levels)} validate={required()}/>
-            <BooleanInput source="active"/>
-            <SelectInput source="type" choices={mapArrayToChoices(types)} validate={required()}/>
-            <ArrayInput source="competencies">
-                <SimpleFormIterator inline>
-                    <SelectInput source="Category" choices={mapArrayToChoices(categories)}/>
-                    <TextInput source="Title"/>
-                    <RichTextInput source="Description"/>
-                </SimpleFormIterator>
-            </ArrayInput>
-        </SimpleForm>
+        <ReviewCreateEdit/>
     </Create>
 );
+
+const ReviewCreateEdit = () => (
+    <SimpleForm toolbar={<ReviewToolbar/>}>
+        <TextField source="jobTitle"/>
+        <TextField source="level" choices={mapArrayToChoices(Levels)} validate={required()}/>
+        <BooleanField source="active"/>
+        <TextField source="type" choices={mapArrayToChoices(CompetencyType.options)} validate={required()}/>
+        <ArrayInput source="competencies">
+            <SimpleFormIterator inline>
+                <SelectInput source="Category" choices={mapArrayToChoices(CompetencyCategory.options)}/>
+                <TextInput source="Title"/>
+                <CustomRichTextInput source="description" label="Description"/>
+                <CustomRichTextInput source="managerComment" label="Manager Comment"/>
+                <SelectInput source="managerApproved" label="Manager Review"
+                             choices={mapArrayToChoices(['Approved', 'Request Changes'])}/>
+                <CustomRichTextInput source="HrComment" label="HR Comment"/>
+                <SelectInput source="HrApproved" label="HR Review"
+                             choices={mapArrayToChoices(['Approved', 'Request Changes'])}/>
+            </SimpleFormIterator>
+        </ArrayInput>
+    </SimpleForm>
+)
