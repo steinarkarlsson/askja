@@ -1,6 +1,6 @@
-import {review} from "@jucy-askja/common/schemas";
+import {Review} from "@jucy-askja/common/schemas";
 
-export const updateReviewStatus = (review: review) => {
+export const updateReviewStatus = (review: Review) => {
     //If review.status is 'draft' then update review.status to 'Pending manager' and send email to manager
     if (review.status === 'draft') {
         review.status = 'Pending manager';

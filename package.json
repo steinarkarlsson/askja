@@ -4,10 +4,17 @@
     "engines": {
         "node": "18"
     },
+    "scripts": {
+        "start:emulator": "mkdir -p emulator-data &&  yarn firebase emulators:start --only firestore,storage,auth --import emulator-data --export-on-exit emulator-data",
+        "start:shell": "firebase functions:shell"
+    },
     "packageManager": "yarn@4.1.1",
     "workspaces": {
         "packages": [
             "packages/*"
         ]
+    },
+    "devDependencies": {
+        "firebase-tools": "^13.10.2"
     }
 }
