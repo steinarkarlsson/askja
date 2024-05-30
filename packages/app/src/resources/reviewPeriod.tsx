@@ -20,7 +20,7 @@ import {ReviewType} from '@jucy-askja/common/schemas';
 
 const ReviewPeriodFilter = (props: any) => {
     return (<Filter {...props}>
-        <TextInput label="Search" source="title" alwaysOn/>
+        <TextInput label="Search" source="title" alwaysOn name="title"/>
     </Filter>);
 };
 
@@ -28,8 +28,8 @@ export const ReviewPeriodList = (props: any) => (
     <List {...props} filters={<ReviewPeriodFilter/>}>
         <Datagrid>
             <TextField source="title"/>
-            <DateField source="start date"/>
-            <DateField source="end date"/>
+            <DateField source="startDate"/>
+            <DateField source="endDate"/>
             <TextField source="type"/>
             <EditButton label=""/>
         </Datagrid>
@@ -40,8 +40,8 @@ export const ReviewPeriodShow = (props: any) => (
     <Show {...props}>
         <SimpleShowLayout>
             <TextField source="title"/>
-            <DateField source="start date"/>
-            <DateField source="end date"/>
+            <DateField source="startDate"/>
+            <DateField source="endDate"/>
             <TextField source="type"/>
         </SimpleShowLayout>
     </Show>
@@ -49,21 +49,22 @@ export const ReviewPeriodShow = (props: any) => (
 
 export const ReviewPeriodEdit = (props: any) => (
     <Edit {...props}>
-        <ReviewPeriodCreateEdit/>
+        <SimpleForm>
+            <TextInput source="title"/>
+            <DateInput source="startDate"/>
+            <DateInput source="endDate"/>
+            <SelectInput source="type" choices={mapArrayToChoices(ReviewType.options)}/>
+        </SimpleForm>
     </Edit>
 );
 
 export const ReviewPeriodCreate = (props: any) => (
     <Create {...props}>
-        <ReviewPeriodCreateEdit/>
+        <SimpleForm>
+            <TextInput source="title"/>
+            <DateInput source="startDate"/>
+            <DateInput source="endDate"/>
+            <SelectInput source="type" choices={mapArrayToChoices(ReviewType.options)}/>
+        </SimpleForm>
     </Create>
 );
-
-const ReviewPeriodCreateEdit = () => (
-    <SimpleForm>
-        <TextInput source="title"/>
-        <DateInput source="start date"/>
-        <DateInput source="end date"/>
-        <SelectInput source="type" choices={mapArrayToChoices(ReviewType.options)}/>
-    </SimpleForm>
-)
