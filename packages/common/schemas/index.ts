@@ -6,7 +6,6 @@ import {CompetencyType} from './CompetencyType';
 import {Employee} from './Employee';
 import {EmployeeLevel} from './EmployeeLevel';
 import {Levels} from './Levels';
-import {Review} from './Review';
 import {ReviewStatus} from './ReviewStatus';
 import {ReviewTemplate} from './ReviewTemplate';
 import {ReviewType} from './ReviewType';
@@ -20,7 +19,6 @@ export {
     Employee,
     EmployeeLevel,
     Levels,
-    Review,
     ReviewStatus,
     ReviewTemplate,
 };

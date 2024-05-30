@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import {EmployeeLevel} from './index';
+import {EmployeeLevel} from './EmployeeLevel';
 
 export const Employee = z.object({
     id: z.string(),

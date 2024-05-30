@@ -1,5 +1,6 @@
 import {z} from 'zod';
-import {CompetencyType, CompetencyCategory} from './index';
+import {CompetencyType} from './CompetencyType';
+import { CompetencyCategory } from './CompetencyCategory';
 
 export const Competency = z.object({
     id: z.string(),

@@ -1,12 +1,12 @@
+import React from 'react';
 import {
     AlignmentButtons,
-    ClearButtons, FormatButtons,
-    LevelSelect,
-    LinkButtons, ListButtons,
-    QuoteButtons,
+    ClearButtons,
+    FormatButtons,
+    ListButtons,
     RichTextInput,
     RichTextInputToolbar
-} from "ra-input-rich-text";
+} from 'ra-input-rich-text';
 import {FC, ReactElement} from 'react';
 
 type CustomRichTextInputProps = {
@@ -16,14 +16,13 @@ type CustomRichTextInputProps = {
 
 export const CustomRichTextInput: FC<CustomRichTextInputProps> = ({source, label}): ReactElement => {
     const size = 'small';
-return (
-    <RichTextInput source={source} label={label} toolbar={
-        <RichTextInputToolbar size="small" >
-            <FormatButtons size={size} />
-            <AlignmentButtons size={size} />
-            <ListButtons size={size} />
-            <ClearButtons size={size} />
-        </RichTextInputToolbar>
-    }/>
-)
+    return (
+        <RichTextInput source={source} label={label} toolbar={
+            <RichTextInputToolbar size="small">
+                <FormatButtons size={size}/>
+                <ListButtons size={size}/>
+                <ClearButtons size={size}/>
+            </RichTextInputToolbar>
+        }/>
+    )
 }

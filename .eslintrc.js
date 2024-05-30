@@ -17,6 +17,6 @@ module.exports = {
         }
     },
     rules: {
-        "quotes": ["error", "single"]
+        "quotes": ["error", "prefer-double"]
     }
 }

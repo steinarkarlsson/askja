@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import {CompetencyReview, ReviewStatus} from './index';
+import {ReviewStatus} from './ReviewStatus';
+import { CompetencyReview} from './CompetencyReview';
 import {ReviewType} from './ReviewType';
 
-export const Review = z.object({
+export const reviewScema = z.object({
     id: z.string(),
     employeeId: z.string(),
     managerId: z.string(),
@@ -11,3 +12,5 @@ export const Review = z.object({
     reviewType: ReviewType,
     status: ReviewStatus,
 });
+
+export type Review = z.infer<typeof reviewScema>; // string

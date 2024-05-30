@@ -11,14 +11,14 @@ import {
     sendSignInLinkToEmail,
     signInWithEmailLink,
     signInWithPopup
-} from "firebase/auth";
-import {config} from "../config";
-import {useNotify} from "react-admin";
-import {Navigate} from "react-router-dom";
-import SignUpForm from "./authentification/SignUpForm";
-import Container from "./authentification/Container";
-import LoginForm from "./authentification/LoginForm";
-import useWaitForIdentity from "../lib/useWaitForIdentity";
+} from 'firebase/auth';
+import {config} from '../config';
+import {useNotify} from 'react-admin';
+import {Navigate} from 'react-router-dom';
+import SignUpForm from './authentification/SignUpForm';
+import Container from './authentification/Container';
+import LoginForm from './authentification/LoginForm';
+import useWaitForIdentity from '../lib/useWaitForIdentity';
 
 const provider = new OAuthProvider('microsoft.com');
 provider.setCustomParameters({
@@ -148,7 +148,7 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
 
     if (loginSuccess) {
         console.log('Navigation home', {loginSuccess})
-        return <Navigate to={"/"}/>
+        return <Navigate to={'/'}/>
     }
     return (
         <Container>
