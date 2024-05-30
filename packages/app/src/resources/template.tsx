@@ -37,9 +37,7 @@ export const ReviewSaveButton = () => {
             {id: record.id, data: {status: 'submitted'}, previousData: record}
         )
     }
-    return <SaveButton label="Submit"
-                       handleSubmit={handleClick}
-    />
+    return <SaveButton label="Submit" onClick={handleClick}/>
 }
 
 // const ReviewToolbar = () => (
@@ -100,7 +98,7 @@ export const TemplateCreate = (props: any) => (
 
 const TemplateEditCreate = () => (
     <SimpleForm>
-        <TextInput source="jobTitle"/>
+        <TextInput source="jobTitle" defaultValue=""/>
         <SelectInput source="level" choices={mapArrayToChoices(Levels)} validate={required()}/>
         <BooleanInput source="active"/>
         <SelectInput source="type" choices={mapArrayToChoices(CompetencyType.options)} validate={required()}/>
