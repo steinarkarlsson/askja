@@ -36,11 +36,7 @@ export const getTemplate = ({employeeDoc, templates, type}: GetTemplateProps) =>
             return {template, matchScore}
         })
 
-        const bestMatch = templateGrades.reduce((prev, current) => {
+        return templateGrades.reduce((prev, current) => {
             return (prev!.matchScore > current!.matchScore) ? prev : current
         })!.template;
-
-        console.log(`best template match for ${type}:`)
-        console.log(bestMatch)
-        return bestMatch;
 }
