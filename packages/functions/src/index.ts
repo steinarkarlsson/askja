@@ -1,57 +1,61 @@
 import {initializeApp} from "firebase-admin/app";
-import {onSchedule} from "firebase-functions/lib/v2/providers/scheduler";
+import {onSchedule} from "firebase-functions/v2/scheduler";
 import {getFirestore} from "firebase-admin/firestore";
-import {Review} from "@jucy-askja/common/schemas";
+import {getReviewPeriodStartingToday} from "./lib/getReviewPeriodStartingToday";
+import {getTemplate} from "./lib/getTemplate";
 
-export const createReviews = onSchedule("every day 00:00", async () => {
-    initializeApp();
+initializeApp();
+
+export const createReviews = onSchedule("every day 03:00", async () => {
 
     const db = getFirestore();
     const reviewPeriodSnapshot = await db.collection("reviewPeriod").get();
-    reviewPeriodSnapshot.docs.forEach((reviewPeriodDoc) => {
-        const reviewPeriodData = reviewPeriodDoc.data();
-        console.log(reviewPeriodData);
-    });
     const templateSnapshot = await db.collection("template").get();
-    console.log(templateSnapshot.docs);
-    const employeeSnapshot = await db.collection("employee").get();
-    console.log(employeeSnapshot);
+    const employeeSnapshot = await db.collection("employee").where("active", "==", true).get();
 
-    const reviews: typeof Review[] = [];
+    const reviewPeriod = getReviewPeriodStartingToday(reviewPeriodSnapshot);
+    reviewPeriod ? console.log(`Review Period starting today: ${reviewPeriod.data().title}`) : console.log(`No review period starting today`);
 
-    employeeSnapshot.docs.forEach((employeeDoc) => {
-        const employeeData = employeeDoc.data();
-        console.log(employeeData);
+    if (reviewPeriod) {
+        const reviews = employeeSnapshot.docs.map((employee) => {
 
-        const review: typeof Review = {
-            id: "",
-            employeeId: employeeDoc.id,
-            managerId: employeeDoc.data().managerId,
-            level: employeeData.level,
-            status: "active",
-            jobTitle: employeeData.jobTitle,
-            active: true,
-        };
+            console.log('Checking for coreTempalates for employee: ', employee.data().name, employee.data().jobTitle, employee.data().level);
+            const coreTemplate = getTemplate({employeeDoc: employee, templates: templateSnapshot, type: 'Core'});
+            console.log('Checking for functionalTempalates for employee: ', employee.data().name, employee.data().jobTitle, employee.data().level);
+            const functionalTemplate = getTemplate({employeeDoc: employee, templates: templateSnapshot, type: 'Functional'});
 
-        templateSnapshot.docs.forEach((templateDoc) => {
-            const templateData = templateDoc.data();
-            console.log(templateData);
-            // Create a review based on the template and employee data
-            if (templateData.jobTitle === employeeData.jobTitle ) {
-                review.competencies = templateData.competencies;
+
+
+            const template = {
+                coreTemplateId: coreTemplate?.id,
+                functionalTemplateId: functionalTemplate?.id,
+                functionalCompetencies: functionalTemplate?.competencies,
+                coreCompetencies: coreTemplate?.competencies
+            };
+
+            const templateFound = !!(functionalTemplate || coreTemplate);
+
+            templateFound && console.log(`Matched template for ${employee.data().name} - ${employee.data().jobTitle}: \n Functional template: ${functionalTemplate?.jobTitle} - ${functionalTemplate?.level} \n Core template: ${coreTemplate?.jobTitle} - ${coreTemplate?.level}`)
+            templateFound && console.log(JSON.stringify(template, null, 2));
+
+            if (functionalTemplate) {
+                return {
+                    employeeId: employee.id,
+                    employeeName: employee.data().name,
+                    managerId: employee.data().managerId,
+                    status: "pending",
+                    jobTitle: employee.data().jobTitle,
+                    level: employee.data().level,
+                    reviewPeriodId: reviewPeriod.id,
+                    reviewPeriodName: reviewPeriod.data().title,
+                    reviewType: reviewPeriod.data().type,
+                    competencies: functionalTemplate?.competencies || []
+                }
+            } else {
+                console.log(`No template found for ${employee.data().name} - ${employee.data().jobTitle}`);
+                return
             }
         });
-        reviews.push(review);
-    });
-
-    const batch = db.batch();
-
-    reviews.forEach((review) => {
-        const reviewRef = db.collection("review").doc();
-        batch.set(reviewRef, review);
-    });
-
-    await batch.commit();
-
-    console.log("createReviews completed");
+        //console.log(JSON.stringify(reviews, null, 2))
+    }
 });
