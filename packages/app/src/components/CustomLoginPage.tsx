@@ -25,11 +25,6 @@ provider.setCustomParameters({
     tenant: config.msConfig.tenantId
 });
 
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(config.firebaseConfig);
-}
-
 const CustomLoginPage: React.FC<LoginProps> = () => {
     const notify = useNotify();
     const [loading, setLoading] = useState(false);

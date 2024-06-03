@@ -1,31 +1,30 @@
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import PeopleIcon from '@mui/icons-material/People';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import {getApp} from 'firebase/app';
+import {connectAuthEmulator, getAuth} from 'firebase/auth';
+import {connectDatabaseEmulator, getDatabase} from 'firebase/database';
+import {connectFirestoreEmulator, getFirestore} from 'firebase/firestore';
+import {connectFunctionsEmulator, getFunctions} from 'firebase/functions';
+import {connectStorageEmulator, getStorage} from 'firebase/storage';
 import React from 'react';
 import {Admin, Resource} from 'react-admin';
-import {FirebaseAuthProvider, FirebaseDataProvider} from './lib/react-admin-firebase';
-import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow} from './resources/employees';
-import {TemplateCreate, TemplateEdit, TemplateList, TemplateShow} from './resources/template';
-import {ReviewPeriodCreate, ReviewPeriodEdit, ReviewPeriodList, ReviewPeriodShow} from './resources/reviewPeriod';
-import PeopleIcon from '@mui/icons-material/People';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
-import ReviewsIcon from '@mui/icons-material/Reviews';
-import {ReviewCreate, ReviewEdit, ReviewList, ReviewShow} from './resources/review';
-import {customTheme} from './themes/customTheme';
-import {config} from './config';
+import {FirebaseDataProvider} from './lib/react-admin-firebase';
 import CustomLoginPage from './components/CustomLoginPage';
+import {config} from './config';
+import {FirebaseAuthProvider} from './lib/react-admin-firebase';
+import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow} from './resources/employees';
+import {ReviewCreate, ReviewEdit, ReviewList, ReviewShow} from './resources/review';
+import {ReviewPeriodCreate, ReviewPeriodEdit, ReviewPeriodList, ReviewPeriodShow} from './resources/reviewPeriod';
+import {TemplateCreate, TemplateEdit, TemplateList, TemplateShow} from './resources/template';
+import {customTheme} from './themes/customTheme';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
 import 'firebase/compat/storage';
 import 'firebase/compat/database';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getApp } from 'firebase/app';
-import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
-import { getStorage, connectStorageEmulator } from 'firebase/storage';
-
-const useEmulator = true;
 
 const app = firebase.initializeApp(
     {
@@ -38,7 +37,7 @@ const app = firebase.initializeApp(
     },
 );
 
-if (useEmulator) {
+if (config.firebaseConfig.useEmulator) {
     app.auth().useEmulator('http://127.0.0.1:9099');
     connectAuthEmulator(getAuth(), 'http://127.0.0.1:9099');
 
@@ -57,7 +56,7 @@ if (useEmulator) {
 }
 
 const options = {
-    app: app,
+    app
 };
 
 const dataProvider = FirebaseDataProvider(config.firebaseConfig, options);

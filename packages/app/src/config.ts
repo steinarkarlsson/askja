@@ -5,7 +5,8 @@ export const config = {
         projectId: 'jucy-askja',
         storageBucket: 'jucy-askja.appspot.com',
         messagingSenderId: '932290405279',
-        appId: '1:932290405279:web:b1353abcc8fe621ea753aa'
+        appId: '1:932290405279:web:b1353abcc8fe621ea753aa',
+        useEmulator:false
     },
     msConfig: {
         tenantId: '388a7ead-88d2-4311-aaca-8af448624ddd',

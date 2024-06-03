@@ -1,0 +1,42 @@
+---
+types: dev,peer,prod
+filter: '.'
+indent: '    '
+sortAz:
+    - contributors
+    - dependencies
+    - devDependencies
+    - keywords
+    - peerDependencies
+    - scripts
+sortFirst:
+    - name
+    - description
+    - version
+    - type
+    - author
+    - license
+    - private
+    - scripts
+    - module
+    - main
+    - types
+    - files
+    - engines
+    - dependencies
+    - peerDependencies
+    - devDependencies
+source:
+    - package.json
+    - packages/*/package.json
+versionGroups:
+    - packages:
+          - '**'
+      dependencies:
+          - '@jucy-askja/app'
+          - '@jucy-askja/common'
+          - '@jucy-askja/functions'
+      dependencyTypes:
+          - dev
+          - prod
+      pinVersion: workspace:*

@@ -1,0 +1,22 @@
+tabWidth: 4
+printWidth: 190
+singleQuote: true
+trailingComma: es5
+endOfLine: lf
+quoteProps: as-needed
+jsxSingleQuote: false
+bracketSpacing: true
+bracketSameLine: false
+arrowParens: always
+importOrderSeparation: false
+importOrderSortSpecifiers: true
+importOrder:
+    - '@/lib/init'
+    - 'react'
+    - '<THIRD_PARTY_MODULES>'
+    - 'firebase'
+    - '^@jucy-ui(.*)$'
+    - '^@/(.*)$'
+    - '^[./]'
+plugins:
+    - '@trivago/prettier-plugin-sort-imports'

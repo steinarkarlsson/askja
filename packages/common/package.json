@@ -1,7 +1,10 @@
 {
-  "name": "@jucy-askja/common",
-  "private": true,
-  "engines": {
-    "node": "18"
-  }
+    "name": "@jucy-askja/common",
+    "private": true,
+    "engines": {
+        "node": "18"
+    },
+    "dependencies": {
+        "zod": "^3.23.8"
+    }
 }
