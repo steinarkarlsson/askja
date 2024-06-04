@@ -1,4 +1,15 @@
 {
+  "hosting": {
+    "source": "packages/app",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "australia-southeast1"
+    }
+  },
   "functions": [
     {
       "source": "packages/functions",
@@ -10,8 +21,8 @@
         "firebase-debug.*.log"
       ],
       "predeploy": [
-        "yarn --cwd ./functions/ run lint",
-        "yarn --cwd ./functions/ run build"
+        "yarn --cwd ./packages/functions/ run lint",
+        "yarn --cwd ./packages/functions/ run build"
       ]
     }
   ],
