@@ -2,7 +2,7 @@
     "name": "jucy-askja",
     "private": true,
     "scripts": {
-        "start:emulator": "mkdir -p emulator-data &&  yarn firebase emulators:start --only firestore,storage,auth --import emulator-data --export-on-exit emulator-data",
+        "start:emulator": "mkdir -p emulator-data &&  yarn firebase emulators:start --only firestore,storage,auth,functions,pubsub --import emulator-data --export-on-exit emulator-data",
         "start:shell": "firebase functions:shell"
     },
     "engines": {

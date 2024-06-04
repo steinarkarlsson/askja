@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import {CompetencyType} from './index';
+import { competencyTypeSchema } from './CompetencyType';
 
-export const CompetencyReview = z.object({
+export const competencyReviewSchema = z.object({
     id: z.string(),
     objective: z.string(),
-    title: CompetencyType,
+    title: competencyTypeSchema,
     employeeNotes: z.string(),
     managerNotes: z.string(),
     humanResourcesNotes: z.string(),
@@ -12,3 +12,5 @@ export const CompetencyReview = z.object({
     managerRating: z.number(),
     humanResourcesRating: z.number(),
 });
+
+export type CompetencyReview = z.infer<typeof competencyReviewSchema>;

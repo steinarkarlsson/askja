@@ -1,4 +1,4 @@
-import {Review} from "@jucy-askja/common/schemas";
+import { Review } from '@jucy-askja/common/schemas/Review';
 
 export const updateReviewStatus = (review: Review) => {
     //If review.status is 'draft' then update review.status to 'Pending manager' and send email to manager
@@ -15,22 +15,21 @@ export const updateReviewStatus = (review: Review) => {
     }
 
     //Else set review.status to 'Pending HR' and send email to HR
-    else if (review.status === 'Pending manager'){
+    else if (review.status === 'Pending manager') {
         review.status = 'Pending HR';
         //send email to HR
     }
-    //If review.status is 'Pending HR' then check if any review.competency.hrReview are set to 'Request Changes', then set review.status to 'Pending manager' and send email to manager
+        //If review.status is 'Pending HR' then check if any review.competency.hrReview are set to 'Request Changes', then set review.status to 'Pending manager' and send email to manager
     //Else set review.status to 'Completed' and send email to employee
     else {
         if (review.competency.hrReview === 'Request Changes') {
             review.status = 'Pending manager';
             //send email to manager
-        }
-        else {
+        } else {
             review.status = 'Completed';
             //send email to employee
-            console.log('review status: ', review.status)
+            console.log('review status: ', review.status);
         }
     }
     console.log('Review status updated');
-}
+};

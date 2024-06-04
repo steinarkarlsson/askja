@@ -1,14 +1,14 @@
 rules:
-    prefer-arrow/prefer-arrow-functions: 0
-    '@typescript-eslint/no-explicit-any': 0
-    '@typescript-eslint/ban-types': 0
-    '@typescript-eslint/ban-ts-comment': 0
-    '@typescript-eslint/no-unused-vars': 0
-    '@typescript-eslint/no-namespace': 0
-    no-var: 0
-    no-extra-boolean-cast: 0
-    no-prototype-builtins: 0
-    prefer-const: 0
-    extra-rules/no-commented-out-code: 0
-    no-console: 0
-    no-useless-escape: 0
+  prefer-arrow/prefer-arrow-functions: 0
+  "@typescript-eslint/no-explicit-any": 0
+  "@typescript-eslint/ban-types": 0
+  "@typescript-eslint/ban-ts-comment": 0
+  "@typescript-eslint/no-unused-vars": 0
+  "@typescript-eslint/no-namespace": 0
+  no-var: 0
+  no-extra-boolean-cast: 0
+  no-prototype-builtins: 0
+  prefer-const: 0
+  extra-rules/no-commented-out-code: 0
+  no-console: 0
+  no-useless-escape: 0

@@ -2052,6 +2052,7 @@ __metadata:
     "@jucy-askja/common": "workspace:*"
     "@mui/icons-material": "npm:^5.0.1"
     "@mui/material": "npm:^5.0.2"
+    "@tanstack/react-query": "npm:^5.40.0"
     "@types/lodash": "npm:^4"
     "@types/node": "npm:^18.16.1"
     "@types/react": "npm:^18.0.22"
@@ -2487,6 +2488,24 @@ __metadata:
   dependencies:
     "@sinonjs/commons": "npm:^1.7.0"
   checksum: 10c0/d9187f9130f03272562ff9845867299c6f7cf15157bbb3e6aca4a1f06d885b0eef54259d0ad41e2f8043dc530b4db730b6c9415b169033e7ba8fed0ad449ceec
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.40.0":
+  version: 5.40.0
+  resolution: "@tanstack/query-core@npm:5.40.0"
+  checksum: 10c0/8ed200657dcdc1c05a44571be07e7a9d9a6c19c4ac067560bfb9d065a9cfb3e0dbbd0c44c17814272fd0b8d559030e9f4b50fb917c4312bbe61c9848767fde38
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.40.0":
+  version: 5.40.0
+  resolution: "@tanstack/react-query@npm:5.40.0"
+  dependencies:
+    "@tanstack/query-core": "npm:5.40.0"
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 10c0/7298215fb1243c858006541267904023aa58a47e440c9b09425de7ed5547e88d56f9366a28cc01d0d165cf26d09b85c0cc6fcf884a1cf3936ead14b4afb3fa11
   languageName: node
   linkType: hard
 

@@ -1,117 +1,119 @@
 // Firebase types
-import { GetListParams } from './react-admin-models';
-import { PaginationPayload, SortPayload } from 'ra-core';
 import { FireStoreCollectionRef, FireStoreQuery } from './firebase-models';
 import { ParsedRefDoc } from './internal.models';
+import { GetListParams } from './react-admin-models';
+import { PaginationPayload, SortPayload } from 'ra-core';
 
 // PARAMETERS
 export namespace messageTypes {
-    export type IParamsGetList = GetListParams;
+  export type IParamsGetList = GetListParams;
 
-    export type CollectionQueryType = (arg0: FireStoreCollectionRef) => FireStoreQuery;
+  export type CollectionQueryType = (
+    arg0: FireStoreCollectionRef
+  ) => FireStoreQuery;
 
-    export interface IParamsGetOne {
-        id: string;
-    }
+  export interface IParamsGetOne {
+    id: string;
+  }
 
-    export interface IParamsCreate {
-        data: {
-            id?: string;
-            [key: string]: any;
-        };
-    }
+  export interface IParamsCreate {
+    data: {
+      id?: string;
+      [key: string]: any;
+    };
+  }
 
-    export interface IParamsUpdate {
-        id: string;
-        data: { id: string };
-        previousData: {};
-    }
+  export interface IParamsUpdate {
+    id: string;
+    data: { id: string };
+    previousData: {};
+  }
 
-    export interface IParamsUpdateMany {
-        ids: string[];
-        data: {
-            id: string;
-        };
-    }
+  export interface IParamsUpdateMany {
+    ids: string[];
+    data: {
+      id: string;
+    };
+  }
 
-    export interface IParamsDelete {
-        id: string;
-        previousData: {};
-    }
+  export interface IParamsDelete {
+    id: string;
+    previousData: {};
+  }
 
-    export interface IParamsDeleteMany {
-        ids: string[];
-    }
+  export interface IParamsDeleteMany {
+    ids: string[];
+  }
 
-    export type IdMaybeRef = string | any;
-    export interface IParamsGetMany {
-        ids: (string | ParsedRefDoc)[];
-    }
+  export type IdMaybeRef = string | any;
+  export interface IParamsGetMany {
+    ids: (string | ParsedRefDoc)[];
+  }
 
-    export interface IParamsGetManyReference {
-        target: string;
-        id: string;
-        pagination: PaginationPayload;
-        sort: SortPayload;
-        filter?: {
-            collectionQuery?: CollectionQueryType;
-            [fieldName: string]: any;
-        };
-    }
+  export interface IParamsGetManyReference {
+    target: string;
+    id: string;
+    pagination: PaginationPayload;
+    sort: SortPayload;
+    filter?: {
+      collectionQuery?: CollectionQueryType;
+      [fieldName: string]: any;
+    };
+  }
 
-    // RESPONSES
+  // RESPONSES
 
-    export interface IResponseGetList {
-        data: Array<{}>;
-        total: number;
-    }
+  export interface IResponseGetList {
+    data: Array<{}>;
+    total: number;
+  }
 
-    export interface IResponseGetOne {
-        data: {};
-    }
+  export interface IResponseGetOne {
+    data: {};
+  }
 
-    export interface IResponseCreate {
-        data: {};
-    }
+  export interface IResponseCreate {
+    data: {};
+  }
 
-    export interface IResponseUpdate {
-        data: { id: string };
-    }
+  export interface IResponseUpdate {
+    data: { id: string };
+  }
 
-    export interface IResponseUpdateMany {
-        data: Array<{}>;
-    }
+  export interface IResponseUpdateMany {
+    data: Array<{}>;
+  }
 
-    export interface IResponseDelete {
-        data: {};
-    }
+  export interface IResponseDelete {
+    data: {};
+  }
 
-    export interface IResponseDeleteMany {
-        data: Array<{}>;
-    }
+  export interface IResponseDeleteMany {
+    data: Array<{}>;
+  }
 
-    export interface IResponseGetMany {
-        data: Array<{}>;
-    }
+  export interface IResponseGetMany {
+    data: Array<{}>;
+  }
 
-    export interface IResponseGetManyReference {
-        data: Array<{}>;
-        total: number;
-    }
+  export interface IResponseGetManyReference {
+    data: Array<{}>;
+    total: number;
+  }
 
-    export interface HttpErrorType {
-        status: number;
-        message: string;
-        json?: any;
-    }
+  export interface HttpErrorType {
+    status: number;
+    message: string;
+    json?: any;
+  }
 
-    export type IResponseAny =
-        | IResponseGetList
-        | IResponseGetOne
-        | IResponseCreate
-        | IResponseUpdate
-        | IResponseUpdateMany
-        | IResponseDelete
-        | IResponseDeleteMany
-        | HttpErrorType;
+  export type IResponseAny =
+    | IResponseGetList
+    | IResponseGetOne
+    | IResponseCreate
+    | IResponseUpdate
+    | IResponseUpdateMany
+    | IResponseDelete
+    | IResponseDeleteMany
+    | HttpErrorType;
 }
