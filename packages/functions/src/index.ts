@@ -10,8 +10,8 @@ import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import {employeeSchema} from '@jucy-askja/common/schemas/Employee'
-
 initializeApp();
+
 const functions = region('australia-southeast1');
 setGlobalOptions({ region: 'australia-southeast1' });
 
@@ -94,83 +94,9 @@ export const createReviews = onSchedule(
 //
 export const getProfile = onCall(async (request) => {
     const employeeSnapshot = request.auth?.uid ? await db.collection('employee').doc(request.auth?.uid).get() : null;
-
+    console.log(employeeSnapshot?.data());
     return employeeSnapshot?.data() || {};
-//
-//     request.auth.uid
-//     const employeeSnapshot = await db.collection('employee').where('active', '==', true).get();
-//
-//     const isAdmin = false;
-//     const employeeId = employeeSnapshot.docs.find((employee: Employee) => employee.email === user.email)?.id;
-//     const isManager = employeeSnapshot.docs.some((employee) => employee.managerId === employeeId);
-//
-//     const customClaims = {
-//         admin: isAdmin,
-//         manager: isManager,
-//         employeeId: employeeId,
-//     };
-//
-//     try {
-//         // Set custom user claims on this newly created user.
-//         await getAuth().setCustomUserClaims(user.uid, customClaims);
-//
-//         // Update real-time database to notify client to force refresh.
-//         const metadataRef = getDatabase().ref('employee/' + user.uid);
-//
-//         // Set the refresh time to the current UTC timestamp.
-//         // This will be captured on the client to force a token refresh.
-//         await metadataRef.set({refreshTime: new Date().getTime()});
-//     } catch (error) {
-//         console.log(error);
-//     }
 });
-//
-// exports.processSignUp = functions.auth.user().onCreate(async (user) => {
-//     // Check if user meets role criteria.
-//     if (
-//         user.email &&
-//         user.email.endsWith('@admin.example.com') &&
-//         user.emailVerified
-//     ) {
-//         const customClaims = {
-//             admin: true,
-//             accessLevel: 9
-//         };
-//
-//         try {
-//             // Set custom user claims on this newly created user.
-//             await getAuth().setCustomUserClaims(user.uid, customClaims);
-//
-//             // Update real-time database to notify client to force refresh.
-//             const metadataRef = getDatabase().ref('metadata/' + user.uid);
-//
-//             // Set the refresh time to the current UTC timestamp.
-//             // This will be captured on the client to force a token refresh.
-//             await  metadataRef.set({refreshTime: new Date().getTime()});
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }
-// });
-// import { doc, getDoc } from "firebase/firestore";
-//
-// export const beforecreated = beforeUserCreated(async (event) => {
-//     console.log('beforecreated fired')
-//     const userId = event.auth?.uid;
-//     if (!userId) {
-//         throw new HttpsError('invalid-argument', 'No user id available');
-//
-//     }
-//     const employeeSnapshot = await db.collection('employee').doc(userId).get();
-//
-//     if (!employeeSnapshot.exists) {
-//         await db.collection('employee').doc('userId').set({
-//             id: userId,
-//         });
-//     }
-//
-//     return;
-// });
 
 export const onUserCreated = functions.auth.user().onCreate(async (user) => {
     console.log('beforecreated fired');
@@ -192,7 +118,7 @@ export const onUserCreated = functions.auth.user().onCreate(async (user) => {
     return;
 });
 
-export const onEmplyeeUpdated = onDocumentWritten('employee/{docId}', async (event) => {
+export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (event) => {
     const before = event.data?.before.data();
     const after = event.data?.after.data();
     if (!after) {

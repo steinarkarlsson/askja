@@ -21,7 +21,7 @@ import React from 'react';
 import {Admin, Resource} from 'react-admin';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useGetUserProfile} from './hooks/useGetUserProfile';
-import {HrReviewEdit, HrReviewList} from './resources/hrReview';
+import {HrReviewEdit, HrReviewList, HrReviewShow} from './resources/hrReview';
 import {EmployeeReviewEdit, EmployeeReviewList, EmployeeReviewShow} from './resources/employeeReview';
 
 const options = {
@@ -35,12 +35,17 @@ const queryClient = new QueryClient()
 
 const MyAdmin = ({children}: { children: React.ReactNode }) => {
     const {data, isLoading} = useGetUserProfile();
-    console.log(data, isLoading)
+    console.log(data, isLoading);
 
-    // const isAdmin = data?.data?.role === 'admin';
-    // const isManager = data?.data?.role === 'manager';
+    //const isAdmin = data?.role === 'admin';
     const isAdmin = true;
+
+    // const isManager = data?.role === 'manager';
     const isManager = true;
+
+
+    console.log('data', data);
+    console.log('isAdmin: ', isAdmin);
 
     return <Admin
             loginPage={CustomLoginPage}
@@ -57,35 +62,26 @@ const MyAdmin = ({children}: { children: React.ReactNode }) => {
                 edit={SelfReviewEdit}
                 icon={ReviewsIcon}
         />
-        <Resource
-                name="employeeReview"
-                options={{label: 'Employee Reviews'}}
-                list={EmployeeReviewList}
-                show={EmployeeReviewShow}
-                edit={EmployeeReviewEdit}
-                icon={ReviewsIcon}
-        />
-        <Resource
-                name="hrReview"
-                options={{label: 'HR Reviews'}}
-                list={HrReviewList}
-                edit={HrReviewEdit}
-                icon={ReviewsIcon}
-        />
         {isManager || isAdmin ?
                 <Resource
-                        name="employee"
-                        options={{label: 'Employees'}}
-                        list={EmployeeList}
-                        show={EmployeeShow}
-                        create={EmployeeCreate}
-                        edit={EmployeeEdit}
-                        icon={PeopleIcon}
-                        recordRepresentation={(record: any) => `${record.name}`}
+                        name="employeeReview"
+                        options={{label: 'Employee Reviews'}}
+                        list={EmployeeReviewList}
+                        show={EmployeeReviewShow}
+                        edit={EmployeeReviewEdit}
+                        icon={ReviewsIcon}
                 />
                 : null}
         {isAdmin ?
                 <>
+                    <Resource
+                            name="hrReview"
+                            options={{label: 'HR Reviews'}}
+                            list={HrReviewList}
+                            show={HrReviewShow}
+                            edit={HrReviewEdit}
+                            icon={ReviewsIcon}
+                    />
                     <Resource
                             name="reviewPeriod"
                             options={{label: 'Review Periods'}}
@@ -104,6 +100,17 @@ const MyAdmin = ({children}: { children: React.ReactNode }) => {
                             edit={TemplateEdit}
                             icon={CalendarViewMonthIcon}
                     /> </> : null}
+        {isManager || isAdmin ?
+                <Resource
+                        name="employee"
+                        options={{label: 'Employees'}}
+                        list={EmployeeList}
+                        show={EmployeeShow}
+                        create={EmployeeCreate}
+                        edit={EmployeeEdit}
+                        icon={PeopleIcon}
+                        recordRepresentation={(record: any) => `${record.name}`}
+                /> : null}
     </Admin>
 }
 

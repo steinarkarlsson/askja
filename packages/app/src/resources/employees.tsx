@@ -9,7 +9,7 @@ import {
     EditButton,
     List,
     ReferenceField,
-    ReferenceInput,
+    ReferenceInput, SelectInput,
     Show,
     SimpleForm,
     SimpleShowLayout,
@@ -17,6 +17,9 @@ import {
     TextInput,
 } from 'react-admin';
 import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
+import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
+
+const roles = mapArrayToChoices(employeeSchema.shape.role.options);
 
 export const EmployeeList = (props: any) => {
 
@@ -31,6 +34,7 @@ export const EmployeeList = (props: any) => {
                     <ReferenceField source="manager" reference="employee"/>
                     <TextField source="jobTitle"/>
                     <TextField source="level"/>
+                    <TextField source="role"/>
                     <EditButton label=""/>
                 </Datagrid>
             </List>
@@ -49,9 +53,11 @@ export const EmployeeEdit = (props: any) => (
             <SimpleForm>
                 <TextInput source="name"/>
                 <TextInput source="jobTitle"/>
+                <TextInput source="email"/>
                 <AutocompleteInput source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
                 <BooleanInput source="active"/>
                 <ReferenceInput source="manager" reference="employee" allowEmpty/>
+                <SelectInput source="role" choices={roles}/>
             </SimpleForm>
         </Edit>
 );
@@ -61,9 +67,11 @@ export const EmployeeCreate = (props: any) => (
             <SimpleForm>
                 <TextInput source="name"/>
                 <TextInput source="jobTitle"/>
+                <TextInput source="email"/>
                 <AutocompleteInput source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
                 <BooleanInput source="active"/>
                 <ReferenceInput source="manager" reference="employee"/>
+                <SelectInput source="role" choices={roles}/>
             </SimpleForm>
         </Create>
 );
