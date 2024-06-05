@@ -21,6 +21,7 @@ import React from 'react';
 import {Admin, Resource} from 'react-admin';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useGetUserProfile} from './hooks/useGetUserProfile';
+import {HrReviewCreate, HrReviewEdit, HrReviewList, HrReviewShow} from "./resources/hrReview";
 
 const options = {
     app: getApp(),
@@ -48,8 +49,8 @@ const MyAdmin = ({children}: { children: React.ReactNode }) => {
             authProvider={authProvider}
     >
         <Resource
-                name="review"
-                options={{label: 'Reviews'}}
+                name="selfReview"
+                options={{label: 'Self Review'}}
                 list={ReviewList}
                 show={ReviewShow}
                 create={ReviewCreate}
@@ -57,12 +58,21 @@ const MyAdmin = ({children}: { children: React.ReactNode }) => {
                 icon={ReviewsIcon}
         />
         <Resource
-                name="review"
+                name="employeeReview"
                 options={{label: 'Employee Reviews'}}
                 list={ReviewList}
                 show={ReviewShow}
                 create={ReviewCreate}
                 edit={ReviewEdit}
+                icon={ReviewsIcon}
+        />
+        <Resource
+                name="hrReview"
+                options={{label: 'HR Reviews'}}
+                list={HrReviewList}
+                show={HrReviewShow}
+                create={HrReviewCreate}
+                edit={HrReviewEdit}
                 icon={ReviewsIcon}
         />
         {isManager || isAdmin ?

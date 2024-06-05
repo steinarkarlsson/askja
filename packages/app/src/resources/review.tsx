@@ -2,7 +2,7 @@ import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
 import {competencyCategorySchema} from '@jucy-askja/common/schemas/CompetencyCategory';
 import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
-import {Stack} from '@mui/material';
+import {Grid, Stack} from '@mui/material';
 import React from 'react';
 import {
     ArrayField,
@@ -85,16 +85,15 @@ export const ReviewShow = (props: any) => (
 export const ReviewEdit = (props: any) => (
         <Edit {...props}>
             <SimpleForm toolbar={<ReviewToolbar/>}>
-                <Stack>
+                <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>
-                </Stack>
+                </Grid>
 
                 <TextField source="jobTitle"/>
                 <TextField
                         source="type"
                         choices={mapArrayToChoices(competencyTypeSchema._def.values)}
-                        validate={required()}
                 />
                 <ArrayInput source="competencies" name="Competencies">
                     <SimpleFormIterator inline>
@@ -143,17 +142,16 @@ export const ReviewCreate = (props: any) => (
                 <TextField
                         source="type"
                         choices={mapArrayToChoices(competencyTypeSchema._def.values)}
-                        validate={required()}
                 />
                 <ArrayInput source="competencies" name="Competencies">
                     <SimpleFormIterator inline>
-                        <Stack direction="column">
+                        <Grid>
                             <SelectInput
                                     source="Category"
                                     choices={mapArrayToChoices(competencyCategorySchema._def.values)}
                             />
                             <TextInput source="Title" name="Title"/>
-                        </Stack>
+                        </Grid>
                         <Stack>
                             <CustomRichTextInput source="description" label="Description"/>
                         </Stack>
