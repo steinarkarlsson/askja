@@ -33,7 +33,7 @@ const dataProvider = FirebaseDataProvider(config.firebaseConfig, options);
 const authProvider = FirebaseAuthProvider(config.firebaseConfig, options);
 const queryClient = new QueryClient()
 
-const MyAdmin = ({children}: { children: React.ReactNode }) => {
+const MyAdmin = () => {
     const {data, isLoading} = useGetUserProfile();
     console.log(data, isLoading);
 

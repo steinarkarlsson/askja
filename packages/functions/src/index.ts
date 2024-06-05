@@ -9,7 +9,8 @@ import { setGlobalOptions } from 'firebase-functions/v2';
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { getAuth } from 'firebase-admin/auth';
-import {employeeSchema} from '@jucy-askja/common/schemas/Employee'
+import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
+import {Review} from '@jucy-askja/common/schemas/Review';
 initializeApp();
 
 const functions = region('australia-southeast1');
@@ -36,7 +37,7 @@ export const createReviews = onSchedule(
 
         info(`Review Period starting today: ${reviewPeriod.data().title}`);
 
-        const reviews = employeeSnapshot.docs.map((employeeDoc) => {
+        const reviews = employeeSnapshot.docs.map((employeeDoc):  Review[] | undefined => {
             const employee =   employeeSchema.parse(employeeDoc.data);
             const coreTemplate = getTemplate({ employee: employee, templates: templateSnapshot, type: 'Core' });
             const functionalTemplate = getTemplate({
