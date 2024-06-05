@@ -29,18 +29,18 @@ import {
 import {RichTextInput} from 'ra-input-rich-text';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
 
-export const HrReviewSaveButton = () => {
+export const EmployeeReviewSaveButton = () => {
     return <SaveButton label="Submit"/>;
 };
 
-const HrReviewToolbar = () => (
+const EmployeeReviewToolbar = () => (
         <Toolbar>
-            <HrReviewSaveButton/>
+            <EmployeeReviewSaveButton/>
             <DeleteButton/>
         </Toolbar>
 );
 
-const HrReviewFilter = (props: any) => {
+const EmployeeReviewFilter = (props: any) => {
     return (
             <Filter {...props}>
                 <TextInput label="Search" source="title" alwaysOn name="search"/>
@@ -50,8 +50,8 @@ const HrReviewFilter = (props: any) => {
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
-export const HrReviewList = (props: any) => (
-        <List {...props} filters={<HrReviewFilter/>}>
+export const EmployeeReviewList = (props: any) => (
+        <List {...props} filters={<EmployeeReviewFilter/>}>
             <Datagrid>
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
@@ -62,7 +62,7 @@ export const HrReviewList = (props: any) => (
         </List>
 );
 
-export const HrReviewShow = (props: any) => (
+export const EmployeeReviewShow = (props: any) => (
         <Show {...props}>
             <SimpleShowLayout>
                 <TextField source="jobTitle"/>
@@ -80,9 +80,9 @@ export const HrReviewShow = (props: any) => (
         </Show>
 );
 
-export const HrReviewEdit = () => (
+export const EmployeeReviewEdit = () => (
         <Edit>
-            <SimpleForm toolbar={<HrReviewToolbar/>}>
+            <SimpleForm toolbar={<EmployeeReviewToolbar/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>
@@ -150,12 +150,9 @@ export const HrReviewEdit = () => (
                         <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
                                        label="Description" name="Description"/>
                         <TextInput disabled={true} className="title" source="Title" name="Title"/>
-                        <RichTextInput disabled={true} toolbar={<></>} className="managerComment"
-                                       source="managerComment" label="Manager Comment" name="Manager Comment"/>
-                        <TextInput disabled={true} className="managerApproved" source="managerApproved"
-                                   label="Manager Review" name="Manager Review"/>
-                        <CustomRichTextInput className="hrComment" source="hrComment" label="HR Comment"/>
-                        <SelectInput className="hrApproved" source="HrApproved" label="HR Review"
+                        <CustomRichTextInput className="managerComment" source="managerComment"
+                                             label="Manager Comment"/>
+                        <SelectInput className="managerApproved" source="managerApproved" label="manager Review"
                                      choices={competencyReviewStatuses} required/>
                     </SimpleFormIterator>
                 </ArrayInput>

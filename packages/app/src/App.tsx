@@ -3,7 +3,7 @@ import CustomLoginPage from './components/CustomLoginPage';
 import {config} from './config';
 import {FirebaseAuthProvider, FirebaseDataProvider} from './lib/react-admin-firebase';
 import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow,} from './resources/employees';
-import {ReviewCreate, ReviewEdit, ReviewList, ReviewShow,} from './resources/review';
+import {SelfReviewEdit, SelfReviewList, SelfReviewShow,} from './resources/selfReview';
 import {ReviewPeriodCreate, ReviewPeriodEdit, ReviewPeriodList, ReviewPeriodShow,} from './resources/reviewPeriod';
 import {TemplateCreate, TemplateEdit, TemplateList, TemplateShow,} from './resources/template';
 import {customTheme} from './themes/customTheme';
@@ -21,7 +21,8 @@ import React from 'react';
 import {Admin, Resource} from 'react-admin';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useGetUserProfile} from './hooks/useGetUserProfile';
-import {HrReviewCreate, HrReviewEdit, HrReviewList, HrReviewShow} from "./resources/hrReview";
+import {HrReviewEdit, HrReviewList} from './resources/hrReview';
+import {EmployeeReviewEdit, EmployeeReviewList, EmployeeReviewShow} from './resources/employeeReview';
 
 const options = {
     app: getApp(),
@@ -51,27 +52,23 @@ const MyAdmin = ({children}: { children: React.ReactNode }) => {
         <Resource
                 name="selfReview"
                 options={{label: 'Self Review'}}
-                list={ReviewList}
-                show={ReviewShow}
-                create={ReviewCreate}
-                edit={ReviewEdit}
+                list={SelfReviewList}
+                show={SelfReviewShow}
+                edit={SelfReviewEdit}
                 icon={ReviewsIcon}
         />
         <Resource
                 name="employeeReview"
                 options={{label: 'Employee Reviews'}}
-                list={ReviewList}
-                show={ReviewShow}
-                create={ReviewCreate}
-                edit={ReviewEdit}
+                list={EmployeeReviewList}
+                show={EmployeeReviewShow}
+                edit={EmployeeReviewEdit}
                 icon={ReviewsIcon}
         />
         <Resource
                 name="hrReview"
                 options={{label: 'HR Reviews'}}
                 list={HrReviewList}
-                show={HrReviewShow}
-                create={HrReviewCreate}
                 edit={HrReviewEdit}
                 icon={ReviewsIcon}
         />
@@ -113,7 +110,7 @@ const MyAdmin = ({children}: { children: React.ReactNode }) => {
 export const App = () => {
     return (
             <QueryClientProvider client={queryClient}>
-                <MyAdmin/>
+                <MyAdmin />
             </QueryClientProvider>
     );
 };

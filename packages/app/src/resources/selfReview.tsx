@@ -1,6 +1,6 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
+import {competencyCategorySchema} from '@jucy-askja/common/schemas/CompetencyCategory';
 import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
-import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
 import {Grid} from '@mui/material';
 import React from 'react';
 import {
@@ -26,21 +26,20 @@ import {
     Title,
     Toolbar,
 } from 'react-admin';
-import {RichTextInput} from 'ra-input-rich-text';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
 
-export const HrReviewSaveButton = () => {
+export const SelfReviewSaveButton = () => {
     return <SaveButton label="Submit"/>;
 };
 
-const HrReviewToolbar = () => (
+const SelfReviewToolbar = () => (
         <Toolbar>
-            <HrReviewSaveButton/>
+            <SelfReviewSaveButton/>
             <DeleteButton/>
         </Toolbar>
 );
 
-const HrReviewFilter = (props: any) => {
+const SelfReviewFilter = (props: any) => {
     return (
             <Filter {...props}>
                 <TextInput label="Search" source="title" alwaysOn name="search"/>
@@ -48,10 +47,10 @@ const HrReviewFilter = (props: any) => {
     );
 };
 
-const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
+const competencyCategories = mapArrayToChoices(competencyCategorySchema._def.values);
 
-export const HrReviewList = (props: any) => (
-        <List {...props} filters={<HrReviewFilter/>}>
+export const SelfReviewList = (props: any) => (
+        <List {...props} filters={<SelfReviewFilter/>}>
             <Datagrid>
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
@@ -62,7 +61,7 @@ export const HrReviewList = (props: any) => (
         </List>
 );
 
-export const HrReviewShow = (props: any) => (
+export const SelfReviewShow = (props: any) => (
         <Show {...props}>
             <SimpleShowLayout>
                 <TextField source="jobTitle"/>
@@ -80,9 +79,9 @@ export const HrReviewShow = (props: any) => (
         </Show>
 );
 
-export const HrReviewEdit = () => (
+export const SelfReviewEdit = () => (
         <Edit>
-            <SimpleForm toolbar={<HrReviewToolbar/>}>
+            <SimpleForm toolbar={<SelfReviewToolbar/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>
@@ -95,10 +94,8 @@ export const HrReviewEdit = () => (
                 />
                 <ArrayInput source="competencies" name="Competencies">
                     <SimpleFormIterator
-                            disableAdd
                             disableClear
                             disableReordering
-                            disableRemove
                             sx={{
                                 '& .RaSimpleFormIterator-form': {
                                     display: 'grid',
@@ -114,49 +111,19 @@ export const HrReviewEdit = () => (
                                     gridColumn: '2 / 2',
                                     gridRow: '1 / 2',
                                     width: '400px',
+                                    marginTop: '8px'
                                 },
 
                                 '& .description': {
                                     gridColumn: '2 / 3',
                                     gridRow: '2 / 2',
                                     width: '400px',
-                                    marginTop: '42px'
-                                },
-                                '& .managerApproved': {
-                                    gridColumn: '4 / 5',
-                                    gridRow: '1 / 2',
-                                    width: '300px',
-
-                                },
-                                '& .managerComment': {
-                                    gridColumn: '4 / 5',
-                                    gridRow: '2 / 2',
-                                    width: '300px',
-                                    marginTop: '42px'
-                                },
-                                '& .hrApproved': {
-                                    gridColumn: '7 / 8',
-                                    gridRow: '1 / 2',
-                                    width: '400px',
-                                    marginTop: '0px'
-                                },
-                                '& .hrComment': {
-                                    gridColumn: '7 / 8',
-                                    gridRow: '2 / 2',
-                                    width: '400px',
                                 },
                             }}>
-                        <TextInput disabled={true} className="category" source="Category" name="Category"/>
-                        <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
-                                       label="Description" name="Description"/>
-                        <TextInput disabled={true} className="title" source="Title" name="Title"/>
-                        <RichTextInput disabled={true} toolbar={<></>} className="managerComment"
-                                       source="managerComment" label="Manager Comment" name="Manager Comment"/>
-                        <TextInput disabled={true} className="managerApproved" source="managerApproved"
-                                   label="Manager Review" name="Manager Review"/>
-                        <CustomRichTextInput className="hrComment" source="hrComment" label="HR Comment"/>
-                        <SelectInput className="hrApproved" source="HrApproved" label="HR Review"
-                                     choices={competencyReviewStatuses} required/>
+                        <SelectInput className="category" source="Category" name="Category"
+                                     choices={competencyCategories}/>
+                        <CustomRichTextInput className="description" source="description" label="Description"/>
+                        <TextInput className="title" source="Title" name="Title"/>
                     </SimpleFormIterator>
                 </ArrayInput>
             </SimpleForm>
