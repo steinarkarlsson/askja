@@ -1,9 +1,13 @@
-import {ReviewSaveButton} from './ReviewSubmitButton';
+import {ReviewSubmitButton} from './ReviewSubmitButton';
 import {Toolbar} from 'react-admin';
 import React from 'react';
 
-export const ReviewToolbar = () => (
+interface ReviewToolbarProps {
+    reviewType: string;
+}
+
+export const ReviewToolbar = ({reviewType}: ReviewToolbarProps) => (
         <Toolbar>
-            <ReviewSaveButton/>
+            <ReviewSubmitButton reviewType={reviewType}/>
         </Toolbar>
         );

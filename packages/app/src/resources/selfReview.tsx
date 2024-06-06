@@ -40,12 +40,11 @@ const competencyCategories = mapArrayToChoices(competencyCategorySchema._def.val
 export const SelfReviewList = (props: any) => {
         return (
                 <List {...props} filters={<SelfReviewFilter/>} >
-                    <Datagrid>
+                    <Datagrid >
                         <TextField source="employeeName"/>
-                        <ReferenceField source="manager" reference="employee"/>
+                        <ReferenceField source="managerId" reference="employee"/>
                         <TextField source="jobTitle"/>
-                        <BooleanField source="status"/>
-                        <StartReviewButton/>
+                        <StartReviewButton reviewType={'selfReview'}/>
                     </Datagrid>
                 </List>
                 )
@@ -72,7 +71,7 @@ export const SelfReviewShow = (props: any) => (
 export const SelfReviewEdit = () => (
         <Edit>
             <SMARTGoals/>
-            <SimpleForm toolbar={<ReviewToolbar/>}>
+            <SimpleForm toolbar={<ReviewToolbar reviewType="selfReview"/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>

@@ -43,8 +43,7 @@ export const HrReviewList = (props: any) => (
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
                 <TextField source="jobTitle"/>
-                <BooleanField source="status"/>
-                <StartReviewButton/>
+                <StartReviewButton reviewType={'hrReview'}/>
             </Datagrid>
         </List>
 );
@@ -69,7 +68,7 @@ export const HrReviewShow = (props: any) => (
 
 export const HrReviewEdit = () => (
         <Edit>
-            <SimpleForm toolbar={<ReviewToolbar/>}>
+            <SimpleForm toolbar={<ReviewToolbar reviewType={'hrReview'}/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>

@@ -45,8 +45,7 @@ export const EmployeeReviewList = (props: any) => (
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
                 <TextField source="jobTitle"/>
-                <BooleanField source="status"/>
-                <StartReviewButton/>
+                <StartReviewButton reviewType={'managerReview'}/>
             </Datagrid>
         </List>
 );
@@ -72,7 +71,7 @@ export const EmployeeReviewShow = (props: any) => (
 export const EmployeeReviewEdit = () => (
         <Edit>
             <SMARTGoals/>
-            <SimpleForm toolbar={<ReviewToolbar/>}>
+            <SimpleForm toolbar={<ReviewToolbar reviewType={'employeeReview'}/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>
@@ -138,13 +137,10 @@ export const EmployeeReviewEdit = () => (
                                 },
                             }}>
                         <TextInput disabled={true} className="category" source="Category" name="Category"/>
-                        <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
-                                       label="Description" name="Description"/>
+                        <RichTextInput disabled={true} toolbar={<></>} className="description" source="description" label="Description" name="Description"/>
                         <TextInput disabled={true} className="title" source="Title" name="Title"/>
-                        <CustomRichTextInput className="managerComment" source="managerComment"
-                                             label="Manager Comment"/>
-                        <SelectInput name="managerApproved" className="managerApproved" source="managerApproved" label="manager Review"
-                                     choices={competencyReviewStatuses} required/>
+                        <CustomRichTextInput className="managerComment" source="managerComment" label="Manager Comment"/>
+                        <SelectInput className="managerApproved" source="managerApproved" label="manager Review" choices={competencyReviewStatuses} required/>
                     </SimpleFormIterator>
                 </ArrayInput>
             </SimpleForm>

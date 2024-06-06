@@ -1,13 +1,25 @@
-import {EditButton} from 'react-admin';
+import {EditButton, useRecordContext} from 'react-admin';
 import React from 'react';
 
-export const StartReviewButton = () => {
+interface startReviewButtonProps {
+    reviewType: string;
+}
+
+export const StartReviewButton = ({reviewType}: startReviewButtonProps) => {
+    const record = useRecordContext();
+    const allowEdit = (reviewType === 'selfReview' && record.status === 'Pending Employee') ||
+            (reviewType === 'managerReview' && record.status === 'Pending Manager') ||
+            (reviewType === 'hrReview' && record.status === 'Pending HR');
+
+    const label = allowEdit ? 'Start Review' : record.status;
+
     return <EditButton
-            label="Start Review"
-            sx={{
+            label={label}
+            sx={allowEdit ? {
                 border: 1,
-                backgroundColor: 'green',
+                backgroundColor: '#85C430',
                 color: 'white'
-            }}
+            } : {}}
+            disabled={!allowEdit}
     />
 }
