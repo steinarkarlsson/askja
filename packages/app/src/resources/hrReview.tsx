@@ -8,14 +8,11 @@ import {
     ArrayInput,
     BooleanField,
     Datagrid,
-    DeleteButton,
     Edit,
-    EditButton,
     Filter,
     List,
     ReferenceField,
     RichTextField,
-    SaveButton,
     SelectInput,
     Show,
     SimpleForm,
@@ -24,21 +21,11 @@ import {
     TextField,
     TextInput,
     Title,
-    Toolbar,
 } from 'react-admin';
 import {RichTextInput} from 'ra-input-rich-text';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
-
-export const HrReviewSaveButton = () => {
-    return <SaveButton label="Submit"/>;
-};
-
-const HrReviewToolbar = () => (
-        <Toolbar>
-            <HrReviewSaveButton/>
-            <DeleteButton/>
-        </Toolbar>
-);
+import {ReviewToolbar} from '../components/ReviewToolbar';
+import {StartReviewButton} from '../components/StartReviewButton';
 
 const HrReviewFilter = (props: any) => {
     return (
@@ -56,8 +43,8 @@ export const HrReviewList = (props: any) => (
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
                 <TextField source="jobTitle"/>
-                <BooleanField source="active"/>
-                <EditButton label="Edit"/>
+                <BooleanField source="status"/>
+                <StartReviewButton/>
             </Datagrid>
         </List>
 );
@@ -82,7 +69,7 @@ export const HrReviewShow = (props: any) => (
 
 export const HrReviewEdit = () => (
         <Edit>
-            <SimpleForm toolbar={<HrReviewToolbar/>}>
+            <SimpleForm toolbar={<ReviewToolbar/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>

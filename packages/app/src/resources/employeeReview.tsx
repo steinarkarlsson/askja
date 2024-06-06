@@ -1,21 +1,19 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
 import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
 import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
-import {Box, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import React from 'react';
 import {
     ArrayField,
     ArrayInput,
     BooleanField,
     Datagrid,
-    DeleteButton,
     Edit,
     EditButton,
     Filter,
     List,
     ReferenceField,
     RichTextField,
-    SaveButton,
     SelectInput,
     Show,
     SimpleForm,
@@ -24,21 +22,12 @@ import {
     TextField,
     TextInput,
     Title,
-    Toolbar,
 } from 'react-admin';
 import {RichTextInput} from 'ra-input-rich-text';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
-
-export const EmployeeReviewSaveButton = () => {
-    return <SaveButton label="Submit"/>;
-};
-
-const EmployeeReviewToolbar = () => (
-        <Toolbar>
-            <EmployeeReviewSaveButton/>
-            <DeleteButton/>
-        </Toolbar>
-);
+import {SMARTGoals} from '../components/SMARTGoals';
+import {ReviewToolbar} from '../components/ReviewToolbar';
+import {StartReviewButton} from '../components/StartReviewButton';
 
 const EmployeeReviewFilter = (props: any) => {
     return (
@@ -56,8 +45,8 @@ export const EmployeeReviewList = (props: any) => (
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
                 <TextField source="jobTitle"/>
-                <BooleanField source="active"/>
-                <EditButton label="Edit"/>
+                <BooleanField source="status"/>
+                <StartReviewButton/>
             </Datagrid>
         </List>
 );
@@ -82,17 +71,8 @@ export const EmployeeReviewShow = (props: any) => (
 
 export const EmployeeReviewEdit = () => (
         <Edit>
-            <Box sx={{border:1, borderRadius:'15px', borderColor:'lightgray', display:'flex', flexDirection:'column', justifyContent:'center', margin:'20px', padding:'20px', alignItems:'center'}}>
-                <h3>Make sure your goals are SMART:</h3>
-                <ul>
-                    <li><b>S</b>pecific (simple, sensible, significant).</li>
-                    <li><b>M</b>easurable (meaningful, motivating).</li>
-                    <li><b>A</b>chievable (agreed, attainable).</li>
-                    <li><b>R</b>elevant (reasonable, realistic and resourced, results-based).</li>
-                    <li><b>T</b>ime bound (time-based, time limited, time/cost limited, timely, time-sensitive).</li>
-                </ul>
-            </Box>
-            <SimpleForm toolbar={<EmployeeReviewToolbar/>}>
+            <SMARTGoals/>
+            <SimpleForm toolbar={<ReviewToolbar/>}>
                 <Grid>
                     <Title title="Employee Name"/>
                     <TextField source="employeeName"/>
@@ -136,6 +116,7 @@ export const EmployeeReviewEdit = () => (
                                     gridColumn: '4 / 5',
                                     gridRow: '1 / 2',
                                     width: '300px',
+                                    marginTop: '0px'
 
                                 },
                                 '& .managerComment': {
@@ -162,7 +143,7 @@ export const EmployeeReviewEdit = () => (
                         <TextInput disabled={true} className="title" source="Title" name="Title"/>
                         <CustomRichTextInput className="managerComment" source="managerComment"
                                              label="Manager Comment"/>
-                        <SelectInput className="managerApproved" source="managerApproved" label="manager Review"
+                        <SelectInput name="managerApproved" className="managerApproved" source="managerApproved" label="manager Review"
                                      choices={competencyReviewStatuses} required/>
                     </SimpleFormIterator>
                 </ArrayInput>

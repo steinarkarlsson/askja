@@ -2057,6 +2057,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@jucy-askja/common": "workspace:*"
+    "@jucy/appearance": "npm:^1.0.285"
     "@mui/icons-material": "npm:^5.0.1"
     "@mui/material": "npm:^5.0.2"
     "@tanstack/react-query": "npm:^5.40.0"
@@ -2078,6 +2079,7 @@ __metadata:
     react-is: "npm:^18.0.0"
     react-router: "npm:^6.1.0"
     react-router-dom: "npm:^6.1.0"
+    react-toastify: "npm:^10.0.5"
     typescript: "npm:^5.1.6"
     vite: "npm:^4.3.9"
   languageName: unknown
@@ -2095,6 +2097,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jucy-askja/functions@workspace:packages/functions"
   dependencies:
+    "@jucy-askja/common": "workspace:*"
     "@jucy/build-utils": "npm:^1.0.282"
     "@rollup/plugin-alias": "npm:^5.1.0"
     "@rollup/plugin-json": "npm:^6.1.0"
@@ -2119,6 +2122,20 @@ __metadata:
     typescript: "npm:^5.1.6"
   languageName: unknown
   linkType: soft
+
+"@jucy/appearance@npm:^1.0.285":
+  version: 1.0.285
+  resolution: "@jucy/appearance@npm:1.0.285::__archiveUrl=https%3A%2F%2Faustralia-southeast1-npm.pkg.dev%2Fjucy-registry%2Fnpm%2F%40jucy%2Fappearance%2F-%2F%40jucy%2Fappearance-1.0.285.tgz"
+  peerDependencies:
+    "@mui/material": ">=5.6.4"
+    "@mui/system": ">=5.8.2"
+    "@mui/types": ">=7.1.3"
+    lodash: ">=4.17.21"
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/efcf9a50adad9337d85e96af0b993725a0e7225599da8106a9856fbc21a9723c6fd83d87a846ee9c2fcd9f52f959201933629d33520fb44a315ad275ae228203
+  languageName: node
+  linkType: hard
 
 "@jucy/build-utils@npm:^1.0.282":
   version: 1.0.285
@@ -11585,6 +11602,18 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 10c0/091949805745136350ab049b2a96281bf38742c9d3651019fb48ea79c5eafbfb0379f1d3e636602dd56b0ef278389e8fd25be983dc2c0ffd1103d06dfa8019f3
+  languageName: node
+  linkType: hard
+
+"react-toastify@npm:^10.0.5":
+  version: 10.0.5
+  resolution: "react-toastify@npm:10.0.5"
+  dependencies:
+    clsx: "npm:^2.1.0"
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: 10c0/66c68ec3d6c017d9f32652d73bb925224921c6a80b629b9d481430d5b4fd504abb7a99995a64b9aef0fc31326c74f3cbe088b3287b978dd0c355079c4bbf4158
   languageName: node
   linkType: hard
 

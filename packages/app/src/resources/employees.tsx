@@ -9,7 +9,8 @@ import {
     EditButton,
     List,
     ReferenceField,
-    ReferenceInput, SelectInput,
+    ReferenceInput,
+    SelectInput,
     Show,
     SimpleForm,
     SimpleShowLayout,
@@ -18,6 +19,7 @@ import {
 } from 'react-admin';
 import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
 import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
+import {AccountCircle} from '@mui/icons-material';
 
 const roles = mapArrayToChoices(employeeSchema.shape.role.options);
 
@@ -30,7 +32,8 @@ export const EmployeeList = (props: any) => {
                     sx={{padding: '20px'}}
             >
                 <Datagrid>
-                    <TextField source="name"/>
+                    <AccountCircle/>
+                    <TextField source="name" reference="employee"/>
                     <ReferenceField source="manager" reference="employee"/>
                     <TextField source="jobTitle"/>
                     <TextField source="level"/>
@@ -50,28 +53,24 @@ export const EmployeeShow = (props: any) => (
 );
 export const EmployeeEdit = (props: any) => (
         <Edit {...props}>
-            <SimpleForm>
-                <TextInput source="name"/>
-                <TextInput source="jobTitle"/>
-                <TextInput source="email"/>
-                <AutocompleteInput source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
-                <BooleanInput source="active"/>
-                <ReferenceInput source="manager" reference="employee" allowEmpty/>
-                <SelectInput source="role" choices={roles}/>
-            </SimpleForm>
+            <EmployeeEditCreate/>
         </Edit>
 );
 
 export const EmployeeCreate = (props: any) => (
         <Create {...props}>
-            <SimpleForm>
-                <TextInput source="name"/>
-                <TextInput source="jobTitle"/>
-                <TextInput source="email"/>
-                <AutocompleteInput source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
-                <BooleanInput source="active"/>
-                <ReferenceInput source="manager" reference="employee"/>
-                <SelectInput source="role" choices={roles}/>
-            </SimpleForm>
+            <EmployeeEditCreate/>
         </Create>
 );
+
+export const EmployeeEditCreate = () => (
+        <SimpleForm>
+            <TextInput name="name" source="name"/>
+            <TextInput name="jobTitle" source="jobTitle"/>
+            <TextInput name="email" source="email"/>
+            <AutocompleteInput name="level" source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
+            <BooleanInput name="active" source="active"/>
+            <ReferenceInput name="manager" source="manager" reference="employee" allowEmpty/>
+            <SelectInput name="role" source="role" choices={roles}/>
+        </SimpleForm>
+)

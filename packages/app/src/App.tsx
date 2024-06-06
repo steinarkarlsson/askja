@@ -23,6 +23,10 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useGetUserProfile} from './hooks/useGetUserProfile';
 import {HrReviewEdit, HrReviewList, HrReviewShow} from './resources/hrReview';
 import {EmployeeReviewEdit, EmployeeReviewList, EmployeeReviewShow} from './resources/employeeReview';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {theme} from './lib/appearance';
+import {ThemeProvider} from '@mui/material';
 
 const options = {
     app: getApp(),
@@ -46,6 +50,7 @@ const MyAdmin = () => {
 
     console.log('data', data);
     console.log('isAdmin: ', isAdmin);
+
 
     return <Admin
             loginPage={CustomLoginPage}
@@ -117,7 +122,10 @@ const MyAdmin = () => {
 export const App = () => {
     return (
             <QueryClientProvider client={queryClient}>
-                <MyAdmin />
+                <ThemeProvider theme={theme}>
+                    <MyAdmin/>
+                    <ToastContainer/>
+                </ThemeProvider>
             </QueryClientProvider>
     );
 };

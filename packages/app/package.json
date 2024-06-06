@@ -14,6 +14,7 @@
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
         "@jucy-askja/common": "workspace:*",
+        "@jucy/appearance": "^1.0.285",
         "@mui/icons-material": "^5.0.1",
         "@mui/material": "^5.0.2",
         "@tanstack/react-query": "^5.40.0",
@@ -29,7 +30,8 @@
         "react-hook-form": "*",
         "react-is": "^18.0.0",
         "react-router": "^6.1.0",
-        "react-router-dom": "^6.1.0"
+        "react-router-dom": "^6.1.0",
+        "react-toastify": "^10.0.5"
     },
     "devDependencies": {
         "@types/lodash": "^4",

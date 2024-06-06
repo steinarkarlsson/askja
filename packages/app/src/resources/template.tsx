@@ -1,7 +1,7 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {CompetencyCategory, competencyCategorySchema} from '@jucy-askja/common/schemas/CompetencyCategory';
-import {CompetencyType, competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
-import {Levels, levelsSchema} from '@jucy-askja/common/schemas/Levels';
+import {competencyCategorySchema} from '@jucy-askja/common/schemas/CompetencyCategory';
+import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
+import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
 import {RichTextInput} from 'ra-input-rich-text';
 import React from 'react';
 import {
@@ -17,7 +17,6 @@ import {
     List,
     required,
     RichTextField,
-    SaveButton,
     SelectInput,
     Show,
     ShowButton,
@@ -26,34 +25,12 @@ import {
     SimpleShowLayout,
     TextField,
     TextInput,
-    useRecordContext,
-    useUpdate,
 } from 'react-admin';
-
-export const ReviewSaveButton = () => {
-    const record = useRecordContext();
-    const [update] = useUpdate();
-    const handleClick = () => {
-        update('status', {
-            id: record.id,
-            data: {status: 'submitted'},
-            previousData: record,
-        });
-    };
-    return <SaveButton label="Submit" onClick={handleClick}/>;
-};
-
-// const ReviewToolbar = () => (
-//     <Toolbar>
-//         <ReviewSaveButton/>
-//         <DeleteButton/>
-//     </Toolbar>
-// );
 
 const TemplateFilter = (props: any) => {
     return (
             <Filter {...props}>
-                <TextInput label="Search" source="title" alwaysOn/>
+                <TextInput name="search" label="Search" source="title" alwaysOn/>
             </Filter>
     );
 };
@@ -103,26 +80,29 @@ export const TemplateCreate = (props: any) => (
 
 const TemplateEditCreate = () => (
         <SimpleForm>
-            <TextInput source="jobTitle" defaultValue=""/>
+            <TextInput name="jobTitle" source="jobTitle" defaultValue=""/>
             <SelectInput
+                    name="level"
                     source="level"
                     choices={mapArrayToChoices(levelsSchema._def.values)}
                     validate={required()}
             />
-            <BooleanInput source="active"/>
+            <BooleanInput name="active" source="active"/>
             <SelectInput
+                    name="type"
                     source="type"
                     choices={mapArrayToChoices(competencyTypeSchema._def.values)}
                     validate={required()}
             />
-            <ArrayInput source="competencies">
+            <ArrayInput name="competencies" source="competencies">
                 <SimpleFormIterator inline>
                     <SelectInput
+                            name="category"
                             source="Category"
                             choices={mapArrayToChoices(competencyCategorySchema._def.values)}
                     />
-                    <TextInput source="Title"/>
-                    <RichTextInput source="Description"/>
+                    <TextInput name="title" source="Title"/>
+                    <RichTextInput name="description" source="Description"/>
                 </SimpleFormIterator>
             </ArrayInput>
         </SimpleForm>
