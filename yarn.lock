@@ -2069,6 +2069,7 @@ __metadata:
     firebase: "npm:^10.12.2"
     history: "npm:^5.1.0"
     lodash: "npm:^4.17.21"
+    quick-score: "npm:^0.2.0"
     ra-core: "npm:^4.0.0"
     ra-input-rich-text: "npm:^4.16.15"
     ra-ui-materialui: "npm:^4.16.17"
@@ -11299,6 +11300,13 @@ __metadata:
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
   checksum: 10c0/900a93d3cdae3acd7d16f642c29a642aea32c2026446151f0778c62ac089d4b8e6c986811076e1ae180a694cedf077d453a11b58ff0a865629a4f82ab558e102
+  languageName: node
+  linkType: hard
+
+"quick-score@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "quick-score@npm:0.2.0"
+  checksum: 10c0/ea494a656edc0ac6ed8febbea779c7b6adad9027396a3e6d70536e1d5d18af39297392d48f36c5532304a85c17fec1e82a3e821201c1e381a10abf6fbc4ea514
   languageName: node
   linkType: hard
 

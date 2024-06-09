@@ -30,6 +30,9 @@ import {ThemeProvider} from '@mui/material';
 
 const options = {
     app: getApp(),
+    lazyLoading: {
+        enabled: false
+    },
 };
 
 const dataProvider = FirebaseDataProvider(config.firebaseConfig, options);

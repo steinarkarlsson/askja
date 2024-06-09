@@ -69,8 +69,13 @@ export const EmployeeEditCreate = () => (
             <TextInput name="jobTitle" source="jobTitle"/>
             <TextInput name="email" source="email"/>
             <AutocompleteInput name="level" source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
-            <BooleanInput name="active" source="active"/>
-            <ReferenceInput name="manager" source="manager" reference="employee" allowEmpty/>
+            <BooleanInput name="active" source="active" defaultValue={true}/>
+            {/*<ReferenceInput name="manager" source="manager" reference="employee" allowEmpty/>*/}
+            <ReferenceInput  name="manager"  source="manager" reference="employee">
+                <AutocompleteInput label="Test" matchSuggestion={(filter, choice) =>{
+                    return choice.name.toLowerCase().includes(filter.toLowerCase())
+                }}  />
+            </ReferenceInput>
             <SelectInput name="role" source="role" choices={roles}/>
         </SimpleForm>
 )
