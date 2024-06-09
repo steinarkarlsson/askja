@@ -105,16 +105,32 @@ export const onUserCreated = functions.auth.user().onCreate(async (user) => {
         throw new HttpsError('invalid-argument', 'No user id available');
 
     }
-    const employeeSnapshot = await db.collection('employee').doc(user.uid).get();
 
-    if (!employeeSnapshot.exists) {
-        await db.collection('employee').doc(user.uid).set({
-            id: user.uid,
-            email: user.email,
-            name: user.displayName,
-            role: user.customClaims?.role || 'employee',
-        });
+    console.log('Auth user.uid: ', user.uid);
+
+    const employeeSnapshotQuery = await db.collection('employee').where('email','==', user.email).get();
+
+    if (employeeSnapshotQuery.empty) {
+        console.log('No employee found with that email');
+        return
+        // await db.collection('employee').doc(user.uid).set({
+        //     id: user.uid,
+        //     email: user.email,
+        //     name: user.displayName,
+        //     role: user.customClaims?.role || 'employee',
+        // });
     }
+
+    const employeeSnapshot = employeeSnapshotQuery.docs[0];
+    console.log('employeeSnapshot.data:');
+    console.log(employeeSnapshot.data());
+
+    await db.collection('employee').doc(employeeSnapshot.id).update({
+        id:user.uid,
+    });
+
+    const updatedEmployee = await db.collection('employee').doc(user.uid).get();
+    console.log('updatedEmployee.data:', {updatedEmployee});
 
     return;
 });
@@ -128,6 +144,7 @@ export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (ev
     await getAuth()
         .updateUser(after.id, {
             email: after.email,
+            displayName: after.name,
         });
     console.log({
         before,
@@ -137,5 +154,7 @@ export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (ev
         email: after.email,
         role: after.role,
     });
+    const updatedUser = await getAuth().getUser(after.id);
+    console.log({ updatedUser })
 
 });
