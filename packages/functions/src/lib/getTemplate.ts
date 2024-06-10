@@ -1,3 +1,7 @@
+//@ts-ignore-next-line
+import {FirebaseFirestore } from '@firebase/firestore-types';
+
+
 import { Employee } from '@jucy-askja/common/schemas/Employee';
 interface GetTemplateProps {
     employee: Employee;
@@ -11,7 +15,7 @@ const sanatizeString = (input: string) => {
 
 const isAnyString = (input: string) => {
     const sanatizedInput = sanatizeString(input);
-    return !Boolean(sanatizedInput) || sanatizedInput === 'all';
+    return !sanatizedInput || sanatizedInput === 'all';
 };
 
 const getScore = ({

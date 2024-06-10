@@ -61,7 +61,7 @@ export default {
         command(
             [
                 async () => {
-                    const { devDependencies, scripts, type, ...distPackageJson } = { ...packageJson, main: 'index.js' };
+                    const { ...distPackageJson } = { ...packageJson, main: 'index.js' };
                     writePackageJson(`${distDir}/package.json`, distPackageJson as PackageJson);
                 },
             ],
