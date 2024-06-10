@@ -43,17 +43,13 @@ const queryClient = new QueryClient()
 const MyAdmin = () => {
     const {data, isLoading} = useGetUserProfile();
     console.log(data, isLoading);
+    console.log('user profile data: ', data, ' \n isLoading: ', isLoading);
 
     //const isAdmin = data?.role === 'admin';
     const isAdmin = true;
 
     // const isManager = data?.role === 'manager';
     const isManager = true;
-
-
-    console.log('data', data);
-    console.log('isAdmin: ', isAdmin);
-
 
     return <Admin
             loginPage={CustomLoginPage}

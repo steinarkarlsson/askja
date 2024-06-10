@@ -20,7 +20,8 @@ export const ReviewSubmitButton = (props:{reviewType: string}) => {
     const reviewType = props.reviewType;
     const currentStateApproved = reviewType === 'selfReview' ? true :
             reviewType === 'employeeReview' && managerApproved ? true :
-                    reviewType === 'hrReview' && hrApproved ? true : false;
+                    reviewType === 'hrReview' && hrApproved ? true :
+                            false;
 console.log('currentStateApproved: ', currentStateApproved)
 
     const updatedStatus: ReviewStatus = currentStateApproved ?

@@ -6,7 +6,6 @@ import React from 'react';
 import {
     ArrayField,
     ArrayInput,
-    BooleanField,
     Datagrid,
     Edit,
     Filter,
@@ -38,16 +37,16 @@ const SelfReviewFilter = (props: any) => {
 const competencyCategories = mapArrayToChoices(competencyCategorySchema._def.values);
 
 export const SelfReviewList = (props: any) => {
-        return (
-                <List {...props} filters={<SelfReviewFilter/>} >
-                    <Datagrid >
-                        <TextField source="employeeName"/>
-                        <ReferenceField source="managerId" reference="employee"/>
-                        <TextField source="jobTitle"/>
-                        <StartReviewButton reviewType={'selfReview'}/>
-                    </Datagrid>
-                </List>
-                )
+    return (
+            <List {...props} filters={<SelfReviewFilter/>}>
+                <Datagrid>
+                    <TextField source="employeeName"/>
+                    <ReferenceField source="managerId" reference="employee"/>
+                    <TextField source="jobTitle"/>
+                    <StartReviewButton reviewType={'selfReview'}/>
+                </Datagrid>
+            </List>
+    )
 }
 
 export const SelfReviewShow = (props: any) => (
