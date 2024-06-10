@@ -20,6 +20,7 @@ import {
 import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
 import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
 import {AccountCircle} from '@mui/icons-material';
+import {Stack} from '@mui/material';
 
 const roles = mapArrayToChoices(employeeSchema.shape.role.options);
 
@@ -65,17 +66,25 @@ export const EmployeeCreate = (props: any) => (
 
 export const EmployeeEditCreate = () => (
         <SimpleForm>
-            <TextInput name="name" source="name"/>
-            <TextInput name="jobTitle" source="jobTitle"/>
-            <TextInput name="email" source="email"/>
-            <AutocompleteInput name="level" source="level" choices={mapArrayToChoices(levelsSchema._def.values)}/>
-            <BooleanInput name="active" source="active" defaultValue={true}/>
-            {/*<ReferenceInput name="manager" source="manager" reference="employee" allowEmpty/>*/}
-            <ReferenceInput  name="manager"  source="manager" reference="employee">
-                <AutocompleteInput label="Test" matchSuggestion={(filter, choice) =>{
-                    return choice.name.toLowerCase().includes(filter.toLowerCase())
-                }}  />
-            </ReferenceInput>
-            <SelectInput name="role" source="role" choices={roles}/>
+            <Stack direction="row" spacing={10}>
+                <Stack direction='column' spacing={2} width={300}>
+                    <TextInput name="name" source="name"/>
+
+                    <TextInput name="email" source="email"/>
+                    <ReferenceInput name="manager" source="manager" reference="employee">
+                        <AutocompleteInput label="Manager"
+                                           matchSuggestion={(filter, choice) => choice.name.toLowerCase().includes(filter.toLowerCase())}/>
+                    </ReferenceInput>
+                    <BooleanInput name="active" source="active" defaultValue={true}/>
+                </Stack>
+                <Stack direction='column' spacing={2}>
+                    <TextInput name="jobTitle" source="jobTitle"/>
+                    <SelectInput name="role" source="role" choices={roles}/>
+                    <AutocompleteInput label='Employee level' name="level" source="level"
+                                       choices={mapArrayToChoices(levelsSchema._def.values)}/>
+                </Stack>
+            </Stack>
+
+
         </SimpleForm>
 )

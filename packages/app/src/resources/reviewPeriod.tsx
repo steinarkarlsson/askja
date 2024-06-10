@@ -17,6 +17,7 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
+import {Stack} from '@mui/material';
 
 const ReviewPeriodFilter = (props: any) => {
     return (
@@ -51,30 +52,33 @@ export const ReviewPeriodShow = (props: any) => (
 
 export const ReviewPeriodEdit = (props: any) => (
         <Edit {...props}>
-            <SimpleForm>
-                <TextInput name="title" source="title"/>
-                <DateInput name="startDate" source="startDate" parse={(input) => new Date(input)}/>
-                <DateInput name="endDate" source="endDate" parse={(input) => new Date(input)}/>
-                <SelectInput
-                        name="type"
-                        source="type"
-                        choices={mapArrayToChoices(reviewTypeSchema._def.values)}
-                />
-            </SimpleForm>
+            <ReviewPeriodEditCreate/>
         </Edit>
 );
 
 export const ReviewPeriodCreate = (props: any) => (
         <Create {...props}>
-            <SimpleForm>
-                <TextInput name="title" source="title"/>
-                <DateInput name="startDate" source="startDate"/>
-                <DateInput name="endDate" source="endDate"/>
-                <SelectInput
-                        name="type"
-                        source="type"
-                        choices={mapArrayToChoices(reviewTypeSchema._def.values)}
-                />
-            </SimpleForm>
+            <ReviewPeriodEditCreate/>
         </Create>
+);
+
+export const ReviewPeriodEditCreate = () => (
+        <SimpleForm>
+            <Stack direction='column' spacing={2}>
+                <Stack direction='row' spacing={2}>
+                    <TextInput name="title" source="title" sx={{width: '380px'}}/>
+                </Stack>
+                <Stack direction='row' spacing={2}>
+                    <DateInput name="startDate" source="startDate" parse={(input) => new Date(input)}/>
+                    <DateInput name="endDate" source="endDate" parse={(input) => new Date(input)}/>
+                </Stack>
+                <Stack direction='row' spacing={2}>
+                    <SelectInput
+                            name="type"
+                            source="type"
+                            choices={mapArrayToChoices(reviewTypeSchema._def.values)}
+                    />
+                </Stack>
+            </Stack>
+        </SimpleForm>
 );
