@@ -6,15 +6,19 @@ import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { getReviewPeriodStartingToday } from './lib/getReviewPeriodStartingToday';
 import { getTemplate } from './lib/getTemplate';
 import { setGlobalOptions } from 'firebase-functions/v2';
-import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { onCall } from 'firebase-functions/v2/https';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { getAuth } from 'firebase-admin/auth';
-import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
-import {Review} from '@jucy-askja/common/schemas/Review';
+import { employeeSchema } from '@jucy-askja/common/schemas/Employee';
+import { Review } from '@jucy-askja/common/schemas/Review';
+import { beforeUserCreated, HttpsError } from 'firebase-functions/v2/identity';
+
 initializeApp();
 
 const functions = region('australia-southeast1');
 setGlobalOptions({ region: 'australia-southeast1' });
+
+const cors = require('cors')({ origin: ['http://localhost:5173', 'https://hr.jucy.com'] });
 
 const db = getFirestore();
 export const createReviews = onSchedule(
@@ -37,8 +41,8 @@ export const createReviews = onSchedule(
 
         info(`Review Period starting today: ${reviewPeriod.data().title}`);
 
-        const reviews = employeeSnapshot.docs.map((employeeDoc):  Review[] | undefined => {
-            const employee =   employeeSchema.parse(employeeDoc.data);
+        const reviews = employeeSnapshot.docs.map((employeeDoc): Review[] | undefined => {
+            const employee = employeeSchema.parse(employeeDoc.data);
             const coreTemplate = getTemplate({ employee: employee, templates: templateSnapshot, type: 'Core' });
             const functionalTemplate = getTemplate({
                 employee: employee,
@@ -62,7 +66,7 @@ export const createReviews = onSchedule(
                 return {
                     employeeId: employee.id,
                     employeeName: employee.name,
-                    managerId: employee.managerId,
+                    manager: employee.managerId,
                     status: 'pending',
                     jobTitle: employee.jobTitle,
                     level: employee.level,
@@ -92,46 +96,64 @@ export const createReviews = onSchedule(
         info(`Created ${reviews.length} reviews for ${reviewPeriod.data().title}`);
     },
 );
-//
+
 export const getProfile = onCall(async (request) => {
-    const employeeSnapshot = request.auth?.uid ? await db.collection('employee').doc(request.auth?.uid).get() : null;
-    console.log(employeeSnapshot?.data());
-    return employeeSnapshot?.data() || {};
+        const employeeQuery = request.auth?.uid ? await db.collection('employee').where(
+            'id',
+            '==',
+            request.auth?.uid,
+
+        ).get() : null;
+        const  employeeSnapshot=  employeeQuery?.docs[0];
+        console.log('getProfile atuh',request.auth)
+        console.log('getProfile data', employeeSnapshot?.data());
+        return employeeSnapshot?.data() || {};
 });
 
-export const onUserCreated = functions.auth.user().onCreate(async (user) => {
-    console.log('beforecreated fired');
-    if (!user.uid) {
+export const beforecreated = beforeUserCreated(async (event) => {
+    console.log('beforecreated beforecreated fired');
+    if (!event.data.uid) {
         throw new HttpsError('invalid-argument', 'No user id available');
-
     }
 
-    console.log('Auth user.uid: ', user.uid);
+    console.log('beforecreated  Auth user.uid: ', event.data.uid);
 
-    const employeeSnapshotQuery = await db.collection('employee').where('email','==', user.email).get();
+    const employeeSnapshotQuery = await db.collection('employee').where('email', '==', event.data.email).get();
 
     if (employeeSnapshotQuery.empty) {
-        console.log('No employee found with that email');
+        console.log('beforecreated  No employee found with that email');
+        throw new HttpsError('invalid-argument', 'No employee found with that email');
+    }
+})
+
+export const onUserCreated = functions.auth.user().onCreate(async (user) => {
+    console.log('onUserCreated beforecreated fired');
+    if (!user.uid) {
+        throw new HttpsError('invalid-argument', 'No user id available');
+    }
+
+    console.log('onUserCreated Auth user.uid: ', user.uid);
+
+    const employeeSnapshotQuery = await db.collection('employee').where('email', '==', user.email).get();
+
+    if (employeeSnapshotQuery.empty) {
+        console.log('onUserCreated No employee found with that email');
         return
-        // await db.collection('employee').doc(user.uid).set({
-        //     id: user.uid,
-        //     email: user.email,
-        //     name: user.displayName,
-        //     role: user.customClaims?.role || 'employee',
-        // });
     }
 
     const employeeSnapshot = employeeSnapshotQuery.docs[0];
-    console.log('employeeSnapshot.data:');
+    console.log('onUserCreated employeeSnapshot.data:');
     console.log(employeeSnapshot.data());
 
     await db.collection('employee').doc(employeeSnapshot.id).update({
-        id:user.uid,
+        id: user.uid,
+    });
+    await getAuth().setCustomUserClaims(user.uid, {
+        role: employeeSnapshot.data().role,
     });
 
     const updatedEmployee = await db.collection('employee').doc(user.uid).get();
-    console.log('updatedEmployee.data:', {updatedEmployee});
-
+    console.log('onUserCreated updatedEmployee.data:', { updatedEmployee });
     return;
 });
 
@@ -155,6 +177,6 @@ export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (ev
         role: after.role,
     });
     const updatedUser = await getAuth().getUser(after.id);
-    console.log({ updatedUser })
-
+    console.log({ updatedUser });
 });
+

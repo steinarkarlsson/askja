@@ -21,7 +21,7 @@ import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
 import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
 import {AccountCircle} from '@mui/icons-material';
 import {Stack} from '@mui/material';
-
+import {ZodError} from 'zod'
 const roles = mapArrayToChoices(employeeSchema.shape.role.options);
 
 export const EmployeeList = (props: any) => {
@@ -65,7 +65,21 @@ export const EmployeeCreate = (props: any) => (
 );
 
 export const EmployeeEditCreate = () => (
-        <SimpleForm>
+        <SimpleForm validate={async(data) => {
+            const errors :Record<string, string>={}
+            try {
+                employeeSchema.parse(data)
+            }catch (e){
+                if (e instanceof ZodError) {
+                    console.log(e.flatten())
+                }
+                return {
+                    'name': 'Is a requi'
+                }
+            }
+            //
+            return errors
+        }}>
             <Stack direction="row" spacing={10}>
                 <Stack direction='column' spacing={2} width={300}>
                     <TextInput name="name" source="name"/>

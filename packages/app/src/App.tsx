@@ -18,7 +18,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
 import 'firebase/compat/storage';
 import React from 'react';
-import {Admin, Resource} from 'react-admin';
+import { Resource} from 'react-admin';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useGetUserProfile} from './hooks/useGetUserProfile';
 import {HrReviewEdit, HrReviewList, HrReviewShow} from './resources/hrReview';
@@ -27,9 +27,11 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {theme} from './lib/appearance';
 import {ThemeProvider} from '@mui/material';
-
+import {app} from './lib/init';
+import {Providers} from './components/Providers';
+import {Admin} from './components/Admin';
 const options = {
-    app: getApp(),
+    app: app,
     lazyLoading: {
         enabled: false
     },
@@ -41,7 +43,7 @@ const authProvider = FirebaseAuthProvider(config.firebaseConfig, options);
 const queryClient = new QueryClient()
 
 const MyAdmin = () => {
-    const {data, isLoading} = useGetUserProfile();
+    const {data, error, isLoading} = useGetUserProfile();
     console.log(data, isLoading);
     console.log('user profile data: ', data, ' \n isLoading: ', isLoading);
 
@@ -51,80 +53,86 @@ const MyAdmin = () => {
     // const isManager = data?.role === 'manager';
     const isManager = true;
 
-    return <Admin
-            loginPage={CustomLoginPage}
-            theme={customTheme}
-            //layout={JucyLayout}
-            dataProvider={dataProvider}
-            authProvider={authProvider}
-    >
-        <Resource
-                name="selfReview"
-                options={{label: 'Self Review'}}
-                list={SelfReviewList}
-                show={SelfReviewShow}
-                edit={SelfReviewEdit}
-                icon={ReviewsIcon}
-        />
-        {isManager || isAdmin ?
-                <Resource
-                        name="employeeReview"
-                        options={{label: 'Employee Reviews'}}
-                        list={EmployeeReviewList}
-                        show={EmployeeReviewShow}
-                        edit={EmployeeReviewEdit}
-                        icon={ReviewsIcon}
-                />
-                : null}
-        {isAdmin ?
-                <>
-                    <Resource
-                            name="hrReview"
-                            options={{label: 'HR Reviews'}}
-                            list={HrReviewList}
-                            show={HrReviewShow}
-                            edit={HrReviewEdit}
-                            icon={ReviewsIcon}
-                    />
-                    <Resource
-                            name="reviewPeriod"
-                            options={{label: 'Review Periods'}}
-                            list={ReviewPeriodList}
-                            show={ReviewPeriodShow}
-                            create={ReviewPeriodCreate}
-                            edit={ReviewPeriodEdit}
-                            icon={EditCalendarIcon}
-                    />
-                    <Resource
-                            name="template"
-                            options={{label: 'Templates'}}
-                            list={TemplateList}
-                            show={TemplateShow}
-                            create={TemplateCreate}
-                            edit={TemplateEdit}
-                            icon={CalendarViewMonthIcon}
-                    /> </> : null}
-        {isManager || isAdmin ?
-                <Resource
-                        name="employee"
-                        options={{label: 'Employees'}}
-                        list={EmployeeList}
-                        show={EmployeeShow}
-                        create={EmployeeCreate}
-                        edit={EmployeeEdit}
-                        icon={PeopleIcon}
-                        recordRepresentation={(record: any) => `${record.name}`}
-                /> : null}
-    </Admin>
+    // if(isLoading){
+    //     return <div>Loading...</div>
+    // }
+    // if(error || !data){
+    //     // creeate a page for invalid login
+    //     return <div>Error: {error?.message}</div>
+    // }
+
+    return
 }
 
 export const App = () => {
+
+    //const isAdmin = data?.role === 'admin';
+    const isAdmin = true;
+
+    // const isManager = data?.role === 'manager';
+    const isManager = true;
+
     return (
-            <QueryClientProvider client={queryClient}>
-                <ThemeProvider theme={theme}>
-                    <MyAdmin/>
-                    <ToastContainer/>
-                </ThemeProvider>
-            </QueryClientProvider>
+            <Providers>
+                <Admin    >
+                    <Resource
+                            name="selfReview"
+                            options={{label: 'Self Review'}}
+                            list={SelfReviewList}
+                            show={SelfReviewShow}
+                            edit={SelfReviewEdit}
+                            icon={ReviewsIcon}
+                    />
+                    {isManager || isAdmin ?
+                            <Resource
+                                    name="employeeReview"
+                                    options={{label: 'Employee Reviews'}}
+                                    list={EmployeeReviewList}
+                                    show={EmployeeReviewShow}
+                                    edit={EmployeeReviewEdit}
+                                    icon={ReviewsIcon}
+                            />
+                            : null}
+                    {isAdmin ?
+                            <>
+                                <Resource
+                                        name="hrReview"
+                                        options={{label: 'HR Reviews'}}
+                                        list={HrReviewList}
+                                        show={HrReviewShow}
+                                        edit={HrReviewEdit}
+                                        icon={ReviewsIcon}
+                                />
+                                <Resource
+                                        name="reviewPeriod"
+                                        options={{label: 'Review Periods'}}
+                                        list={ReviewPeriodList}
+                                        show={ReviewPeriodShow}
+                                        create={ReviewPeriodCreate}
+                                        edit={ReviewPeriodEdit}
+                                        icon={EditCalendarIcon}
+                                />
+                                <Resource
+                                        name="template"
+                                        options={{label: 'Templates'}}
+                                        list={TemplateList}
+                                        show={TemplateShow}
+                                        create={TemplateCreate}
+                                        edit={TemplateEdit}
+                                        icon={CalendarViewMonthIcon}
+                                /> </> : null}
+                    {isManager || isAdmin ?
+                            <Resource
+                                    name="employee"
+                                    options={{label: 'Employees'}}
+                                    list={EmployeeList}
+                                    show={EmployeeShow}
+                                    create={EmployeeCreate}
+                                    edit={EmployeeEdit}
+                                    icon={PeopleIcon}
+                                    recordRepresentation={(record: any) => `${record.name}`}
+                            /> : null}
+                </Admin>
+            </Providers>
     );
 };

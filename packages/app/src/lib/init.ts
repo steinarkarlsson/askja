@@ -12,7 +12,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
 import 'firebase/compat/storage';
 
-const app = firebase.initializeApp({
+export const app = firebase.initializeApp({
     apiKey: config.firebaseConfig.apiKey,
     authDomain: config.firebaseConfig.authDomain,
     projectId: config.firebaseConfig.projectId,
@@ -20,7 +20,7 @@ const app = firebase.initializeApp({
     messagingSenderId: config.firebaseConfig.messagingSenderId,
     appId: config.firebaseConfig.appId,
 });
-
+export const functions = getFunctions(app,'australia-southeast1');
 if (config.firebaseConfig.useEmulator) {
     app.auth().useEmulator('http://127.0.0.1:9099');
     connectAuthEmulator(getAuth(), 'http://127.0.0.1:9099');
@@ -29,7 +29,7 @@ if (config.firebaseConfig.useEmulator) {
     connectFirestoreEmulator(getFirestore(), '127.0.0.1', 8080);
 
     app.functions().useEmulator('127.0.0.1', 5001);
-    connectFunctionsEmulator(getFunctions(getApp()), '127.0.0.1', 5001);
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 
     app.storage().useEmulator('127.0.0.1', 9199);
     connectStorageEmulator(getStorage(), '127.0.0.1', 9199);
