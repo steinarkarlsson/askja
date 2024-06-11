@@ -1,18 +1,19 @@
 import { z } from 'zod';
 import { competencyCategorySchema } from './CompetencyCategory';
 import { competencyTypeSchema } from './CompetencyType';
+import { competencyReviewStatusSchema } from './CompetencyReviewStatus';
 
 export const competencySchema = z.object({
-    id: z.string(),
     title: z.string(),
     category: competencyCategorySchema,
-    type: competencyTypeSchema,
-    employeeDescription: z.string(),
-    managerDescription: z.string(),
-    humanResourcesDescription: z.string(),
-    managerApproved: z.enum(['approved', 'request changes']),
-    humanResourcesApproved: z.enum(['approved', 'request changes']),
+    competencyType: competencyTypeSchema,
+    description: z.string(),
+    managerComment: z.string(),
+    hrComment: z.string(),
+    managerApproved: competencyReviewStatusSchema,
+    hrApproved: competencyReviewStatusSchema,
     template: z.boolean(),
+    source:z.enum(['template']).optional(),
 });
 
 export type Competency = z.infer<typeof competencySchema>;

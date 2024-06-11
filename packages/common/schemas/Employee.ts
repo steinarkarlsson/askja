@@ -1,15 +1,15 @@
 import { z } from 'zod';
-import { employeeLevelSchema } from './EmployeeLevel';
+import { levelsSchema } from './Levels';
 
 export const employeeSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    jobTitle: z.string(),
-    level: employeeLevelSchema,
-    managerId: z.string(),
     active: z.boolean(),
+    email: z.string(),
+    id: z.string(),
+    jobTitle: z.string(),
+    level: levelsSchema,
+    manager: z.string(),
+    name: z.string(),
     role: z.enum(['employee', 'manager', 'admin']),
 });
-
 
 export type Employee = z.infer<typeof employeeSchema>

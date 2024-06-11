@@ -1,23 +1,23 @@
 import { z } from 'zod';
-import { competencyReviewSchema } from './CompetencyReview';
+import { competencySchema } from './Competency';
 import { reviewStatusSchema } from './ReviewStatus';
 import { reviewTypeSchema } from './ReviewType';
-import { employeeLevelSchema } from './EmployeeLevel';
+import { levelsSchema } from './Levels';
 
 export const reviewSchema = z.object({
-    id: z.string(),
-    employeeId: z.string(),
+    competencies: z.array(competencySchema),
     employeeName: z.string(),
-    manager: z.string(),
-    status: reviewStatusSchema,
+    id: z.string(),
     jobTitle: z.string(),
-    level: employeeLevelSchema,
-    reviewPeriodId: z.string(),
+    level: levelsSchema,
+    manager: z.string(),
     reviewPeriodName: z.string(),
+    status: reviewStatusSchema,
+    employeeId: z.string(),
+    reviewPeriodId: z.string(),
     reviewType: reviewTypeSchema,
     coreTemplateId: z.string(),
     functionalTemplateId: z.string(),
-    competencies: z.array(competencyReviewSchema),
 });
 
 export type Review = z.infer<typeof reviewSchema>;
