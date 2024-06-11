@@ -1,80 +1,38 @@
 import './lib/init';
-import CustomLoginPage from './components/CustomLoginPage';
-import {config} from './config';
-import {FirebaseAuthProvider, FirebaseDataProvider} from './lib/react-admin-firebase';
 import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow,} from './resources/employees';
 import {SelfReviewEdit, SelfReviewList, SelfReviewShow,} from './resources/selfReview';
 import {ReviewPeriodCreate, ReviewPeriodEdit, ReviewPeriodList, ReviewPeriodShow,} from './resources/reviewPeriod';
 import {TemplateCreate, TemplateEdit, TemplateList, TemplateShow,} from './resources/template';
-import {customTheme} from './themes/customTheme';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import PeopleIcon from '@mui/icons-material/People';
 import ReviewsIcon from '@mui/icons-material/Reviews';
-import {getApp} from 'firebase/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
 import 'firebase/compat/storage';
 import React from 'react';
-import { Resource} from 'react-admin';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {useGetUserProfile} from './hooks/useGetUserProfile';
+import {Resource} from 'react-admin';
 import {HrReviewEdit, HrReviewList, HrReviewShow} from './resources/hrReview';
 import {EmployeeReviewEdit, EmployeeReviewList, EmployeeReviewShow} from './resources/employeeReview';
-import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {theme} from './lib/appearance';
-import {ThemeProvider} from '@mui/material';
-import {app} from './lib/init';
 import {Providers} from './components/Providers';
 import {Admin} from './components/Admin';
-const options = {
-    app: app,
-    lazyLoading: {
-        enabled: false
-    },
-};
 
-const dataProvider = FirebaseDataProvider(config.firebaseConfig, options);
-
-const authProvider = FirebaseAuthProvider(config.firebaseConfig, options);
-const queryClient = new QueryClient()
-
-const MyAdmin = () => {
-    const {data, error, isLoading} = useGetUserProfile();
-    console.log(data, isLoading);
-    console.log('user profile data: ', data, ' \n isLoading: ', isLoading);
-
-    //const isAdmin = data?.role === 'admin';
-    const isAdmin = true;
-
-    // const isManager = data?.role === 'manager';
-    const isManager = true;
-
-    // if(isLoading){
-    //     return <div>Loading...</div>
-    // }
-    // if(error || !data){
-    //     // creeate a page for invalid login
-    //     return <div>Error: {error?.message}</div>
-    // }
-
-    return
-}
 
 export const App = () => {
-
-    //const isAdmin = data?.role === 'admin';
-    const isAdmin = true;
-
+    // const {data, error, isLoading} = useGetUserProfile();
+    //
+    // const isAdmin = data?.role === 'admin';
+    // // const isAdmin = true;
+    //
     // const isManager = data?.role === 'manager';
-    const isManager = true;
+    // // const isManager = true;
 
     return (
             <Providers>
-                <Admin    >
+                <Admin>
                     <Resource
                             name="selfReview"
                             options={{label: 'Self Review'}}
@@ -83,7 +41,7 @@ export const App = () => {
                             edit={SelfReviewEdit}
                             icon={ReviewsIcon}
                     />
-                    {isManager || isAdmin ?
+                    {/*{isManager || isAdmin ?*/}
                             <Resource
                                     name="employeeReview"
                                     options={{label: 'Employee Reviews'}}
@@ -92,8 +50,8 @@ export const App = () => {
                                     edit={EmployeeReviewEdit}
                                     icon={ReviewsIcon}
                             />
-                            : null}
-                    {isAdmin ?
+                            {/*: null}*/}
+                    {/*{isAdmin ?*/}
                             <>
                                 <Resource
                                         name="hrReview"
@@ -120,8 +78,9 @@ export const App = () => {
                                         create={TemplateCreate}
                                         edit={TemplateEdit}
                                         icon={CalendarViewMonthIcon}
-                                /> </> : null}
-                    {isManager || isAdmin ?
+                                /> </>
+                    {/*: null}*/}
+                    {/*{isManager || isAdmin ?*/}
                             <Resource
                                     name="employee"
                                     options={{label: 'Employees'}}
@@ -131,7 +90,8 @@ export const App = () => {
                                     edit={EmployeeEdit}
                                     icon={PeopleIcon}
                                     recordRepresentation={(record: any) => `${record.name}`}
-                            /> : null}
+                            />
+                    {/*: null}*/}
                 </Admin>
             </Providers>
     );

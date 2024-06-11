@@ -47,5 +47,5 @@ console.log('updatedStatus: ', updatedStatus);
             }
     );
 
-    return <Button label="Submit" onClick={() => approve()} disabled={isLoading}/>;
+    return <Button label="Submit" variant='contained' size='medium' onClick={() => approve()} disabled={isLoading} sx={{margin: 2}}/>;
 };

@@ -18,8 +18,6 @@ initializeApp();
 const functions = region('australia-southeast1');
 setGlobalOptions({ region: 'australia-southeast1' });
 
-const cors = require('cors')({ origin: ['http://localhost:5173', 'https://hr.jucy.com'] });
-
 const db = getFirestore();
 export const createReviews = onSchedule(
     {
