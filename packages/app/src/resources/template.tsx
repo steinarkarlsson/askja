@@ -94,15 +94,14 @@ const TemplateEditCreate = () => (
                     choices={mapArrayToChoices(competencyTypeSchema._def.values)}
                     validate={required()}
             />
-            <ArrayInput name="competencies" source="competencies">
+            <ArrayInput source="competencies">
                 <SimpleFormIterator inline>
                     <SelectInput
-                            name="category"
-                            source="Category"
+                            source="category"
                             choices={mapArrayToChoices(competencyCategorySchema._def.values)}
                     />
-                    <TextInput name="title" source="Title"/>
-                    <RichTextInput name="description" source="Description"/>
+                    <TextInput source="title"/>
+                    <RichTextInput source="description"/>
                 </SimpleFormIterator>
             </ArrayInput>
         </SimpleForm>

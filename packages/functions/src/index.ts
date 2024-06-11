@@ -48,12 +48,23 @@ export const createReviews = onSchedule(
                 type: 'Functional',
             });
 
+            if (!coreTemplate || !functionalTemplate) {
+                warn(`Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.level}\n    - Core template: ${coreTemplate?.jobTitle}`);
+            }
+
+            const competencies = [...(coreTemplate?.competencies || []), ...(functionalTemplate?.competencies || [])]
+                .map((competency) => {
+                    return {
+                        ...competency,
+                        template: true,
+                    };
+                });
             const template = {
                 coreTemplateId: coreTemplate?.id,
                 functionalTemplateId: functionalTemplate?.id,
-                functionalCompetencies: functionalTemplate?.competencies,
-                coreCompetencies: coreTemplate?.competencies,
+                competencies: competencies,
             };
+
 
             if (functionalTemplate && coreTemplate) {
                 info(
@@ -73,8 +84,7 @@ export const createReviews = onSchedule(
                     reviewType: reviewPeriod.data().type,
                     coreTemplateId: template.coreTemplateId,
                     functionalTemplateId: template.functionalTemplateId,
-                    functionalCompetencies: template.functionalCompetencies,
-                    coreCompetencies: template.coreCompetencies,
+                    competencies:template.competencies
                 };
             } else {
                 warn(
@@ -96,16 +106,15 @@ export const createReviews = onSchedule(
 );
 
 export const getProfile = onCall(async (request) => {
-        const employeeQuery = request.auth?.uid ? await db.collection('employee').where(
-            'id',
-            '==',
-            request.auth?.uid,
-
-        ).get() : null;
-        const  employeeSnapshot=  employeeQuery?.docs[0];
-        console.log('getProfile atuh',request.auth)
-        console.log('getProfile data', employeeSnapshot?.data());
-        return employeeSnapshot?.data() || {};
+    const employeeQuery = request.auth?.uid ? await db.collection('employee').where(
+        'id',
+        '==',
+        request.auth?.uid,
+    ).get() : null;
+    const employeeSnapshot = employeeQuery?.docs[0];
+    console.log('getProfile atuh', request.auth);
+    console.log('getProfile data', employeeSnapshot?.data());
+    return employeeSnapshot?.data() || {};
 });
 
 export const beforecreated = beforeUserCreated(async (event) => {
@@ -122,7 +131,7 @@ export const beforecreated = beforeUserCreated(async (event) => {
         console.log('beforecreated  No employee found with that email');
         throw new HttpsError('invalid-argument', 'No employee found with that email');
     }
-})
+});
 
 export const onUserCreated = functions.auth.user().onCreate(async (user) => {
     console.log('onUserCreated beforecreated fired');
@@ -136,7 +145,7 @@ export const onUserCreated = functions.auth.user().onCreate(async (user) => {
 
     if (employeeSnapshotQuery.empty) {
         console.log('onUserCreated No employee found with that email');
-        return
+        return;
     }
 
     const employeeSnapshot = employeeSnapshotQuery.docs[0];

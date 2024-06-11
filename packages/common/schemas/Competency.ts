@@ -12,6 +12,7 @@ export const competencySchema = z.object({
     humanResourcesDescription: z.string(),
     managerApproved: z.enum(['approved', 'request changes']),
     humanResourcesApproved: z.enum(['approved', 'request changes']),
+    template: z.boolean(),
 });
 
 export type Competency = z.infer<typeof competencySchema>;

@@ -1,15 +1,12 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
 import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
-import {Grid} from '@mui/material';
 import React from 'react';
+import {reviewSchema} from '@jucy-askja/common/schemas/Review';
 import {
     ArrayField,
     ArrayInput,
-    BooleanField,
     Datagrid,
     Edit,
-    EditButton,
     Filter,
     List,
     ReferenceField,
@@ -21,13 +18,14 @@ import {
     SimpleShowLayout,
     TextField,
     TextInput,
-    Title,
 } from 'react-admin';
 import {RichTextInput} from 'ra-input-rich-text';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {SMARTGoals} from '../components/SMARTGoals';
 import {ReviewToolbar} from '../components/ReviewToolbar';
 import {StartReviewButton} from '../components/StartReviewButton';
+import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
+import {ZodError} from 'zod';
 
 const EmployeeReviewFilter = (props: any) => {
     return (
@@ -71,17 +69,22 @@ export const EmployeeReviewShow = (props: any) => (
 export const EmployeeReviewEdit = () => (
         <Edit>
             <SMARTGoals/>
-            <SimpleForm toolbar={<ReviewToolbar reviewType={'employeeReview'}/>}>
-                <Grid>
-                    <Title title="Employee Name"/>
-                    <TextField source="employeeName"/>
-                </Grid>
-
-                <TextField source="jobTitle"/>
-                <TextField
-                        source="type"
-                        choices={mapArrayToChoices(competencyTypeSchema._def.values)}
-                />
+            <SimpleForm toolbar={<ReviewToolbar reviewType={'employeeReview'}/>} validate={async (data) => {
+                const errors: Record<string, string> = {}
+                try {
+                    reviewSchema.parse(data)
+                } catch (e) {
+                    if (e instanceof ZodError) {
+                        console.log(e.flatten())
+                    }
+                    return {
+                        'name': 'Is a requi'
+                    }
+                }
+                //
+                return errors
+            }}>
+                <ReviewTitlePanel/>
                 <ArrayInput source="competencies" name="Competencies">
                     <SimpleFormIterator
                             disableAdd
@@ -137,10 +140,13 @@ export const EmployeeReviewEdit = () => (
                                 },
                             }}>
                         <TextInput disabled={true} className="category" source="Category" name="Category"/>
-                        <RichTextInput disabled={true} toolbar={<></>} className="description" source="description" label="Description" name="Description"/>
+                        <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
+                                       label="Description" name="Description"/>
                         <TextInput disabled={true} className="title" source="Title" name="Title"/>
-                        <CustomRichTextInput className="managerComment" source="managerComment" label="Manager Comment"/>
-                        <SelectInput className="managerApproved" source="managerApproved" label="manager Review" choices={competencyReviewStatuses} required/>
+                        <CustomRichTextInput className="managerComment" source="managerComment"
+                                             label="Manager Comment"/>
+                        <SelectInput className="managerApproved" source="managerApproved" label="manager Review"
+                                     choices={competencyReviewStatuses} required/>
                     </SimpleFormIterator>
                 </ArrayInput>
             </SimpleForm>

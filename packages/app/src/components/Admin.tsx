@@ -5,9 +5,10 @@ import {customTheme} from '../themes/customTheme';
 import {app} from '../lib/init';
 import {FirebaseAuthProvider, FirebaseDataProvider} from '../lib/react-admin-firebase';
 import {config} from '../config';
-import {Admin as RaAdmin} from 'react-admin';
+import {Admin as RaAdmin, Menu} from 'react-admin';
 import {ProfileLoader} from './ProfileLoader';
 import {Layout,LayoutProps} from 'ra-ui-materialui';
+import {CustomMenu} from './customMenu';
 
 
 const options = {
@@ -23,7 +24,7 @@ const authProvider = FirebaseAuthProvider(config.firebaseConfig, options);
 
 const CustomLayout = ({children,...props}:LayoutProps) => {
 
-    return <Layout {...props}>
+    return <Layout {...props} menu={CustomMenu}>
         <ProfileLoader>
     {children}
         </ProfileLoader>

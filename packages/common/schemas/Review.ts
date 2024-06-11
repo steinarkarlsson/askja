@@ -8,7 +8,7 @@ export const reviewSchema = z.object({
     id: z.string(),
     employeeId: z.string(),
     employeeName: z.string(),
-    managerId: z.string(),
+    manager: z.string(),
     status: reviewStatusSchema,
     jobTitle: z.string(),
     level: employeeLevelSchema,

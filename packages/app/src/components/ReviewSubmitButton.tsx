@@ -11,18 +11,18 @@ export const ReviewSubmitButton = (props:{reviewType: string}) => {
     const managerApproved = record.competencies.some((competency: Competency) => competency.managerApproved === 'request changes');
     const hrApproved = record.competencies.some((competency: Competency) => competency.humanResourcesApproved === 'request changes');
 
-    console.log('record: ')
-    console.log(record)
-
-    console.log('managerApproved: ', managerApproved);
-    console.log('hrApproved: ', hrApproved);
+    // console.log('record: ')
+    // console.log(record)
+    //
+    // console.log('managerApproved: ', managerApproved);
+    // console.log('hrApproved: ', hrApproved);
 
     const reviewType = props.reviewType;
     const currentStateApproved = reviewType === 'selfReview' ? true :
             reviewType === 'employeeReview' && managerApproved ? true :
                     reviewType === 'hrReview' && hrApproved ? true :
                             false;
-console.log('currentStateApproved: ', currentStateApproved)
+//console.log('currentStateApproved: ', currentStateApproved)
 
     const updatedStatus: ReviewStatus = currentStateApproved ?
             reviewType === 'selfReview' ? 'Pending Manager' :
@@ -31,7 +31,7 @@ console.log('currentStateApproved: ', currentStateApproved)
     reviewType === 'employeeReview' ? 'Pending Employee' :
             reviewType === 'hrReview' ? 'Pending Manager' : 'Pending HR';
 
-console.log('updatedStatus: ', updatedStatus);
+//console.log('updatedStatus: ', updatedStatus);
 
     const [approve, {isLoading}] = useUpdate(
             'review',
