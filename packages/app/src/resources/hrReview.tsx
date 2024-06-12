@@ -128,16 +128,16 @@ export const HrReviewEdit = () => {
                                         width: '400px',
                                     },
                                 }}>
-                            <TextInput disabled={true} className="category" source="Category" name="Category"/>
+                            <TextInput disabled={true} className="category" source="category" name="category"/>
                             <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
-                                           label="Description" name="Description"/>
-                            <TextInput disabled={true} className="title" source="Title" name="Title"/>
+                                           label="Description" name="description"/>
+                            <TextInput disabled={true} className="title" source="title" name="title"/>
                             <RichTextInput disabled={true} toolbar={<></>} className="managerComment"
                                            source="managerComment" label="Manager Comment" name="Manager Comment"/>
                             <TextInput disabled={true} className="managerApproved" source="managerApproved"
                                        label="Manager Review" name="Manager Review"/>
                             <CustomRichTextInput className="hrComment" source="hrComment" label="HR Comment"/>
-                            <SelectInput className="hrApproved" source="HrApproved" label="HR Review"
+                            <SelectInput className="hrApproved" source="hrApproved" label="HR Review"
                                          choices={competencyReviewStatuses} required/>
                         </SimpleFormIterator>
                     </ArrayInput>

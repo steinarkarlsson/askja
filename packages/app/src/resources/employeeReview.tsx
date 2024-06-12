@@ -57,8 +57,8 @@ export const EmployeeReviewShow = (props: any) => (
                 <TextField source="type"/>
                 <ArrayField source="competencies">
                     <Datagrid bulkActionButtons={false}>
-                        <TextField source="Category"/>
-                        <TextField source="Title"/>
+                        <TextField source="category"/>
+                        <TextField source="title"/>
                         <RichTextField source="description"/>
                     </Datagrid>
                 </ArrayField>
@@ -139,10 +139,10 @@ export const EmployeeReviewEdit = () => (
                                     width: '400px',
                                 },
                             }}>
-                        <TextInput disabled={true} className="category" source="Category" name="Category"/>
+                        <TextInput disabled={true} className="category" source="category" name="category"/>
                         <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
-                                       label="Description" name="Description"/>
-                        <TextInput disabled={true} className="title" source="Title" name="Title"/>
+                                       label="Description" name="description"/>
+                        <TextInput disabled={true} className="title" source="title" name="title"/>
                         <CustomRichTextInput className="managerComment" source="managerComment"
                                              label="Manager Comment"/>
                         <SelectInput className="managerApproved" source="managerApproved" label="manager Review"

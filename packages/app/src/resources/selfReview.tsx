@@ -49,8 +49,8 @@ export const SelfReviewShow = (props: any) => (
                 <TextField source="type"/>
                 <ArrayField source="competencies">
                     <Datagrid bulkActionButtons={false}>
-                        <TextField source="Category"/>
-                        <TextField source="Title"/>
+                        <TextField source="category"/>
+                        <TextField source="title"/>
                         <RichTextField source="description"/>
                     </Datagrid>
                 </ArrayField>
