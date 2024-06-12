@@ -40,15 +40,19 @@
       "port": 5001
     },
     "firestore": {
+      "host": "localhost",
       "port": 8080
     },
     "ui": {
+      "host": "localhost",
       "enabled": true
     },
     "storage": {
+      "host": "localhost",
       "port": 9199
     },
     "database": {
+      "host": "localhost",
       "port": 9000
     },
     "singleProjectMode": true

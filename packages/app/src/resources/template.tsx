@@ -26,7 +26,6 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
-
 const TemplateFilter = (props: any) => {
     return (
             <Filter {...props}>
@@ -57,9 +56,9 @@ export const TemplateShow = (props: any) => (
                 <TextField source="type"/>
                 <ArrayField source="competencies">
                     <Datagrid bulkActionButtons={false}>
-                        <TextField source="Category"/>
-                        <TextField source="Title"/>
-                        <RichTextField source="Description"/>
+                        <TextField source="category"/>
+                        <TextField source="title"/>
+                        <RichTextField source="description"/>
                     </Datagrid>
                 </ArrayField>
             </SimpleShowLayout>

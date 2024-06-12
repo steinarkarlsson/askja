@@ -8,11 +8,10 @@ export const competencySchema = z.object({
     category: competencyCategorySchema,
     competencyType: competencyTypeSchema,
     description: z.string(),
-    managerComment: z.string(),
-    hrComment: z.string(),
-    managerApproved: competencyReviewStatusSchema,
-    hrApproved: competencyReviewStatusSchema,
-    template: z.boolean(),
+    managerComment: z.string().optional(),
+    hrComment: z.string().optional(),
+    managerApproved: competencyReviewStatusSchema.optional(),
+    hrApproved: competencyReviewStatusSchema.optional(),
     source:z.enum(['template']).optional(),
 });
 

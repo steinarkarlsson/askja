@@ -12,6 +12,7 @@ importOrderSeparation: false
 importOrderSortSpecifiers: true
 importOrder:
     - '@/lib/init'
+    - './lib/init'
     - 'react'
     - '<THIRD_PARTY_MODULES>'
     - 'firebase'

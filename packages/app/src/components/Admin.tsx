@@ -3,18 +3,25 @@ import 'react-toastify/dist/ReactToastify.css';
 import CustomLoginPage from './CustomLoginPage';
 import {customTheme} from '../themes/customTheme';
 import {app} from '../lib/init';
-import {FirebaseAuthProvider, FirebaseDataProvider} from '../lib/react-admin-firebase';
-import {config} from '../config';
+import {FirebaseAuthProvider, FirebaseDataProvider, RAFirebaseOptions} from '../lib/react-admin-firebase';
 import {Admin as RaAdmin, Menu} from 'react-admin';
 import {ProfileLoader} from './ProfileLoader';
 import {Layout,LayoutProps} from 'ra-ui-materialui';
 import {CustomMenu} from './customMenu';
+import {config} from '@jucy-askja/common/config';
 
 
-const options = {
+const options:RAFirebaseOptions = {
     app: app,
     lazyLoading: {
         enabled: false
+    },
+    metaFieldCasing: 'camel',
+    renameMetaFields: {
+        created_at: 'createdAt',
+        created_by: 'createdBy',
+        updated_at: 'updatedAt',
+        updated_by: 'updatedBy',
     },
 };
 

@@ -1,4 +1,4 @@
-import { config } from '../config';
+import { config } from '@jucy-askja/common/config';
 import useWaitForIdentity from '../lib/useWaitForIdentity';
 import Container from './authentification/Container';
 import LoginForm from './authentification/LoginForm';

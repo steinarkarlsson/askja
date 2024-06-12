@@ -1,0 +1,14 @@
+{
+    "extends": "../../tsconfig.json",
+
+    "compilerOptions": {
+        "noEmit": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+          "@jucy-askja/common/*": ["../common/*"],
+        }
+      },
+
+    "include": ["src/**/*"]
+}

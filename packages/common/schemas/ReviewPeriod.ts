@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { reviewTypeSchema } from './ReviewType';
+import { firebaseDate } from './types/firebaseDate';
 
 export const reviewPeriodSchema = z.object({
-    endDate: z.date(),
-    startDate: z.date(),
+    endDate: firebaseDate,
+    startDate: firebaseDate,
     id: z.string(),
     title: z.string(),
     type: reviewTypeSchema,

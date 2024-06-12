@@ -1,17 +1,17 @@
-import { config } from '../config';
+import { config } from '@jucy-askja/common/config';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
-import { getApp } from 'firebase/app';
-import { connectStorageEmulator, getStorage } from 'firebase/storage';
-import { connectDatabaseEmulator, getDatabase } from 'firebase/database';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
 import 'firebase/compat/storage';
+import { connectDatabaseEmulator, getDatabase } from 'firebase/database';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { connectStorageEmulator, getStorage } from 'firebase/storage';
 
+firebase.firestore.Timestamp
 export const app = firebase.initializeApp({
     apiKey: config.firebaseConfig.apiKey,
     authDomain: config.firebaseConfig.authDomain,
@@ -21,19 +21,24 @@ export const app = firebase.initializeApp({
     appId: config.firebaseConfig.appId,
 });
 export const functions = getFunctions(app,'australia-southeast1');
-if (config.firebaseConfig.useEmulator) {
-    app.auth().useEmulator('http://127.0.0.1:9099');
-    connectAuthEmulator(getAuth(), 'http://127.0.0.1:9099');
-
-    app.firestore().useEmulator('127.0.0.1', 8080);
-    connectFirestoreEmulator(getFirestore(), '127.0.0.1', 8080);
-
-    app.functions().useEmulator('127.0.0.1', 5001);
-    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
-
-    app.storage().useEmulator('127.0.0.1', 9199);
-    connectStorageEmulator(getStorage(), '127.0.0.1', 9199);
-
-    app.database().useEmulator('127.0.0.1', 9000);
-    connectDatabaseEmulator(getDatabase(), '127.0.0.1', 9000);
+const emulatorConfig = config.firebaseConfig.emulator;
+if (emulatorConfig?.auth) {
+    app.auth().useEmulator(`http://${emulatorConfig.auth.host}:${emulatorConfig.auth.port}`);
+    connectAuthEmulator(getAuth(), `http://${emulatorConfig.auth.host}:${emulatorConfig.auth.port}`);
+}
+if (emulatorConfig?.firestore) {
+    app.firestore().useEmulator(emulatorConfig.firestore.host, emulatorConfig.firestore.port);
+    connectFirestoreEmulator(getFirestore(), emulatorConfig.firestore.host, emulatorConfig.firestore.port);
+}
+if (emulatorConfig?.functions) {
+    app.functions().useEmulator(emulatorConfig.functions.host, emulatorConfig.functions.port);
+    connectFunctionsEmulator(functions, emulatorConfig.functions.host, emulatorConfig.functions.port);
+}
+if (emulatorConfig?.storage) {
+    app.storage().useEmulator(emulatorConfig.storage.host, emulatorConfig.storage.port);
+    connectStorageEmulator(getStorage(), emulatorConfig.storage.host, emulatorConfig.storage.port);
+}
+if (emulatorConfig?.auth) {
+    app.database().useEmulator(emulatorConfig.auth.host, emulatorConfig.auth.port);
+    connectDatabaseEmulator(getDatabase(), emulatorConfig.auth.host, emulatorConfig.auth.port);
 }
