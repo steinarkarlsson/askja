@@ -1,22 +1,23 @@
-import {ArrayInput, SelectInput, SimpleFormIterator, TextInput, useRecordContext} from 'react-admin';
-import {CustomRichTextInput} from './CustomRichTextInput';
-import React, {cloneElement} from 'react';
-import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyCategorySchema} from '@jucy-askja/common/schemas/CompetencyCategory';
+import React, { cloneElement } from 'react';
+import { ArrayInput, SelectInput, SimpleFormIterator, TextInput, useRecordContext } from 'react-admin';
+import { competencyCategorySchema } from '@jucy-askja/common/schemas/CompetencyCategory';
+import { FormDataConsumer } from 'ra-core';
+import { mapArrayToChoices } from '../lib/mapArrayToChoices';
+import { CustomRichTextInput } from './CustomRichTextInput';
+
 
 export const SelfReviewFormIterator = () => {
-    const record = useRecordContext();
     const competencyCategories = mapArrayToChoices(competencyCategorySchema._def.values);
-
-    return (<ArrayInput source="competencies" name="Competencies">
-        <SimpleFormIterator
+    return (
+        <ArrayInput source="competencies" name="Competencies">
+            <SimpleFormIterator
                 disableClear
                 disableReordering
                 sx={{
                     '& .RaSimpleFormIterator-form': {
                         display: 'grid',
                         gap: 2,
-                        marginTop: '20px'
+                        marginTop: '20px',
                     },
                     '& .category': {
                         gridColumn: '1 / 1',
@@ -27,7 +28,7 @@ export const SelfReviewFormIterator = () => {
                         gridColumn: '2 / 2',
                         gridRow: '1 / 2',
                         width: '400px',
-                        marginTop: '8px'
+                        marginTop: '8px',
                     },
 
                     '& .description': {
@@ -35,27 +36,24 @@ export const SelfReviewFormIterator = () => {
                         gridRow: '2 / 2',
                         width: '400px',
                     },
-                }}>
-            <MyComponent
-                    record={record}
-                    field={<SelectInput className="category" source="category" choices={competencyCategories} defaultValue='' />}
-            />
-            <MyComponent
-                    record={record}
-                    field={<TextInput className="title" source="title"/>}
-            />
-
-            <CustomRichTextInput className="description" source="description" label="Description"/>
-
-        </SimpleFormIterator>
-    </ArrayInput>)
-}
-
-export const MyComponent = ({record,source,field,className, ...props}) => {
-    console.log(props);
-    const index = source.split('.').pop();
-    const competency = record.competencies[index];
-console.log(competency)
-    console.log('MyComponent Props', {record,source,field,className, ...props});
-    return cloneElement(field, {...props,readOnly:competency.template})
-}
+                }}
+            >
+                <FormDataConsumer>
+                    {({ scopedFormData, getSource, ...rest }) => {
+                        return <SelectInput source={getSource('category')} className="category" choices={competencyCategories} {...rest} readOnly={Boolean(scopedFormData?.source==='template')} />;
+                    }}
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ scopedFormData, getSource, ...rest }) => {
+                        return <TextInput source={getSource('title')} className="title" {...rest} readOnly={Boolean(scopedFormData?.source==='template')} />;
+                    }}
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ scopedFormData, getSource, ...rest }) => {
+                        return <CustomRichTextInput source={getSource('description')} className="description" {...rest} readOnly={Boolean(scopedFormData?.source==='template')} />;
+                    }}
+                </FormDataConsumer>
+            </SimpleFormIterator>
+        </ArrayInput>
+    );
+};
