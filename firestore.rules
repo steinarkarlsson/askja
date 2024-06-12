@@ -1,23 +1,47 @@
 rules_version = '2';
+
 service cloud.firestore {
 
-  function isUserAuthenticated() {
-    return request.auth != null;
-  }
-  
+    match /databases/{database}/documents {
 
-  
-  match  /databases/{database}/documents/deals/{dealId}/{document=**} {
-    allow create: if isUserAuthenticated();
-    allow list: if isUserAuthenticated();
-    allow get: if isUserAuthenticated();
-    allow update: if isUserAuthenticated();
-    allow delete: if isUserAuthenticated();
-  }
-  
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+        function isSignedIn() {
+            return request.auth != null;
+        }
+
+        function isReviewEmployee() {
+            return isSignedIn() && (resource.data.employeeId == request.auth.uid);
+        }
+
+        function isReviewsManager() {
+            return isSignedIn() && (resource.data.managerId == request.auth.uid);
+        }
+
+        function isAdmin() {
+            return isSignedIn() && (request.auth.token != null && request.auth.token.role == 'admin');
+        }
+
+        match /review/{reviewId} {
+            allow list: if isSignedIn();
+            allow read: if isReviewEmployee() || isReviewsManager() || isAdmin();
+            allow write: if isReviewEmployee() || isReviewsManager() || isAdmin();
+        }
+
+        match /reviewPeriod/{reviewPeriodId} {
+            allow list: if isSignedIn();
+            allow read: if isAdmin();
+            allow write: if isAdmin();
+        }
+
+        match /employee/{employeeId} {
+            allow list: if isSignedIn();
+            allow read: if isAdmin();
+            allow write: if isAdmin();
+        }
+
+        match /template/{templateId} {
+            allow list: if isSignedIn();
+            allow read: if isAdmin();
+            allow write: if isAdmin();
+        }
     }
-  }
 }
