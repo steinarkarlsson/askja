@@ -1,69 +1,69 @@
-import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
 import React from 'react';
-import {reviewSchema} from '@jucy-askja/common/schemas/Review';
-import {
-    ArrayField,
-    ArrayInput,
-    Datagrid,
-    Edit,
-    Filter,
-    List,
-    ReferenceField,
-    RichTextField,
-    SelectInput,
-    Show,
-    SimpleForm,
-    SimpleFormIterator,
-    SimpleShowLayout,
-    TextField,
-    TextInput,
-} from 'react-admin';
-import {RichTextInput} from 'ra-input-rich-text';
-import {CustomRichTextInput} from '../components/CustomRichTextInput';
-import {SMARTGoals} from '../components/SMARTGoals';
-import {ReviewToolbar} from '../components/ReviewToolbar';
-import {StartReviewButton} from '../components/StartReviewButton';
-import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
-import {ZodError} from 'zod';
+import { ArrayField, ArrayInput, Datagrid, Edit, Filter, List, ReferenceField, RichTextField, SelectInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextField, TextInput, useGetIdentity } from 'react-admin';
+import { competencyReviewStatusSchema } from '@jucy-askja/common/schemas/CompetencyReviewStatus';
+import { reviewSchema } from '@jucy-askja/common/schemas/Review';
+import { Box, CircularProgress } from '@mui/material';
+import { ErrorComponent } from '../components/ErrorComponent';
+import { RichTextInput } from 'ra-input-rich-text';
+import { ZodError } from 'zod';
+import { CustomRichTextInput } from '../components/CustomRichTextInput';
+import { ReviewTitlePanel } from '../components/ReviewTitlePanel';
+import { ReviewToolbar } from '../components/ReviewToolbar';
+import { SMARTGoals } from '../components/SMARTGoals';
+import { StartReviewButton } from '../components/StartReviewButton';
+import { mapArrayToChoices } from '../lib/mapArrayToChoices';
+
 
 const EmployeeReviewFilter = (props: any) => {
     return (
-            <Filter {...props}>
-                <TextInput label="Search" source="title" alwaysOn name="search"/>
-            </Filter>
+        <Filter {...props}>
+            <TextInput label="Search" source="title" alwaysOn name="search" />
+        </Filter>
     );
 };
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
-export const EmployeeReviewList = (props: any) => (
-        <List {...props} filters={<EmployeeReviewFilter/>}>
+export const EmployeeReviewList = (props: any) => {
+    const { data: identity, isLoading: identityLoading, error: identityError } = useGetIdentity();
+    if (identityLoading) {
+        return (
+            <Box display="flex" justifyContent="center" padding={2} width="100%">
+                <CircularProgress />
+            </Box>
+        );
+    }
+    if (identityError || !identity) {
+        return <ErrorComponent error={identityError || new Error('Failed to fetch current user')} />;
+    }
+    return (
+        <List {...props} filter={{ managerId: identity.id }} filters={<EmployeeReviewFilter />}>
             <Datagrid>
-                <TextField source="employeeName"/>
-                <ReferenceField source="manager" reference="employee"/>
-                <TextField source="jobTitle"/>
-                <StartReviewButton reviewType={'managerReview'}/>
+                <TextField source="employeeName" />
+                <ReferenceField source="manager" reference="employee" />
+                <TextField source="jobTitle" />
+                <StartReviewButton reviewType={'managerReview'} />
             </Datagrid>
         </List>
-);
+    );
+};
 
 export const EmployeeReviewShow = (props: any) => (
-        <Show {...props}>
-            <SimpleShowLayout>
-                <TextField source="jobTitle"/>
-                <TextField source="level"/>
-                <TextField source="active"/>
-                <TextField source="type"/>
-                <ArrayField source="competencies">
-                    <Datagrid bulkActionButtons={false}>
-                        <TextField source="category"/>
-                        <TextField source="title"/>
-                        <RichTextField source="description"/>
-                    </Datagrid>
-                </ArrayField>
-            </SimpleShowLayout>
-        </Show>
+    <Show {...props}>
+        <SimpleShowLayout>
+            <TextField source="jobTitle" />
+            <TextField source="level" />
+            <TextField source="active" />
+            <TextField source="type" />
+            <ArrayField source="competencies">
+                <Datagrid bulkActionButtons={false}>
+                    <TextField source="category" />
+                    <TextField source="title" />
+                    <RichTextField source="description" />
+                </Datagrid>
+            </ArrayField>
+        </SimpleShowLayout>
+    </Show>
 );
 
 export const EmployeeReviewEdit = () => (
