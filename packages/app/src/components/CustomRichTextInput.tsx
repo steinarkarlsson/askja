@@ -1,24 +1,23 @@
-import {ClearButtons, FormatButtons, ListButtons, RichTextInput, RichTextInputToolbar,} from 'ra-input-rich-text';
-import React, {FC, ReactElement} from 'react';
+import React, { FC, ReactElement } from 'react';
+import { ClearButtons, FormatButtons, ListButtons, RichTextInput, RichTextInputToolbar } from 'ra-input-rich-text';
+import { RichTextInputProps } from 'ra-input-rich-text/src/RichTextInput';
 
-type CustomRichTextInputProps = {
-    source: string;
-    label: string;
-    className: string;
-};
-
-export const CustomRichTextInput: FC<CustomRichTextInputProps> = ({...props}): ReactElement => {
+export const CustomRichTextInput: FC<RichTextInputProps> = ({ toolbar, ...props }): ReactElement => {
     return (
-            <RichTextInput
-                    toolbar={
-                        <RichTextInputToolbar size="small">
-                            <FormatButtons/>
-                            <ListButtons/>
-                            <ClearButtons/>
-                        </RichTextInputToolbar>
-                    }
-                    fullWidth
-                    {...props}
-            />
+        <RichTextInput
+            toolbar={
+                toolbar ? (
+                    toolbar
+                ) : (
+                    <RichTextInputToolbar size="small">
+                        <FormatButtons />
+                        <ListButtons />
+                        <ClearButtons />
+                    </RichTextInputToolbar>
+                )
+            }
+            fullWidth
+            {...props}
+        />
     );
 };
