@@ -182,6 +182,7 @@ export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (ev
     await getAuth().setCustomUserClaims(after.id, {
         email: after.email,
         role: after.role,
+        employeeId: after.id,
     });
     const updatedUser = await getAuth().getUser(after.id);
     console.log({ updatedUser });
