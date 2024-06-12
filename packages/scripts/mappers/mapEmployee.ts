@@ -7,7 +7,7 @@ export const mapEmployee = (employee: any) => {
         id: employee.id,
         jobTitle: employee.jobTitle,
         level: employee.level,
-        manager: employee.manager||null,
+        managerId:  employee.managerId || employee.manager||null,
         name: employee.name,
         role: employee.role,
         ...mapMetaData(employee),
