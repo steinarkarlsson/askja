@@ -12,7 +12,7 @@
   },
   "functions": [
     {
-      "source": "packages/functions",
+      "source": "packages/functions/lib",
       "codebase": "default",
       "ignore": [
         "node_modules",

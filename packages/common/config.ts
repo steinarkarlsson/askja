@@ -33,11 +33,11 @@ export const config: Config = {
         messagingSenderId: '932290405279',
         appId: '1:932290405279:web:b1353abcc8fe621ea753aa',
         emulator: {
-            auth: { host: 'localhost', port: 9099 },
-            functions: { host: 'localhost', port: 5001 },
-            firestore: { host: 'localhost', port: 8080 },
-            storage: { host: 'localhost', port: 9199 },
-            database: { host: 'localhost', port: 9000 },
+            // auth: { host: 'localhost', port: 9099 },
+            // functions: { host: 'localhost', port: 5001 },
+            // firestore: { host: 'localhost', port: 8080 },
+            // storage: { host: 'localhost', port: 9199 },
+            // database: { host: 'localhost', port: 9000 },
         },
     },
     msConfig: {

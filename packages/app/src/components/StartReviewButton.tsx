@@ -10,16 +10,11 @@ export const StartReviewButton = ({reviewType}: startReviewButtonProps) => {
     const allowEdit = (reviewType === 'selfReview' && record.status === 'Pending Employee') ||
             (reviewType === 'managerReview' && record.status === 'Pending Manager') ||
             (reviewType === 'hrReview' && record.status === 'Pending HR');
-
     const label = allowEdit ? 'Start Review' : record.status;
 
     return <EditButton
             label={label}
-            sx={allowEdit ? {
-                border: 1,
-                backgroundColor: '#85C430',
-                color: 'white'
-            } : {}}
+            variant="contained"
             disabled={!allowEdit}
     />
 }

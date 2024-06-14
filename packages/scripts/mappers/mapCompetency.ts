@@ -1,4 +1,3 @@
-import { competencyCategorySchema } from '../../common/schemas/CompetencyCategory';
 
 export const mapCompetency = (competency: any) => {
     const mapCompetencyType = (type?: string) => {

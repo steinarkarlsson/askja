@@ -1,7 +1,5 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyCategorySchema} from '@jucy-askja/common/schemas/CompetencyCategory';
 import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
-import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
 import {RichTextInput} from 'ra-input-rich-text';
 import React from 'react';
 import {
@@ -13,8 +11,9 @@ import {
     Datagrid,
     Edit,
     EditButton,
-    Filter,
     List,
+    ReferenceField,
+    ReferenceInput,
     required,
     RichTextField,
     SelectInput,
@@ -26,19 +25,14 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
-const TemplateFilter = (props: any) => {
-    return (
-            <Filter {...props}>
-                <TextInput name="search" label="Search" source="title" alwaysOn/>
-            </Filter>
-    );
-};
+import {Stack} from '@mui/material';
+import {EmployeeLevelSelectInput} from '../components/EmployeeLevelSelectInput';
+import {EmployeeLevelSelectField} from '../EmployeeLevelSelectField';
 
 export const TemplateList = (props: any) => (
-        <List {...props} filters={<TemplateFilter/>}>
+        <List {...props} >
             <Datagrid>
-                <TextField source="jobTitle"/>
-                <TextField source="level"/>
+                <EmployeeLevelSelectField label='Template Level'/>
                 <TextField source="type"/>
                 <BooleanField source="active"/>
                 <EditButton label="Edit"/>
@@ -50,8 +44,7 @@ export const TemplateList = (props: any) => (
 export const TemplateShow = (props: any) => (
         <Show {...props}>
             <SimpleShowLayout>
-                <TextField source="jobTitle"/>
-                <TextField source="level"/>
+                <ReferenceField source='employeeLevel' reference='employeeLevel' label=''/>
                 <TextField source="active"/>
                 <TextField source="type"/>
                 <ArrayField source="competencies">
@@ -77,31 +70,30 @@ export const TemplateCreate = (props: any) => (
         </Create>
 );
 
-const TemplateEditCreate = () => (
-        <SimpleForm>
-            <TextInput name="jobTitle" source="jobTitle" defaultValue=""/>
-            <SelectInput
-                    name="level"
-                    source="level"
-                    choices={mapArrayToChoices(levelsSchema._def.values)}
-                    validate={required()}
-            />
-            <BooleanInput name="active" source="active"/>
-            <SelectInput
-                    name="type"
-                    source="type"
-                    choices={mapArrayToChoices(competencyTypeSchema._def.values)}
-                    validate={required()}
-            />
-            <ArrayInput source="competencies">
-                <SimpleFormIterator inline>
+const TemplateEditCreate = () => {
+    return (
+            <SimpleForm>
+                <Stack width={300}>
+                    <EmployeeLevelSelectInput/>
                     <SelectInput
-                            source="category"
-                            choices={mapArrayToChoices(competencyCategorySchema._def.values)}
+                            name="type"
+                            source="type"
+                            choices={mapArrayToChoices(competencyTypeSchema._def.values)}
+                            validate={required()}
                     />
-                    <TextInput source="title"/>
-                    <RichTextInput source="description"/>
-                </SimpleFormIterator>
-            </ArrayInput>
-        </SimpleForm>
-);
+                    <BooleanInput name="active" source="active"/>
+                </Stack>
+                <ArrayInput source="competencies" label="KPIs">
+                    <SimpleFormIterator inline>
+                        <ReferenceInput
+                                source="competencyCategory"
+                                reference="competencyCategory"
+                                label="KPI Category"
+                        />
+                        <TextInput source="title" sx={{marginTop: 1}}/>
+                        <RichTextInput source="description"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+            </SimpleForm>
+    )
+}

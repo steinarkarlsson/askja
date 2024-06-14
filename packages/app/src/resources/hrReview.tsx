@@ -25,19 +25,10 @@ import {ReviewToolbar} from '../components/ReviewToolbar';
 import {StartReviewButton} from '../components/StartReviewButton';
 import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
 
-
-const HrReviewFilter = (props: any) => {
-    return (
-            <Filter {...props}>
-                <TextInput label="Search" source="title" alwaysOn name="search"/>
-            </Filter>
-    );
-};
-
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
 export const HrReviewList = (props: any) => (
-        <List {...props} filters={<HrReviewFilter/>}>
+        <List {...props}>
             <Datagrid>
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee"/>
@@ -51,9 +42,6 @@ export const HrReviewShow = (props: any) => (
         <Show {...props}>
             <SimpleShowLayout>
                 <TextField source="jobTitle"/>
-                <TextField source="level"/>
-                <TextField source="active"/>
-                <TextField source="type"/>
                 <ArrayField source="competencies">
                     <Datagrid bulkActionButtons={false}>
                         <TextField source="Category"/>

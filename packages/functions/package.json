@@ -17,13 +17,14 @@
         "node": "18"
     },
     "dependencies": {
-        "@jucy-askja/common": "workspace:.",
         "firebase-admin": "^11.8.0",
+      "zod": "^3.23.8",
         "firebase-functions": "^5.0.1",
         "vite-tsconfig-paths": "^4.3.2"
     },
     "devDependencies": {
         "@firebase/rules-unit-testing": "^3.0.3",
+        "@jucy-askja/common": "workspace:.",
         "@jucy/build-utils": "^1.0.282",
         "@rollup/plugin-alias": "^5.1.0",
         "@rollup/plugin-json": "^6.1.0",

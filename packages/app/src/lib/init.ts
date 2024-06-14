@@ -7,11 +7,10 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
 import 'firebase/compat/storage';
 import { connectDatabaseEmulator, getDatabase } from 'firebase/database';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import { connectFirestoreEmulator, initializeFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { connectStorageEmulator, getStorage } from 'firebase/storage';
 
-firebase.firestore.Timestamp
 export const app = firebase.initializeApp({
     apiKey: config.firebaseConfig.apiKey,
     authDomain: config.firebaseConfig.authDomain,
@@ -20,6 +19,7 @@ export const app = firebase.initializeApp({
     messagingSenderId: config.firebaseConfig.messagingSenderId,
     appId: config.firebaseConfig.appId,
 });
+const firestore = initializeFirestore(app, {ignoreUndefinedProperties: true});
 export const functions = getFunctions(app,'australia-southeast1');
 const emulatorConfig = config.firebaseConfig.emulator;
 if (emulatorConfig?.auth) {
@@ -28,7 +28,7 @@ if (emulatorConfig?.auth) {
 }
 if (emulatorConfig?.firestore) {
     app.firestore().useEmulator(emulatorConfig.firestore.host, emulatorConfig.firestore.port);
-    connectFirestoreEmulator(getFirestore(), emulatorConfig.firestore.host, emulatorConfig.firestore.port);
+    connectFirestoreEmulator(firestore, emulatorConfig.firestore.host, emulatorConfig.firestore.port);
 }
 if (emulatorConfig?.functions) {
     app.functions().useEmulator(emulatorConfig.functions.host, emulatorConfig.functions.port);

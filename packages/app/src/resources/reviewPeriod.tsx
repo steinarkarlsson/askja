@@ -19,16 +19,8 @@ import {
 } from 'react-admin';
 import {Stack} from '@mui/material';
 
-const ReviewPeriodFilter = (props: any) => {
-    return (
-            <Filter {...props}>
-                <TextInput label="Search" source="title" alwaysOn name="title"/>
-            </Filter>
-    );
-};
-
 export const ReviewPeriodList = (props: any) => (
-        <List {...props} filters={<ReviewPeriodFilter/>}>
+        <List {...props} >
             <Datagrid>
                 <TextField source="title"/>
                 <DateField source="startDate"/>

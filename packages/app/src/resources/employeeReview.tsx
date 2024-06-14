@@ -52,9 +52,6 @@ export const EmployeeReviewShow = (props: any) => (
     <Show {...props}>
         <SimpleShowLayout>
             <TextField source="jobTitle" />
-            <TextField source="level" />
-            <TextField source="active" />
-            <TextField source="type" />
             <ArrayField source="competencies">
                 <Datagrid bulkActionButtons={false}>
                     <TextField source="category" />

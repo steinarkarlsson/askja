@@ -7,6 +7,7 @@ import {
     Datagrid,
     Edit,
     EditButton,
+    Filter,
     List,
     ReferenceField,
     ReferenceInput,
@@ -17,29 +18,37 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
-import {levelsSchema} from '@jucy-askja/common/schemas/Levels';
 import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
 import {AccountCircle} from '@mui/icons-material';
 import {Stack} from '@mui/material';
-import {ZodError} from 'zod'
+import {EmployeeLevelSelectInput} from '../components/EmployeeLevelSelectInput';
+import {EmployeeLevelSelectField} from '../EmployeeLevelSelectField';
+
 const roles = mapArrayToChoices(employeeSchema.shape.role.options);
 
-export const EmployeeList = (props: any) => {
+const EmployeeFilter = (props: any) => {
+    return (
+            <Filter {...props}>
+                <TextInput label="Search" source="name" alwaysOn/>
+            </Filter>
+    );
+};
 
+export const EmployeeList = (props: any) => {
     return (
             <List
                     {...props}
-                    // filters={<EmployeeFilter/>}
                     sx={{padding: '20px'}}
+                    filters={<EmployeeFilter/>}
             >
                 <Datagrid>
                     <AccountCircle/>
                     <TextField source="name" reference="employee"/>
                     <ReferenceField source="manager" reference="employee"/>
                     <TextField source="jobTitle"/>
-                    <TextField source="level"/>
+                    <EmployeeLevelSelectField label='Employee Level'/>
                     <TextField source="role"/>
-                    <EditButton label=""/>
+                    <EditButton label="Edit"/>
                 </Datagrid>
             </List>
     )
@@ -65,25 +74,10 @@ export const EmployeeCreate = (props: any) => (
 );
 
 export const EmployeeEditCreate = () => (
-        <SimpleForm validate={async(data) => {
-            const errors :Record<string, string>={}
-            try {
-                employeeSchema.parse(data)
-            }catch (e){
-                if (e instanceof ZodError) {
-                    console.log(e.flatten())
-                }
-                return {
-                    'name': 'Is a requi'
-                }
-            }
-            //
-            return errors
-        }}>
+        <SimpleForm>
             <Stack direction="row" spacing={10}>
                 <Stack direction='column' spacing={2} width={300}>
                     <TextInput name="name" source="name"/>
-
                     <TextInput name="email" source="email"/>
                     <ReferenceInput name="manager" source="manager" reference="employee">
                         <AutocompleteInput label="Manager"
@@ -94,11 +88,9 @@ export const EmployeeEditCreate = () => (
                 <Stack direction='column' spacing={2}>
                     <TextInput name="jobTitle" source="jobTitle"/>
                     <SelectInput name="role" source="role" choices={roles}/>
-                    <AutocompleteInput label='Employee level' name="level" source="level"
-                                       choices={mapArrayToChoices(levelsSchema._def.values)}/>
+                    <EmployeeLevelSelectInput/>
+                    <TextInput source="level" label="level" disabled/>
                 </Stack>
             </Stack>
-
-
         </SimpleForm>
 )

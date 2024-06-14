@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import { competencySchema } from './Competency';
-import { levelsSchema } from './Levels';
+import { employeelevelSchema } from './employeeLevel';
 import { competencyTypeSchema } from './CompetencyType';
 
 export const templateSchema = z.object({
     id: z.string(),
-    level: levelsSchema,
+    level: employeelevelSchema,
     jobTitle: z.string().optional(),
     type: competencyTypeSchema,
     competencies: z.array(competencySchema),

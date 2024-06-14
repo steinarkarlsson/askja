@@ -79,7 +79,6 @@ export function DataProvider(
             params: ra.GetOneParams,
         ): Promise<ra.GetOneResult<RecordType>> {
             const collection = resourceMapping[resource] || resource;
-            console.log('getOne', resource, params);
 
             return run(() => GetOne<RecordType>(collection, params, client));
         },
@@ -88,7 +87,6 @@ export function DataProvider(
             params: ra.GetManyParams,
         ): Promise<ra.GetManyResult<RecordType>> {
             const collection = resourceMapping[resource] || resource;
-            console.log('getMany', resource, params);
             return run(() => GetMany<RecordType>(collection, params, client));
         },
         getManyReference<RecordType extends ra.RaRecord = ra.RaRecord>(
@@ -96,7 +94,6 @@ export function DataProvider(
             params: ra.GetManyReferenceParams,
         ): Promise<ra.GetManyReferenceResult<RecordType>> {
             const collection = resourceMapping[resource] || resource;
-            console.log('getManyReference', resource, params);
             return run(() => GetManyReference<RecordType>(collection, params, client));
         },
         update<RecordType extends ra.RaRecord = ra.RaRecord>(

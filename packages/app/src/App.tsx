@@ -19,16 +19,16 @@ import {EmployeeReviewEdit, EmployeeReviewList, EmployeeReviewShow} from './reso
 import 'react-toastify/dist/ReactToastify.css';
 import {Providers} from './components/Providers';
 import {Admin} from './components/Admin';
+import {EmployeeLevelCreate, EmployeeLevelEdit, EmployeeLevelList, EmployeeLevelShow} from './resources/employeeLevel';
+import {
+    CompetencyCategoryCreate,
+    CompetencyCategoryEdit,
+    CompetencyCategoryList,
+    CompetencyCategoryShow
+} from './resources/competencyCategory';
 
 
 export const App = () => {
-    // const {data, error, isLoading} = useGetUserProfile();
-    //
-    // const isAdmin = data?.role === 'admin';
-    // // const isAdmin = true;
-    //
-    // const isManager = data?.role === 'manager';
-    // // const isManager = true;
 
     return (
             <Providers>
@@ -39,19 +39,14 @@ export const App = () => {
                             list={SelfReviewList}
                             show={SelfReviewShow}
                             edit={SelfReviewEdit}
-                            icon={ReviewsIcon}
                     />
-                    {/*{isManager || isAdmin ?*/}
                             <Resource
                                     name="employeeReview"
                                     options={{label: 'Employee Reviews'}}
                                     list={EmployeeReviewList}
                                     show={EmployeeReviewShow}
                                     edit={EmployeeReviewEdit}
-                                    icon={ReviewsIcon}
                             />
-                            {/*: null}*/}
-                    {/*{isAdmin ?*/}
                             <>
                                 <Resource
                                         name="hrReview"
@@ -59,7 +54,6 @@ export const App = () => {
                                         list={HrReviewList}
                                         show={HrReviewShow}
                                         edit={HrReviewEdit}
-                                        icon={ReviewsIcon}
                                 />
                                 <Resource
                                         name="reviewPeriod"
@@ -68,7 +62,6 @@ export const App = () => {
                                         show={ReviewPeriodShow}
                                         create={ReviewPeriodCreate}
                                         edit={ReviewPeriodEdit}
-                                        icon={EditCalendarIcon}
                                 />
                                 <Resource
                                         name="template"
@@ -77,10 +70,7 @@ export const App = () => {
                                         show={TemplateShow}
                                         create={TemplateCreate}
                                         edit={TemplateEdit}
-                                        icon={CalendarViewMonthIcon}
                                 /> </>
-                    {/*: null}*/}
-                    {/*{isManager || isAdmin ?*/}
                             <Resource
                                     name="employee"
                                     options={{label: 'Employees'}}
@@ -88,10 +78,26 @@ export const App = () => {
                                     show={EmployeeShow}
                                     create={EmployeeCreate}
                                     edit={EmployeeEdit}
-                                    icon={PeopleIcon}
                                     recordRepresentation={(record: any) => `${record.name}`}
                             />
-                    {/*: null}*/}
+                    <Resource
+                            name="employeeLevel"
+                            options={{label: 'Employee Levels'}}
+                            list={EmployeeLevelList}
+                            show={EmployeeLevelShow}
+                            create={EmployeeLevelCreate}
+                            edit={EmployeeLevelEdit}
+                            recordRepresentation={(record: any) => `${record.name}`}
+                    />
+                    <Resource
+                            name="competencyCategory"
+                            options={{label: 'Competency Categories'}}
+                            list={CompetencyCategoryList}
+                            show={CompetencyCategoryShow}
+                            create={CompetencyCategoryCreate}
+                            edit={CompetencyCategoryEdit}
+                            recordRepresentation={(record: any) => `${record.name}`}
+                    />
                 </Admin>
             </Providers>
     );

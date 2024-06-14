@@ -10,6 +10,7 @@ import { onCall } from 'firebase-functions/v2/https';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { employeeSchema } from '@jucy-askja/common/schemas/Employee';
+import { Competency } from '@jucy-askja/common/schemas/Competency';
 import { Review } from '@jucy-askja/common/schemas/Review';
 import { beforeUserCreated, HttpsError } from 'firebase-functions/v2/identity';
 
@@ -34,14 +35,20 @@ export const createReviews = onSchedule(
             return;
         }
 
-        const templateSnapshot = await db.collection('template').get();
-        const employeeSnapshot = await db.collection('employee').where('active', '==', true).get();
-
         info(`Review Period starting today: ${reviewPeriod.data().title}`);
+
+        const templateSnapshot = await db.collection('template').where('active','==',true).get();
+        const employeeSnapshot = await db.collection('employee').where('active', '==', true).get();
+        const employeeLevelSnapshot = await db.collection('employeeLevel').get();
+        const competencyCategorySnapshot = await db.collection('competencyCategory').get();
 
         const reviews = employeeSnapshot.docs.map((employeeDoc): Review[] | undefined => {
             const employee = employeeSchema.parse(employeeDoc.data);
-            const coreTemplate = getTemplate({ employee: employee, templates: templateSnapshot, type: 'Core' });
+            const coreTemplate = getTemplate({
+                employee: employee,
+                templates: templateSnapshot,
+                type: 'Core'
+            });
             const functionalTemplate = getTemplate({
                 employee: employee,
                 templates: templateSnapshot,
@@ -52,7 +59,7 @@ export const createReviews = onSchedule(
                 warn(`Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.level}\n    - Core template: ${coreTemplate?.jobTitle}`);
             }
 
-            const competencies = [...(coreTemplate?.competencies || []), ...(functionalTemplate?.competencies || [])]
+            const competencies: Competency[] = [...(coreTemplate?.competencies || []), ...(functionalTemplate?.competencies || [])]
                 .map((competency) => {
                     return {
                         ...competency,
@@ -65,7 +72,6 @@ export const createReviews = onSchedule(
                 competencies: competencies,
             };
 
-
             if (functionalTemplate && coreTemplate) {
                 info(
                     `Found template for ${employee.name} - ${employee.jobTitle} - ${employee.level}:\n    - Core template: ${coreTemplate?.jobTitle} - ${
@@ -73,18 +79,18 @@ export const createReviews = onSchedule(
                     }\n    - Functional template: ${functionalTemplate?.jobTitle} - ${functionalTemplate?.level}`,
                 );
                 return {
-                    employeeId: employee.id,
+                    competencies:template.competencies,
                     employeeName: employee.name,
-                    manager: employee.managerId,
+                    managerId: employee.managerId,
                     status: 'pending',
                     jobTitle: employee.jobTitle,
                     level: employee.level,
                     reviewPeriodId: reviewPeriod.id,
                     reviewPeriodName: reviewPeriod.data().title,
                     reviewType: reviewPeriod.data().type,
+                    employeeId: employee.id,
                     coreTemplateId: template.coreTemplateId,
                     functionalTemplateId: template.functionalTemplateId,
-                    competencies:template.competencies
                 };
             } else {
                 warn(
@@ -96,64 +102,54 @@ export const createReviews = onSchedule(
             }
         });
 
-        reviews.forEach(async (review) => {
-            if (review) {
-                await db.collection('review').add(review);
-            }
-        });
+        console.log(reviews[0])
+        // reviews.forEach(async (review) => {
+        //     if (review) {
+        //         console.log(review)
+        //         await db.collection('review').add(review);
+        //     }
+        // });
         info(`Created ${reviews.length} reviews for ${reviewPeriod.data().title}`);
     },
 );
 
 export const getProfile = onCall(async (request) => {
     const employeeQuery = request.auth?.uid ? await db.collection('employee').where(
-        'id',
+        'userId',
         '==',
         request.auth?.uid,
     ).get() : null;
     const employeeSnapshot = employeeQuery?.docs[0];
-    console.log('getProfile atuh', request.auth);
-    console.log('getProfile data', employeeSnapshot?.data());
     return employeeSnapshot?.data() || {};
 });
 
 export const beforecreated = beforeUserCreated(async (event) => {
-    console.log('beforecreated beforecreated fired');
     if (!event.data.uid) {
         throw new HttpsError('invalid-argument', 'No user id available');
     }
 
-    console.log('beforecreated  Auth user.uid: ', event.data.uid);
-
     const employeeSnapshotQuery = await db.collection('employee').where('email', '==', event.data.email).get();
 
     if (employeeSnapshotQuery.empty) {
-        console.log('beforecreated  No employee found with that email');
         throw new HttpsError('invalid-argument', 'No employee found with that email');
     }
 });
 
 export const onUserCreated = functions.auth.user().onCreate(async (user) => {
-    console.log('onUserCreated beforecreated fired');
     if (!user.uid) {
         throw new HttpsError('invalid-argument', 'No user id available');
     }
 
-    console.log('onUserCreated Auth user.uid: ', user.uid);
 
     const employeeSnapshotQuery = await db.collection('employee').where('email', '==', user.email).get();
 
     if (employeeSnapshotQuery.empty) {
-        console.log('onUserCreated No employee found with that email');
         return;
     }
 
     const employeeSnapshot = employeeSnapshotQuery.docs[0];
-    console.log('onUserCreated employeeSnapshot.data:');
-    console.log(employeeSnapshot.data());
-
     await db.collection('employee').doc(employeeSnapshot.id).update({
-        id: user.uid,
+        userId: user.uid,
     });
     await getAuth().setCustomUserClaims(user.uid, {
         role: employeeSnapshot.data().role,
@@ -187,4 +183,3 @@ export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (ev
     const updatedUser = await getAuth().getUser(after.id);
     console.log({ updatedUser });
 });
-

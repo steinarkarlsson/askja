@@ -1,11 +1,10 @@
 import { z } from 'zod';
-import { competencyCategorySchema } from './CompetencyCategory';
 import { competencyTypeSchema } from './CompetencyType';
 import { competencyReviewStatusSchema } from './CompetencyReviewStatus';
 
 export const competencySchema = z.object({
     title: z.string(),
-    category: competencyCategorySchema,
+    category: z.string(),
     competencyType: competencyTypeSchema,
     description: z.string(),
     managerComment: z.string().optional(),

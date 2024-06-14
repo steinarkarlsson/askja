@@ -1,10 +1,10 @@
 export const customTheme = {
   palette: {
     primary: {
-      main: '#8dc63f',
+      main: '#ac8239',
     },
     secondary: {
-      main: '#860171',
+      main: '#7094cc',
     },
     text: {
       primary: '#000000',
@@ -12,6 +12,5 @@ export const customTheme = {
   },
   typography: {
     fontFamily: ['Poppins', 'Verdana', 'sans-serif'].join(','),
-    fontColor: '#860171',
   },
 };
