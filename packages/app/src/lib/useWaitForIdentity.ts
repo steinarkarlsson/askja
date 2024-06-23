@@ -10,18 +10,14 @@ const useWaitForIdentity = () => {
                     resolve(null);
                     return;
                 }
-                console.log('Fetching identity...');
                 refetch().then(({data}) => {
                     if (data) {
                    getUserProfile().then((data) => {
                        console.log(data)
                    });
-                        console.log('   fetched identity', {data});
                         resolve(data);
                         return;
                     }
-
-                    console.log('   no identity data');
                     setTimeout(doRefetch, 100);
                 });
             };

@@ -21,27 +21,19 @@ const isAnyString = (input: string) => {
 const getScore = ({
     typeMatches,
     levelMatches,
-    jobTitleMatches,
-    anyJobTitle,
     anyLevel,
 }: {
     typeMatches: boolean;
     levelMatches: boolean;
-    jobTitleMatches: boolean;
-    anyJobTitle: boolean;
     anyLevel: boolean;
 }) => {
     if (!typeMatches) {
         return 0;
     }
-    if (jobTitleMatches && levelMatches) {
-        return 4;
-    } else if (jobTitleMatches && anyLevel) {
+    if ( levelMatches) {
         return 3;
-    } else if (anyJobTitle && levelMatches) {
+    } else if (anyLevel) {
         return 2;
-    } else if (anyJobTitle && anyLevel) {
-        return 1;
     }
     return 0;
 };
@@ -54,21 +46,11 @@ export const getTemplate = ({ employee, templates, type }: GetTemplateProps) => 
         // Then check if any templates match the employee level (Support, Professional, etc)
         // Then check if any templates match the employee jobTitle (Detailer, Customer Service Rep, etc)
         // If no template is found that matches the employee jobTitle or level, return the first template that applies all jobTitles
-        const templateJobTitle = sanatizeString(template.jobTitle);
-        const employeeJobTitle = sanatizeString(employee.jobTitle);
-
-        // const typeMatches = template.type.toLowerCase() === type.toLowerCase();
-        // const levelMatches = template.level === employee.level;
-        // const jobTitleMatches = templateJobTitle === employeeJobTitle
-        // const anyJobTitle = employeeJobTitle=== 'all' || !employeeJobTitle
-        // const anyLevel = template.level === null || template.level.toLowerCase() === 'all' || template.level === '';
 
         let matchScore = getScore({
             typeMatches: template.type.toLowerCase() === type.toLowerCase(),
-            levelMatches: template.level === employee.level,
-            jobTitleMatches: templateJobTitle === employeeJobTitle,
-            anyJobTitle: isAnyString(employeeJobTitle),
-            anyLevel: isAnyString(template.level),
+            levelMatches: template.employeeLevel === employee.employeeLevel,
+            anyLevel: isAnyString(template.employeeLevel),
         });
         // if (typeMatches) {
         //     if (jobTitleMatches && levelMatches) {

@@ -19,9 +19,12 @@ import {SMARTGoals} from '../components/SMARTGoals';
 import {SelfReviewFormIterator} from '../components/SelfReviewFormIterator';
 import {StartReviewButton} from '../components/StartReviewButton';
 import {ErrorComponent} from './../components/ErrorComponent';
+import {useGetUserProfile} from '../hooks/useGetUserProfile';
 
 export const SelfReviewList = (props: any) => {
     const { isLoading: identityLoading, error: identityError} = useGetIdentity();
+    const {data:profile} = useGetUserProfile();
+
     if (identityLoading) {
         return (
                 <Box display="flex" justifyContent="center" padding={2} width="100%">
@@ -34,10 +37,10 @@ export const SelfReviewList = (props: any) => {
         return <ErrorComponent error={identityError}/>;
     }
     return (
-            <List {...props}>
+            <List {...props} filter={{employeeId:profile?.id}}>
                 <Datagrid>
                     <TextField source="employeeName"/>
-                    <ReferenceField source="managerId" reference="employee"/>
+                    <ReferenceField source="manager" reference="employee"/>
                     <TextField source="jobTitle"/>
                     <StartReviewButton reviewType={'selfReview'}/>
                 </Datagrid>

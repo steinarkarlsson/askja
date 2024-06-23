@@ -14,7 +14,7 @@ import { Competency } from '@jucy-askja/common/schemas/Competency';
 import { Review } from '@jucy-askja/common/schemas/Review';
 import { beforeUserCreated, HttpsError } from 'firebase-functions/v2/identity';
 
-initializeApp();
+initializeApp()
 
 const functions = region('australia-southeast1');
 setGlobalOptions({ region: 'australia-southeast1' });
@@ -35,15 +35,14 @@ export const createReviews = onSchedule(
             return;
         }
 
-        info(`Review Period starting today: ${reviewPeriod.data().title}`);
+        console.log(`Review Period starting today: ${reviewPeriod.data().title}`);
 
         const templateSnapshot = await db.collection('template').where('active','==',true).get();
         const employeeSnapshot = await db.collection('employee').where('active', '==', true).get();
-        const employeeLevelSnapshot = await db.collection('employeeLevel').get();
-        const competencyCategorySnapshot = await db.collection('competencyCategory').get();
 
         const reviews = employeeSnapshot.docs.map((employeeDoc): Review[] | undefined => {
-            const employee = employeeSchema.parse(employeeDoc.data);
+            // console.log('mapping employeeDoc:', employeeDoc.data());
+            const employee = employeeSchema.parse(employeeDoc.data());
             const coreTemplate = getTemplate({
                 employee: employee,
                 templates: templateSnapshot,
@@ -56,14 +55,14 @@ export const createReviews = onSchedule(
             });
 
             if (!coreTemplate || !functionalTemplate) {
-                warn(`Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.level}\n    - Core template: ${coreTemplate?.jobTitle}`);
+                warn(`Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.employeeLevel}\n    - Core template: ${coreTemplate?.jobTitle}`);
             }
 
             const competencies: Competency[] = [...(coreTemplate?.competencies || []), ...(functionalTemplate?.competencies || [])]
                 .map((competency) => {
                     return {
                         ...competency,
-                        template: true,
+                        source: 'template',
                     };
                 });
             const template = {
@@ -73,18 +72,18 @@ export const createReviews = onSchedule(
             };
 
             if (functionalTemplate && coreTemplate) {
-                info(
-                    `Found template for ${employee.name} - ${employee.jobTitle} - ${employee.level}:\n    - Core template: ${coreTemplate?.jobTitle} - ${
-                        coreTemplate?.level
-                    }\n    - Functional template: ${functionalTemplate?.jobTitle} - ${functionalTemplate?.level}`,
-                );
+                // info(
+                //     `Found template for ${employee.name} - ${employee.jobTitle} - ${employee.employeeLevel}:\n    - Core template: ${coreTemplate?.jobTitle} - ${
+                //         coreTemplate?.level
+                //     }\n    - Functional template: ${functionalTemplate?.jobTitle} - ${functionalTemplate?.level}`,
+                // );
                 return {
                     competencies:template.competencies,
                     employeeName: employee.name,
-                    managerId: employee.managerId,
-                    status: 'pending',
+                    manager: employee.manager,
+                    status: 'Pending Employee',
                     jobTitle: employee.jobTitle,
-                    level: employee.level,
+                    employeeLevel: employee.employeeLevel,
                     reviewPeriodId: reviewPeriod.id,
                     reviewPeriodName: reviewPeriod.data().title,
                     reviewType: reviewPeriod.data().type,
@@ -94,7 +93,7 @@ export const createReviews = onSchedule(
                 };
             } else {
                 warn(
-                    `Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.level}\n    - Core template: ${coreTemplate?.jobTitle} - ${
+                    `Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.employeeLevel}\n    - Core template: ${coreTemplate?.jobTitle} - ${
                         coreTemplate?.level
                     }\n    - Functional template: ${functionalTemplate?.jobTitle} - ${functionalTemplate?.level}`,
                 );
@@ -102,13 +101,11 @@ export const createReviews = onSchedule(
             }
         });
 
-        console.log(reviews[0])
-        // reviews.forEach(async (review) => {
-        //     if (review) {
-        //         console.log(review)
-        //         await db.collection('review').add(review);
-        //     }
-        // });
+        reviews.forEach(async (review) => {
+            if (review) {
+                await db.collection('review').add(review);
+            }
+        });
         info(`Created ${reviews.length} reviews for ${reviewPeriod.data().title}`);
     },
 );

@@ -35,7 +35,7 @@ export const App = () => {
                 <Admin>
                     <Resource
                             name="selfReview"
-                            options={{label: 'Self Review'}}
+                            options={{label: 'KPI Review'}}
                             list={SelfReviewList}
                             show={SelfReviewShow}
                             edit={SelfReviewEdit}

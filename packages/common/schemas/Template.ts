@@ -5,7 +5,7 @@ import { competencyTypeSchema } from './CompetencyType';
 
 export const templateSchema = z.object({
     id: z.string(),
-    level: employeelevelSchema,
+    employeeLevel: employeelevelSchema,
     jobTitle: z.string().optional(),
     type: competencyTypeSchema,
     competencies: z.array(competencySchema),

@@ -1,8 +1,8 @@
-import { config } from '@jucy-askja/common/config';
-import firebase from 'firebase-admin';
-import { initializeApp } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
-import fs from 'fs';
+const config = require('@jucy-askja/common/config');
+const firebase = require('firebase-admin');
+const { initializeApp } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const fs = require('fs');
 
 if (!firebase.apps.length) {
     const settings: firebase.AppOptions = {

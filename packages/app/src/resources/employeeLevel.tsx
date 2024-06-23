@@ -60,6 +60,6 @@ export const EmployeeLevelCreate = (props: any) => (
 export const EmployeeLevelEditCreate = () => (
     <SimpleForm>
         <TextInput source='name'/>
-        <ReferenceInput source='parentId' reference='employeeLevel' defaultValue="" />
+        <ReferenceInput source='parentId' reference='employeeLevel' defaultValue=""/>
     </SimpleForm>
 )

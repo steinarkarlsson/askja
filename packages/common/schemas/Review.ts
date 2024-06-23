@@ -2,14 +2,13 @@ import { z } from 'zod';
 import { competencySchema } from './Competency';
 import { reviewStatusSchema } from './ReviewStatus';
 import { reviewTypeSchema } from './ReviewType';
-import { employeelevelSchema } from './employeeLevel';
 
 export const reviewSchema = z.object({
     competencies: z.array(competencySchema),
     employeeName: z.string(),
     id: z.string(),
-    level: employeelevelSchema,
-    manager: z.string(),
+    employeeLevel: z.string(),
+    managerId: z.string(),
     reviewPeriodName: z.string(),
     status: reviewStatusSchema,
     employeeId: z.string(),

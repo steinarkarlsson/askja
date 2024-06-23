@@ -4,7 +4,7 @@ import { competencyReviewStatusSchema } from './CompetencyReviewStatus';
 
 export const competencySchema = z.object({
     title: z.string(),
-    category: z.string(),
+    competencyCategory: z.string(),
     competencyType: competencyTypeSchema,
     description: z.string(),
     managerComment: z.string().optional(),

@@ -12,20 +12,13 @@ import { ReviewToolbar } from '../components/ReviewToolbar';
 import { SMARTGoals } from '../components/SMARTGoals';
 import { StartReviewButton } from '../components/StartReviewButton';
 import { mapArrayToChoices } from '../lib/mapArrayToChoices';
-
-
-const EmployeeReviewFilter = (props: any) => {
-    return (
-        <Filter {...props}>
-            <TextInput label="Search" source="title" alwaysOn name="search" />
-        </Filter>
-    );
-};
+import {useGetUserProfile} from '../hooks/useGetUserProfile';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
 export const EmployeeReviewList = (props: any) => {
     const { data: identity, isLoading: identityLoading, error: identityError } = useGetIdentity();
+    const {data:profile}=useGetUserProfile();
     if (identityLoading) {
         return (
             <Box display="flex" justifyContent="center" padding={2} width="100%">
@@ -37,7 +30,7 @@ export const EmployeeReviewList = (props: any) => {
         return <ErrorComponent error={identityError || new Error('Failed to fetch current user')} />;
     }
     return (
-        <List {...props} filter={{ managerId: identity.id }} filters={<EmployeeReviewFilter />}>
+        <List {...props} filter={{manager:profile?.id}}>
             <Datagrid>
                 <TextField source="employeeName" />
                 <ReferenceField source="manager" reference="employee" />
@@ -75,7 +68,7 @@ export const EmployeeReviewEdit = () => (
                         console.log(e.flatten())
                     }
                     return {
-                        'name': 'Is a requi'
+                        'name': 'Is a required field'
                     }
                 }
                 //

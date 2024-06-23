@@ -29,9 +29,5 @@ export const ProfileLoader = ({children}:{children?:React.ReactNode}) => {
             No Record for ytour email
         </>
     }
-    console.log(identity)
-
-    console.log(profile)
-
     return children
 };

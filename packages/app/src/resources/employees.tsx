@@ -23,6 +23,7 @@ import {AccountCircle} from '@mui/icons-material';
 import {Stack} from '@mui/material';
 import {EmployeeLevelSelectInput} from '../components/EmployeeLevelSelectInput';
 import {EmployeeLevelSelectField} from '../EmployeeLevelSelectField';
+import {useGetUserProfile} from '../hooks/useGetUserProfile';
 
 const roles = mapArrayToChoices(employeeSchema.shape.role.options);
 
@@ -35,11 +36,15 @@ const EmployeeFilter = (props: any) => {
 };
 
 export const EmployeeList = (props: any) => {
+    const {data:profile} = useGetUserProfile();
+    //const isManager = profile.role === 'manager';
+    const isManager = true
     return (
             <List
                     {...props}
                     sx={{padding: '20px'}}
                     filters={<EmployeeFilter/>}
+                    filter={isManager ? {manager: profile?.id} : {}}
             >
                 <Datagrid>
                     <AccountCircle/>
@@ -89,7 +94,6 @@ export const EmployeeEditCreate = () => (
                     <TextInput name="jobTitle" source="jobTitle"/>
                     <SelectInput name="role" source="role" choices={roles}/>
                     <EmployeeLevelSelectInput/>
-                    <TextInput source="level" label="level" disabled/>
                 </Stack>
             </Stack>
         </SimpleForm>
