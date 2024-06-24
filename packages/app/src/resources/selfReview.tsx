@@ -40,7 +40,7 @@ export const SelfReviewList = (props: any) => {
             <List {...props} filter={{employeeId:profile?.id}}>
                 <Datagrid>
                     <TextField source="employeeName"/>
-                    <ReferenceField source="manager" reference="employee"/>
+                    <ReferenceField source="manager" reference="employee" link={false}/>
                     <TextField source="jobTitle"/>
                     <StartReviewButton reviewType={'selfReview'}/>
                 </Datagrid>

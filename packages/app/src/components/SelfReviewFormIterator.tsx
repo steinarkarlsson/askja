@@ -1,7 +1,8 @@
 import React from 'react';
-import {ArrayInput, ReferenceInput, SimpleFormIterator, TextInput} from 'react-admin';
+import {ArrayInput, ReferenceField, ReferenceInput, SimpleFormIterator, TextField, TextInput} from 'react-admin';
 import {FormDataConsumer} from 'ra-core';
 import {CustomRichTextInput} from './CustomRichTextInput';
+import {Typography} from '@mui/material';
 
 
 export const SelfReviewFormIterator = () => {
@@ -37,20 +38,29 @@ export const SelfReviewFormIterator = () => {
                 >
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
-                            return <ReferenceInput source={getSource('competencyCategory')} className="category"
-                                                reference="competencyCategory" {...rest}
-                                                readOnly={Boolean(scopedFormData?.source === 'template')}
-                                                   sx={{width: 'fit-content', minWidth:300}}
-                            />;
-                            // return <SelectInput source={getSource('category')} className="category"
-                            //                     choices={competencyCategories} {...rest}
-                            //                     readOnly={Boolean(scopedFormData?.source === 'template')}/>;
+
+                            return !(scopedFormData?.source === 'template' && scopedFormData?.competencyCategory) ?
+                                    <ReferenceInput
+                                            source={getSource('competencyCategory')}
+                                            className="category"
+                                            reference="competencyCategory"
+                                            sx={{width: 'fit-content', minWidth:300}}
+                                            filter={{type:'Functional'}}
+                                            {...rest}
+                                    /> :
+                                    <Typography variant="h4" color="textPrimary" sx={{paddingLeft: 2}}><ReferenceField
+                                            source={getSource('competencyCategory')}
+                                            className="category"
+                                            reference="competencyCategory"
+                                            link={false}
+                                            {...rest}
+                                    /></Typography>;
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
                             return <TextInput source={getSource('title')} className="title" {...rest}
-                                              readOnly={Boolean(scopedFormData?.source === 'template')}
+                                              readOnly={Boolean(scopedFormData?.source === 'template'  && scopedFormData?.title)}
                                               sx={{width: 'fit-content', minWidth:300}}
                             />;
                         }}
@@ -59,7 +69,7 @@ export const SelfReviewFormIterator = () => {
                         {({scopedFormData, getSource, ...rest}) => {
                             return <CustomRichTextInput source={getSource('description')}
                                                         className="description" {...rest}
-                                                        readOnly={Boolean(scopedFormData?.source === 'template')}/>;
+                                                        readOnly={Boolean(scopedFormData?.source === 'template' && scopedFormData?.description)}/>;
                         }}
                     </FormDataConsumer>
                 </SimpleFormIterator>

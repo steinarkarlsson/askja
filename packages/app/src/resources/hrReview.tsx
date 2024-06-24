@@ -6,7 +6,7 @@ import {
     ArrayField,
     ArrayInput,
     Datagrid,
-    Edit,
+    Edit, Filter,
     List,
     ReferenceField,
     RichTextField,
@@ -24,18 +24,26 @@ import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {ReviewToolbar} from '../components/ReviewToolbar';
 import {StartReviewButton} from '../components/StartReviewButton';
 import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
-import {Divider, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
+const ReviewFilter = (props: any) => {
+    return (
+            <Filter {...props}>
+                <TextInput label="Search" source="employeeName" alwaysOn/>
+            </Filter>
+    );
+};
+
 export const HrReviewList = (props: any) => (
-        <List {...props}>
+        <List {...props} filters={<ReviewFilter/>} sort={{field: 'status', order:'DESC'}}>
             <Datagrid>
                 <TextField source="employeeName"/>
-                <ReferenceField source="manager" reference="employee"/>
+                <ReferenceField source="manager" reference="employee" link={false}/>
                 <TextField source="jobTitle"/>
                 <StartReviewButton reviewType={'hrReview'}/>
-                <ShowButton label="Show"/>
+                <ShowButton label="View"/>
             </Datagrid>
         </List>
 );
@@ -67,22 +75,6 @@ export const HrReviewShow = (props: any) => (
                 </Datagrid>
             </ArrayField>
             </SimpleShowLayout>
-
-
-            {/*<SimpleShowLayout>*/}
-            {/*    <TextField source="employeeName"/>*/}
-            {/*    <TextField source="jobTitle"/>*/}
-            {/*    <ReferenceField source="manager" reference="employee"/>*/}
-            {/*    <TextField source="reviewPeriodName"/>*/}
-            {/*    <TextField source="status"/>*/}
-            {/*    <ArrayField source="competencies">*/}
-            {/*        <Datagrid bulkActionButtons={false}>*/}
-            {/*            <TextField source="Category"/>*/}
-            {/*            <TextField source="Title"/>*/}
-            {/*            <RichTextField source="description"/>*/}
-            {/*        </Datagrid>*/}
-            {/*    </ArrayField>*/}
-            {/*</SimpleShowLayout>*/}
         </Show>
 );
 

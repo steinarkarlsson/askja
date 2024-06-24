@@ -37,8 +37,8 @@ const EmployeeFilter = (props: any) => {
 
 export const EmployeeList = (props: any) => {
     const {data:profile} = useGetUserProfile();
-    //const isManager = profile.role === 'manager';
-    const isManager = true
+    const isManager = profile?.role === 'manager';
+
     return (
             <List
                     {...props}

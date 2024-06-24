@@ -33,7 +33,7 @@ export const EmployeeReviewList = (props: any) => {
         <List {...props} filter={{manager:profile?.id}}>
             <Datagrid>
                 <TextField source="employeeName" />
-                <ReferenceField source="manager" reference="employee" />
+                <ReferenceField source="manager" reference="employee" link={false}/>
                 <TextField source="jobTitle" />
                 <StartReviewButton reviewType={'managerReview'} />
             </Datagrid>

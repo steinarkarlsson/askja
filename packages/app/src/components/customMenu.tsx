@@ -19,6 +19,7 @@ export const CustomMenu = () => {
             !isAdmin && !isManager ? null : (
             isAdmin ? (
                     <Menu>
+                        <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Reviews</Typography>
                         <Menu.Item to="/selfReview" primaryText="KPI Review" leftIcon={<ReviewsIcon/>}/>
                         <Menu.Item to="/employeeReview" primaryText="Employee Reviews" leftIcon={<ReviewsIcon/>}/>
                         <Menu.Item to="/hrReview" primaryText="HR Reviews" leftIcon={<ReviewsIcon/>}/>
@@ -32,6 +33,7 @@ export const CustomMenu = () => {
                     </Menu>
                     ) : isManager ? (
                     <Menu>
+                        <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Reviews</Typography>
                         <Menu.Item to="/selfReview" primaryText="KPI Review" leftIcon={<ReviewsIcon/>}/>
                         <Menu.Item to="/employeeReview" primaryText="Employee Reviews" leftIcon={<ReviewsIcon/>}/>
                         <Divider/>
