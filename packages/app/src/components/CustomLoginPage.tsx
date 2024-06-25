@@ -1,30 +1,23 @@
-import { config } from '@jucy-askja/common/config';
+import {config} from '@jucy-askja/common/config';
 import useWaitForIdentity from '../lib/useWaitForIdentity';
 import Container from './authentification/Container';
 import LoginForm from './authentification/LoginForm';
 import SignUpForm from './authentification/SignUpForm';
+import {Alert, AlertTitle, Box, Button, CircularProgress, Divider, Typography,} from '@mui/material';
 import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  CircularProgress,
-} from '@mui/material';
-import {
-  getAuth,
-  isSignInWithEmailLink,
-  OAuthProvider,
-  sendSignInLinkToEmail,
-  signInWithEmailLink,
-  signInWithPopup,
+    getAuth,
+    isSignInWithEmailLink,
+    OAuthProvider,
+    sendSignInLinkToEmail,
+    signInWithEmailLink,
+    signInWithPopup,
 } from 'firebase/auth';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { LoginComponent, useLogin } from 'ra-core';
-import { LoginProps } from 'ra-ui-materialui';
-import React, { useState } from 'react';
-import { useNotify } from 'react-admin';
-import { Navigate } from 'react-router-dom';
+import {LoginComponent, useLogin} from 'ra-core';
+import {LoginProps} from 'ra-ui-materialui';
+import React, {useState} from 'react';
+import {useNotify} from 'react-admin';
+import {Navigate} from 'react-router-dom';
 
 const provider = new OAuthProvider('microsoft.com');
 provider.setCustomParameters({
@@ -155,29 +148,32 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
   }
   return (
     <Container>
-      {showSIgnUp ? (
-        <SignUpForm
-          setSignUpEmail={setSignUpEmail}
-          signUpEmail={signUpEmail}
-          handleSignUpRequest={handleSignUpRequest}
-        />
-      ) : (
-        <LoginForm handleShowSignUpForm={handleShowSignUpForm} login={login} />
-      )}
-      <hr style={{ width: '100%' }} />
+        <Typography variant="h6">LOGIN</Typography>
+        <Button
+                onClick={handleStaffLogin}
+                style={{ marginBottom: '40px' }}
+                variant="contained"
+                sx={{ margin: '15px' }}
+        >
+            Log in with work email
+        </Button>
+      {/*{showSIgnUp ? (*/}
+      {/*  <SignUpForm*/}
+      {/*    setSignUpEmail={setSignUpEmail}*/}
+      {/*    signUpEmail={signUpEmail}*/}
+      {/*    handleSignUpRequest={handleSignUpRequest}*/}
+      {/*  />*/}
+      {/*) : (*/}
+      {/*  <LoginForm handleShowSignUpForm={handleShowSignUpForm} login={login} />*/}
+      {/*)}*/}
+      {/*<hr style={{ width: '100%' }} />*/}
+        OR
       <Button
         onClick={handleShowSignUpForm}
         variant="contained"
         sx={{ margin: '15px' }}
       >
-        Log in with Email
-      </Button>
-      <Button
-        onClick={handleStaffLogin}
-        style={{ marginBottom: '40px' }}
-        variant="contained"
-      >
-        Staff log in
+          Log in with personal email
       </Button>
     </Container>
   );
