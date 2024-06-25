@@ -148,15 +148,16 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
   }
   return (
     <Container>
-        <Typography variant="h6">LOGIN</Typography>
+        <Typography variant="h6">Welcome!</Typography>
+        Log in with
         <Button
                 onClick={handleStaffLogin}
-                style={{ marginBottom: '40px' }}
                 variant="contained"
-                sx={{ margin: '15px' }}
+                sx={{ margin: '15px', width:'160px'}}
         >
-            Log in with work email
+            work email
         </Button>
+        or
       {/*{showSIgnUp ? (*/}
       {/*  <SignUpForm*/}
       {/*    setSignUpEmail={setSignUpEmail}*/}
@@ -167,13 +168,12 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
       {/*  <LoginForm handleShowSignUpForm={handleShowSignUpForm} login={login} />*/}
       {/*)}*/}
       {/*<hr style={{ width: '100%' }} />*/}
-        OR
       <Button
         onClick={handleShowSignUpForm}
         variant="contained"
-        sx={{ margin: '15px' }}
+        sx={{ margin: '15px' , width:'160px'}}
       >
-          Log in with personal email
+          personal email
       </Button>
     </Container>
   );

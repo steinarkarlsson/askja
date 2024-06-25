@@ -1,11 +1,21 @@
 import React from 'react';
-import {ArrayInput, ReferenceField, ReferenceInput, RichTextField, SimpleFormIterator, TextInput} from 'react-admin';
+import {
+    ArrayInput,
+    ReferenceField,
+    ReferenceInput,
+    RichTextField,
+    SimpleFormIterator,
+    TextInput,
+    useRecordContext
+} from 'react-admin';
 import {FormDataConsumer} from 'ra-core';
 import {CustomRichTextInput} from './CustomRichTextInput';
-import {Typography} from '@mui/material';
+import {Alert, Typography} from '@mui/material';
 
 
 export const SelfReviewFormIterator = () => {
+    const record = useRecordContext();
+    console.log(record.competencies)
     return (
             <ArrayInput source="competencies" name="Competencies">
                 <SimpleFormIterator
@@ -34,23 +44,15 @@ export const SelfReviewFormIterator = () => {
                                 width: '600px',
                                 marginTop: '42px'
                             },
-                            '& .managerApproved': {
+                            '& .managerFeedback': {
                                 gridColumn: '10 / 10',
                                 gridRow: '1 / 2',
                                 width: '300px',
-
-                            },
-                            '& .managerComment': {
-                                gridColumn: '10 / 10',
-                                gridRow: '2 / 2',
-                                width: '300px',
-                                marginTop: '42px'
                             },
                         }}
                 >
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
-
                             return !(scopedFormData?.source === 'template' && scopedFormData?.competencyCategory) ?
                                     <ReferenceInput
                                             source={getSource('competencyCategory')}
@@ -72,7 +74,7 @@ export const SelfReviewFormIterator = () => {
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
                             return <TextInput source={getSource('title')} className="title" {...rest}
-                                              readOnly={Boolean(scopedFormData?.source === 'template' && scopedFormData?.title)}
+                                              readOnly={Boolean(scopedFormData?.source === 'template' && record?.title)}
                                               sx={{width: 'fit-content', minWidth: 300}}
                             />;
                         }}
@@ -81,13 +83,29 @@ export const SelfReviewFormIterator = () => {
                         {({scopedFormData, getSource, ...rest}) => {
                             return <CustomRichTextInput source={getSource('description')}
                                                         className="description" {...rest}
-                                                        readOnly={Boolean(scopedFormData?.source === 'template' && scopedFormData?.description)}/>;
+                                                        readOnly={Boolean(scopedFormData?.source === 'template' && record?.title)}/>;
                         }}
                     </FormDataConsumer>
-                    <RichTextField className="managerComment" source="managerComment" label="Manager Comment"
-                                   stripTags/>
-                    <RichTextField className="managerApproved" source="managerApproved" label="Manager Approval"
-                                   stripTags/>
+                    <FormDataConsumer>
+                        {({scopedFormData, getSource, ...rest}) => {
+                            if (scopedFormData?.managerApproved) {
+                                return (
+                                        <Alert severity={scopedFormData?.managerApproved === 'Approved' ? 'success' : 'info'}
+                                               className="managerFeedback">
+                                            <ReferenceField reference={'employee'} source={'manager'} link={false}
+                                                            sx={{fontWeight: 'bold', fontSize: 'large'}}/>:
+                                            <br/>
+                                            <RichTextField source={getSource('managerApproved')} {...rest} stripTags/>
+                                            <br/>
+                                            <RichTextField source={getSource('managerComment')} {...rest} stripTags/>
+                                        </Alert>
+                                )
+                            } else {
+                                return null
+                            }
+                            ;
+                        }}
+                    </FormDataConsumer>
                 </SimpleFormIterator>
             </ArrayInput>
     );

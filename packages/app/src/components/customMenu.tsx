@@ -13,8 +13,10 @@ import {Divider, Typography} from '@mui/material';
 export const CustomMenu = () => {
     const {data: user} = useGetUserProfile();
 
-    const isAdmin = user?.role == 'admin';
-    const isManager = user?.role == 'manager';
+    //const isAdmin = user?.role == 'admin';
+    //const isManager = user?.role == 'manager';
+    const isAdmin = true
+    const isManager = true
 
     return (
             !isAdmin && !isManager ? null : (
