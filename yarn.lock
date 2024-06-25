@@ -2271,8 +2271,8 @@ __metadata:
 "@jucy-askja/common@workspace:*, @jucy-askja/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@jucy-askja/common@workspace:packages/common"
-  dependencies:
-    zod: "npm:^3.23.8"
+  peerDependencies:
+    zod: ^3.23.8
   languageName: unknown
   linkType: soft
 
@@ -2323,6 +2323,7 @@ __metadata:
     typescript: "npm:^5.1.6"
     vite-tsconfig-paths: "npm:^4.3.2"
     vitest: "npm:^1.6.0"
+    zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
 

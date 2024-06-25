@@ -11,6 +11,7 @@ const resourceMapping: { [key: string]: string } = {
     'selfReview': 'review',
     'employeeReview': 'review',
     'hrReview': 'review',
+    'editReview': 'review',
 };
 
 export interface IDataProvider extends ra.DataProvider {

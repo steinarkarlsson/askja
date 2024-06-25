@@ -6,7 +6,7 @@ import {
     List,
     ReferenceField,
     RichTextField,
-    Show,
+    Show, ShowButton,
     SimpleForm,
     SimpleShowLayout,
     TextField,
@@ -43,6 +43,7 @@ export const SelfReviewList = (props: any) => {
                     <ReferenceField source="manager" reference="employee" link={false}/>
                     <TextField source="jobTitle"/>
                     <StartReviewButton reviewType={'selfReview'}/>
+                    <ShowButton label="View"/>
                 </Datagrid>
             </List>
     );

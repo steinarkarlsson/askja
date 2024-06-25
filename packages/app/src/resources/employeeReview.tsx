@@ -1,5 +1,23 @@
 import React from 'react';
-import { ArrayField, ArrayInput, Datagrid, Edit, Filter, List, ReferenceField, RichTextField, SelectInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextField, TextInput, useGetIdentity } from 'react-admin';
+import {
+    ArrayField,
+    ArrayInput,
+    Datagrid,
+    Edit,
+    Filter,
+    List,
+    ReferenceField,
+    RichTextField,
+    SelectInput,
+    Show,
+    ShowButton,
+    SimpleForm,
+    SimpleFormIterator,
+    SimpleShowLayout,
+    TextField,
+    TextInput,
+    useGetIdentity
+} from 'react-admin';
 import { competencyReviewStatusSchema } from '@jucy-askja/common/schemas/CompetencyReviewStatus';
 import { reviewSchema } from '@jucy-askja/common/schemas/Review';
 import { Box, CircularProgress } from '@mui/material';
@@ -36,6 +54,7 @@ export const EmployeeReviewList = (props: any) => {
                 <ReferenceField source="manager" reference="employee" link={false}/>
                 <TextField source="jobTitle" />
                 <StartReviewButton reviewType={'managerReview'} />
+                <ShowButton label="View"/>
             </Datagrid>
         </List>
     );
@@ -87,7 +106,7 @@ export const EmployeeReviewEdit = () => (
                                     gap: 2,
                                     marginTop: '20px'
                                 },
-                                '& .category': {
+                                '& .competencyCategory': {
                                     gridColumn: '1 / 1',
                                     gridRow: '1 / 1',
                                     width: '150px',
@@ -96,8 +115,8 @@ export const EmployeeReviewEdit = () => (
                                     gridColumn: '2 / 2',
                                     gridRow: '1 / 2',
                                     width: '400px',
+                                    marginTop: '8px',
                                 },
-
                                 '& .description': {
                                     gridColumn: '2 / 3',
                                     gridRow: '2 / 2',
@@ -108,7 +127,6 @@ export const EmployeeReviewEdit = () => (
                                     gridColumn: '4 / 5',
                                     gridRow: '1 / 2',
                                     width: '300px',
-                                    marginTop: '0px'
 
                                 },
                                 '& .managerComment': {
@@ -137,6 +155,8 @@ export const EmployeeReviewEdit = () => (
                                              label="Manager Comment"/>
                         <SelectInput className="managerApproved" source="managerApproved" label="manager Review"
                                      choices={competencyReviewStatuses} required/>
+                        <RichTextField  className="hrComment"  source="hrComment" label="HR Comment" stripTags/>
+                        <RichTextField className="hrApproved" source="hrApproved"  label="HR Approval" stripTags/>
                     </SimpleFormIterator>
                 </ArrayInput>
             </SimpleForm>

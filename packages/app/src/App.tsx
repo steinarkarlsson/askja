@@ -26,6 +26,7 @@ import {
     CompetencyCategoryList,
     CompetencyCategoryShow
 } from './resources/competencyCategory';
+import {editReviewCreate, editReviewEdit, editReviewList, editReviewShow} from './resources/editReview';
 
 
 export const App = () => {
@@ -54,6 +55,14 @@ export const App = () => {
                                         list={HrReviewList}
                                         show={HrReviewShow}
                                         edit={HrReviewEdit}
+                                />
+                                <Resource
+                                        name="editReview"
+                                        options={{label: 'Edit Reviews'}}
+                                        list={editReviewList}
+                                        show={editReviewShow}
+                                        edit={editReviewEdit}
+                                        create={editReviewCreate}
                                 />
                                 <Resource
                                         name="reviewPeriod"

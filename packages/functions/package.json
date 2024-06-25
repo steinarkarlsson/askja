@@ -18,9 +18,9 @@
     },
     "dependencies": {
         "firebase-admin": "^11.8.0",
-      "zod": "^3.23.8",
         "firebase-functions": "^5.0.1",
-        "vite-tsconfig-paths": "^4.3.2"
+        "vite-tsconfig-paths": "^4.3.2",
+        "zod": "^3.23.8"
     },
     "devDependencies": {
         "@firebase/rules-unit-testing": "^3.0.3",
