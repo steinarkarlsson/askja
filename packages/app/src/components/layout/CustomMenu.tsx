@@ -1,6 +1,6 @@
 import React from 'react';
 import {Menu} from 'react-admin';
-import {useGetUserProfile} from '../hooks/useGetUserProfile';
+import {useGetUserProfile} from '../../hooks/useGetUserProfile';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';

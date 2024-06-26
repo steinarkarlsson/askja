@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {useNotify, useRecordContext, useUpdate, useRedirect} from 'react-admin';
-import {getUpdatedReviewStatus} from '../lib/getUpdatedReviewStatus';
+import {getUpdatedReviewStatus} from '../../lib/getUpdatedReviewStatus';
 import {Button} from '@mui/material';
-import {redirect} from 'react-router';
 import {useFormContext} from 'react-hook-form';
 import { Review} from '@jucy-askja/common/schemas/Review';
 

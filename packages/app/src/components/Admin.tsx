@@ -4,13 +4,12 @@ import CustomLoginPage from './CustomLoginPage';
 import {customTheme} from '../themes/customTheme';
 import {app} from '../lib/init';
 import {FirebaseAuthProvider, FirebaseDataProvider, RAFirebaseOptions} from '../lib/react-admin-firebase';
-import {Admin as RaAdmin, AppBar} from 'react-admin';
+import {Admin as RaAdmin} from 'react-admin';
 import {ProfileLoader} from './ProfileLoader';
 import {Layout, LayoutProps} from 'ra-ui-materialui';
-import {CustomMenu} from './customMenu';
-import {config} from '@jucy-askja/common/config';
-import {CustomAppBar} from './CustomAppBar';
-
+import {CustomMenu} from './layout/CustomMenu';
+import {config} from '../../../common/config';
+import {CustomAppBar} from './layout/CustomAppBar';
 
 const options: RAFirebaseOptions = {
     app: app,

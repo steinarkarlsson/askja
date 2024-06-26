@@ -9,8 +9,9 @@ import {
     useRecordContext
 } from 'react-admin';
 import {FormDataConsumer} from 'ra-core';
-import {CustomRichTextInput} from './CustomRichTextInput';
+import {CustomRichTextInput} from '../CustomRichTextInput';
 import {Alert, Typography} from '@mui/material';
+import {styles} from './styles';
 
 
 export const SelfReviewFormIterator = () => {
@@ -21,48 +22,20 @@ export const SelfReviewFormIterator = () => {
                 <SimpleFormIterator
                         disableClear
                         disableReordering
-                        sx={{
-                            '& .RaSimpleFormIterator-form': {
-                                display: 'grid',
-                                gap: 2,
-                                marginTop: '20px'
-                            },
-                            '& .competencyCategory': {
-                                gridColumn: '1 / 1',
-                                gridRow: '1 / 1',
-                                width: '300px',
-                            },
-                            '& .title': {
-                                gridColumn: '2 / 3',
-                                gridRow: '1 / 2',
-                                width: '600px',
-                                marginTop: '8px',
-                            },
-                            '& .description': {
-                                gridColumn: '2 / 3',
-                                gridRow: '2 / 2',
-                                width: '600px',
-                                marginTop: '42px'
-                            },
-                            '& .managerFeedback': {
-                                gridColumn: '10 / 10',
-                                gridRow: '1 / 2',
-                                width: '300px',
-                            },
-                        }}
-                >
+                        sx={styles}>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
                             return !(scopedFormData?.source === 'template' && scopedFormData?.competencyCategory) ?
                                     <ReferenceInput
                                             source={getSource('competencyCategory')}
-                                            className="competencyCategory"
+                                            className="category"
                                             reference="competencyCategory"
                                             sx={{width: 'fit-content', minWidth: 200}}
                                             filter={{type: 'Functional'}}
                                             {...rest}
                                     /> :
-                                    <Typography variant="h4" color="textPrimary" sx={{paddingLeft: 2}}><ReferenceField
+                                    <Typography variant="h4" color="textPrimary" sx={{paddingLeft: 2}}>
+                                        <ReferenceField
                                             source={getSource('competencyCategory')}
                                             className="category"
                                             reference="competencyCategory"

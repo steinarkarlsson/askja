@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    BooleanField, BooleanInput,
     Create,
     Datagrid,
     Edit,
@@ -32,6 +33,7 @@ export const EmployeeLevelList = (props: any) => {
                     }
                     return record.name
                 }}/>
+                <BooleanField source='selfReview' valueLabelTrue='Enabled'/>
                 <EditButton label="Edit"/>
             </Datagrid>
         </List>
@@ -61,5 +63,6 @@ export const EmployeeLevelEditCreate = () => (
     <SimpleForm>
         <TextInput source='name'/>
         <ReferenceInput source='parentId' reference='employeeLevel' defaultValue=""/>
+        <BooleanInput source='selfReview'/>
     </SimpleForm>
 )

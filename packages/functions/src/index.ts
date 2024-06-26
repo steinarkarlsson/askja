@@ -39,6 +39,7 @@ export const createReviews = onSchedule(
 
         const templateSnapshot = await db.collection('template').where('active','==',true).get();
         const employeeSnapshot = await db.collection('employee').where('active', '==', true).get();
+        const employeeLevelSnapshot = await db.collection('employeeLevel').get();
 
         const reviews = employeeSnapshot.docs.map((employeeDoc): Review[] | undefined => {
             // console.log('mapping employeeDoc:', employeeDoc.data());
@@ -72,16 +73,15 @@ export const createReviews = onSchedule(
             };
 
             if (functionalTemplate && coreTemplate) {
-                // info(
-                //     `Found template for ${employee.name} - ${employee.jobTitle} - ${employee.employeeLevel}:\n    - Core template: ${coreTemplate?.jobTitle} - ${
-                //         coreTemplate?.level
-                //     }\n    - Functional template: ${functionalTemplate?.jobTitle} - ${functionalTemplate?.level}`,
-                // );
+
+                const employeeLevel = employeeLevelSnapshot.docs.find(doc => doc.id === employee.employeeLevel);
+                const initialStatus = employeeLevel && employeeLevel.data().selfReview ? 'Pending Employee' : 'Completed';
+
                 return {
                     competencies:template.competencies,
                     employeeName: employee.name,
                     manager: employee.manager,
-                    status: 'Pending Employee',
+                    status: initialStatus,
                     jobTitle: employee.jobTitle,
                     employeeLevel: employee.employeeLevel,
                     reviewPeriodId: reviewPeriod.id,

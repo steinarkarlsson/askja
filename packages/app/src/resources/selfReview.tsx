@@ -13,11 +13,11 @@ import {
     useGetIdentity
 } from 'react-admin';
 import {Box, CircularProgress} from '@mui/material';
-import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
-import {ReviewToolbar} from '../components/ReviewToolbar';
-import {SMARTGoals} from '../components/SMARTGoals';
-import {SelfReviewFormIterator} from '../components/SelfReviewFormIterator';
-import {StartReviewButton} from '../components/StartReviewButton';
+import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
+import {ReviewToolbar} from '../components/review/ReviewToolbar';
+import {SMARTGoals} from '../components/review/SMARTGoals';
+import {SelfReviewFormIterator} from '../components/review/SelfReviewFormIterator';
+import {StartReviewButton} from '../components/review/StartReviewButton';
 import {ErrorComponent} from './../components/ErrorComponent';
 import {useGetUserProfile} from '../hooks/useGetUserProfile';
 

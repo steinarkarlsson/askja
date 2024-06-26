@@ -21,10 +21,11 @@ import {
 } from 'react-admin';
 import {RichTextInput} from 'ra-input-rich-text';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
-import {ReviewToolbar} from '../components/ReviewToolbar';
-import {StartReviewButton} from '../components/StartReviewButton';
-import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
+import {ReviewToolbar} from '../components/review/ReviewToolbar';
+import {StartReviewButton} from '../components/review/StartReviewButton';
+import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {Grid} from '@mui/material';
+import {styles} from '../components/review/styles';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
@@ -94,54 +95,8 @@ export const HrReviewEdit = () => {
                                 disableClear
                                 disableReordering
                                 disableRemove
-                                sx={{
-                                    '& .RaSimpleFormIterator-form': {
-                                        display: 'grid',
-                                        gap: 2,
-                                        marginTop: '20px'
-                                    },
-                                    '& .category': {
-                                        gridColumn: '1 / 1',
-                                        gridRow: '1 / 1',
-                                        width: '150px',
-                                    },
-                                    '& .title': {
-                                        gridColumn: '2 / 2',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                    },
-
-                                    '& .description': {
-                                        gridColumn: '2 / 3',
-                                        gridRow: '2 / 2',
-                                        width: '400px',
-                                        marginTop: '42px'
-                                    },
-                                    '& .managerApproved': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '1 / 2',
-                                        width: '300px',
-
-                                    },
-                                    '& .managerComment': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '2 / 2',
-                                        width: '300px',
-                                        marginTop: '42px'
-                                    },
-                                    '& .hrApproved': {
-                                        gridColumn: '7 / 8',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                        marginTop: '0px'
-                                    },
-                                    '& .hrComment': {
-                                        gridColumn: '7 / 8',
-                                        gridRow: '2 / 2',
-                                        width: '400px',
-                                    },
-                                }}>
-                            <TextInput disabled={true} className="category" source="category" name="category"/>
+                                sx={styles}>
+                            <ReferenceField link={false} className="category" source="competencyCategory" reference="competencyCategory" sx={{marginTop: 2}}/>
                             <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
                                            label="Description" name="description"/>
                             <TextInput disabled={true} className="title" source="title" name="title"/>

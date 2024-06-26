@@ -24,14 +24,14 @@ import {ErrorComponent} from '../components/ErrorComponent';
 import {RichTextInput} from 'ra-input-rich-text';
 import {ZodError} from 'zod';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
-import {ReviewTitlePanel} from '../components/ReviewTitlePanel';
-import {ReviewToolbar} from '../components/ReviewToolbar';
-import {SMARTGoals} from '../components/SMARTGoals';
-import {StartReviewButton} from '../components/StartReviewButton';
+import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
+import {ReviewToolbar} from '../components/review/ReviewToolbar';
+import {SMARTGoals} from '../components/review/SMARTGoals';
+import {StartReviewButton} from '../components/review/StartReviewButton';
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
 import {useGetUserProfile} from '../hooks/useGetUserProfile';
-import {CustomAlert} from '../components/CustomAlert';
 import {FormDataConsumer} from 'ra-core';
+import {styles} from '../components/review/styles';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
@@ -102,73 +102,57 @@ export const EmployeeReviewEdit = () => {
                                 disableClear
                                 disableReordering
                                 disableRemove
-                                sx={{
-                                    '& .RaSimpleFormIterator-form': {
-                                        display: 'grid',
-                                        gap: 2,
-                                        marginTop: '20px'
-                                    },
-                                    '& .competencyCategory': {
-                                        gridColumn: '1 / 1',
-                                        gridRow: '1 / 1',
-                                        width: '150px',
-                                    },
-                                    '& .title': {
-                                        gridColumn: '2 / 2',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                        marginTop: '8px',
-                                    },
-                                    '& .description': {
-                                        gridColumn: '2 / 3',
-                                        gridRow: '2 / 2',
-                                        width: '400px',
-                                        marginTop: '42px'
-                                    },
-                                    '& .managerApproved': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '1 / 2',
-                                        width: '300px',
-
-                                    },
-                                    '& .managerComment': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '2 / 2',
-                                        width: '300px',
-                                        marginTop: '42px'
-                                    },
-                                    '& .hrFeedback': {
-                                        gridColumn: '7 / 8',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                        marginTop: '0px'
-                                    }
-                                }}>
-                            <TextInput disabled={true} className="category" source="category" name="category"/>
+                                sx={styles}>
+                            <ReferenceField link={false} className="category" source="competencyCategory"
+                                            reference="competencyCategory" sx={{marginTop: 2}}/>
                             <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
                                            label="Description" name="description"/>
                             <TextInput disabled={true} className="title" source="title" name="title"/>
-                            <CustomRichTextInput className="managerComment" source="managerComment"
-                                                 label="Manager Comment"/>
-                            <SelectInput className="managerApproved" source="managerApproved" label="manager Review"
-                                         choices={competencyReviewStatuses} required/>
+                            <FormDataConsumer>
+                                {({scopedFormData, getSource}) => {
+                                    const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
+                                    if (core.includes(scopedFormData?.competencyCategory)) {
+                                        return null
+                                    } else {
+                                        return (
+                                                <>
+                                                    <CustomRichTextInput className="managerComment"
+                                                                         source={getSource('managerComment')}
+                                                                         label="Manager Comment"/>
+                                                    <SelectInput className="managerApproved"
+                                                                 source={getSource('managerApproved')}
+                                                                 label="manager Review"
+                                                                 choices={competencyReviewStatuses}
+                                                                 required/>
+                                                </>
+                                        )
+                                    }
+                                }}
+                            </FormDataConsumer>
                             <FormDataConsumer>
                                 {({scopedFormData, getSource, ...rest}) => {
-                                    if (scopedFormData?.hrApproved) {
-                                        return (
-                                                <Alert severity={scopedFormData?.hrApproved === 'Approved' ? 'success' : 'info'}
-                                                       className="hrFeedback">
-                                                    HR:
-                                                    <br/>
-                                                    <RichTextField source={getSource('hrApproved')} {...rest} stripTags/>
-                                                    <br/>
-                                                    <RichTextField source={getSource('hrComment')} {...rest} stripTags/>
-                                                </Alert>
-                                        )
-                                    } else {
+                                    const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
+                                    if (core.includes(scopedFormData?.competencyCategory)) {
                                         return null
+                                    } else {
+                                        if (scopedFormData?.hrApproved) {
+                                            return (
+                                                    <Alert severity={scopedFormData?.hrApproved === 'Approved' ? 'success' : 'info'}
+                                                           className="hrFeedback">
+                                                        HR:
+                                                        <RichTextField
+                                                                source={getSource('hrApproved')} {...rest}
+                                                                stripTags className='hrApproved'/>
+                                                        <br/>
+                                                        <RichTextField source={getSource('hrComment')} {...rest}
+                                                                       stripTags className='hrComment'/>
+                                                    </Alert>
+                                            )
+                                        } else {
+                                            return null
+                                        }
+                                        ;
                                     }
-                                    ;
                                 }}
                             </FormDataConsumer>
                         </SimpleFormIterator>
