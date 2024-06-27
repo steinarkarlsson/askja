@@ -3,19 +3,16 @@ import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
 import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
 import React from 'react';
 import {
-    ArrayField,
     ArrayInput,
     Datagrid,
-    Edit, Filter,
+    Edit,
+    Filter,
     List,
     ReferenceField,
-    RichTextField,
     SelectInput,
-    Show,
     ShowButton,
     SimpleForm,
     SimpleFormIterator,
-    SimpleShowLayout,
     TextField,
     TextInput,
 } from 'react-admin';
@@ -24,7 +21,6 @@ import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {ReviewToolbar} from '../components/review/ReviewToolbar';
 import {StartReviewButton} from '../components/review/StartReviewButton';
 import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
-import {Grid} from '@mui/material';
 import {styles} from '../components/review/styles';
 import {FormDataConsumer} from 'ra-core';
 import {ReviewShow} from '../components/review/ReviewShow';
@@ -83,19 +79,23 @@ export const HrReviewEdit = () => {
                                     if (core.includes(scopedFormData?.competencyCategory)) {
                                         return null
                                     } else {
-                                        return(<>
-                                            <RichTextInput disabled={true} toolbar={<></>} className="managerComment"
-                                                           source={getSource('managerComment')} label="Manager Comment"
-                                                           name="Manager Comment"/>
-                                            <TextInput disabled={true} className="managerApproved"
-                                                       source={getSource('managerApproved')}
-                                                       label="Manager Review" name="Manager Review"/>
-                                            <CustomRichTextInput className="hrComment" source={getSource('hrComment')}
-                                                                 label="HR Comment"/>
-                                            <SelectInput className="hrApproved" source={getSource('hrApproved')} label="HR Review"
-                                                         choices={competencyReviewStatuses} required/>
+                                        return (<>
+                                                    <RichTextInput disabled={true} toolbar={<></>}
+                                                                   className="managerComment"
+                                                                   source={getSource('managerComment')}
+                                                                   label="Manager Comment"
+                                                                   name="Manager Comment"/>
+                                                    <TextInput disabled={true} className="managerApproved"
+                                                               source={getSource('managerApproved')}
+                                                               label="Manager Review" name="Manager Review"/>
+                                                    <CustomRichTextInput className="hrComment"
+                                                                         source={getSource('hrComment')}
+                                                                         label="HR Comment"/>
+                                                    <SelectInput className="hrApproved" source={getSource('hrApproved')}
+                                                                 label="HR Review"
+                                                                 choices={competencyReviewStatuses} required/>
                                                 </>
-                                    )
+                                        )
                                     }
                                 }}
 

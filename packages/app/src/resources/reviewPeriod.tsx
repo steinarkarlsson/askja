@@ -8,7 +8,6 @@ import {
     DateInput,
     Edit,
     EditButton,
-    Filter,
     List,
     SelectInput,
     Show,

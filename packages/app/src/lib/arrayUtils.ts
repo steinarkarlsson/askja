@@ -85,7 +85,7 @@ export const paginateArray = <T>(array: T[], params: PaginationPayload): T[] => 
 
 const sortFilterPaginate = <T extends object>(
     array?: T[],
-    params?: { pagination?: PaginationPayload; sort?: RaSortPayload; filter?: Filter<T> }
+    params?: { pagination?: PaginationPayload; sort?: RaSortPayload; filter?: Filter<T> },
 ): { data: T[]; total: number } => {
     let data = [...(array || [])];
     let total = data.length;

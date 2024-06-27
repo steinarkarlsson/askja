@@ -1,9 +1,19 @@
 import {Box} from '@mui/material';
 import React from 'react';
 
-export const   SMARTGoals = () => {
+export const SMARTGoals = () => {
     return (
-            <Box sx={{border:1, borderRadius:'15px', borderColor:'lightgray', display:'flex', flexDirection:'column', justifyContent:'center', margin:'20px', padding:'20px', alignItems:'center'}}>
+            <Box sx={{
+                border: 1,
+                borderRadius: '15px',
+                borderColor: 'lightgray',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                margin: '20px',
+                padding: '20px',
+                alignItems: 'center'
+            }}>
                 <h3>Make sure the goals are SMART:</h3>
                 <ul>
                     <li><b>S</b>pecific (simple, sensible, significant).</li>

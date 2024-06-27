@@ -5,14 +5,12 @@ import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {ReviewToolbar} from '../components/review/ReviewToolbar';
 import {SMARTGoals} from '../components/review/SMARTGoals';
 import {SelfReviewFormIterator} from '../components/review/SelfReviewFormIterator';
-import {ErrorComponent} from './../components/ErrorComponent';
-import {useGetUserProfile} from '../hooks/useGetUserProfile';
+import {ErrorComponent} from '../components/ErrorComponent';
 import {ReviewShow} from '../components/review/ReviewShow';
 import {ReviewList} from '../components/review/ReviewList';
 
 export const SelfReviewList = (props: any) => {
     const {isLoading: identityLoading, error: identityError} = useGetIdentity();
-    const {data: profile} = useGetUserProfile();
 
     if (identityLoading) {
         return (

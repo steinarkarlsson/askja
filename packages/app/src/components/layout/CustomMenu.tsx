@@ -18,28 +18,32 @@ export const CustomMenu = () => {
 
     return (
             !isAdmin && !isManager ? null : (
-            isAdmin ? (
-                    <Menu>
-                        <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Reviews</Typography>
-                        <Menu.Item to="/" primaryText="Your KPIs" leftIcon={<ReviewsIcon/>}/>
-                        <Menu.Item to="/hrReview" primaryText="HR Reviews" leftIcon={<ReviewsIcon/>}/>
-                        <Divider/>
-                        <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Admin</Typography>
-                        <Menu.Item to="/editReview" primaryText="Edit Reviews" leftIcon={<EditIcon/>}/>
-                        <Menu.Item to="/reviewPeriod" primaryText="Review Periods" leftIcon={<EditCalendarIcon/>}/>
-                        <Menu.Item to="/template" primaryText="Templates" leftIcon={<CalendarViewMonthIcon/>}/>
-                        <Menu.Item to="/employee" primaryText="Employees" leftIcon={<PeopleIcon/>}/>
-                        <Menu.Item to="/employeeLevel" primaryText="Employee Levels" leftIcon={<StarIcon/>}/>
-                        <Menu.Item to="/competencyCategory" primaryText="KPI Categories" leftIcon={<CategoryIcon/>}/>
-                    </Menu>
+                    isAdmin ? (
+                            <Menu>
+                                <Typography variant="h6" color="textSecondary"
+                                            sx={{paddingLeft: 2}}>Reviews</Typography>
+                                <Menu.Item to="/" primaryText="Your KPIs" leftIcon={<ReviewsIcon/>}/>
+                                <Menu.Item to="/hrReview" primaryText="HR Reviews" leftIcon={<ReviewsIcon/>}/>
+                                <Divider/>
+                                <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Admin</Typography>
+                                <Menu.Item to="/editReview" primaryText="Edit Reviews" leftIcon={<EditIcon/>}/>
+                                <Menu.Item to="/reviewPeriod" primaryText="Review Periods"
+                                           leftIcon={<EditCalendarIcon/>}/>
+                                <Menu.Item to="/template" primaryText="Templates" leftIcon={<CalendarViewMonthIcon/>}/>
+                                <Menu.Item to="/employee" primaryText="Employees" leftIcon={<PeopleIcon/>}/>
+                                <Menu.Item to="/employeeLevel" primaryText="Employee Levels" leftIcon={<StarIcon/>}/>
+                                <Menu.Item to="/competencyCategory" primaryText="KPI Categories"
+                                           leftIcon={<CategoryIcon/>}/>
+                            </Menu>
                     ) : isManager ? (
-                    <Menu>
-                        <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Reviews</Typography>
-                        <Menu.Item to="/" primaryText="Your KPIs" leftIcon={<ReviewsIcon/>}/>
-                        <Divider/>
-                        <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Admin</Typography>
-                        <Menu.Item to="/employee" primaryText="Employees" leftIcon={<PeopleIcon/>}/>
-                    </Menu>
-            ): null)
+                            <Menu>
+                                <Typography variant="h6" color="textSecondary"
+                                            sx={{paddingLeft: 2}}>Reviews</Typography>
+                                <Menu.Item to="/" primaryText="Your KPIs" leftIcon={<ReviewsIcon/>}/>
+                                <Divider/>
+                                <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Admin</Typography>
+                                <Menu.Item to="/employee" primaryText="Employees" leftIcon={<PeopleIcon/>}/>
+                            </Menu>
+                    ) : null)
     );
 };

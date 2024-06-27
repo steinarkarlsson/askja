@@ -36,7 +36,7 @@ const EmployeeFilter = (props: any) => {
 };
 
 export const EmployeeList = (props: any) => {
-    const {data:profile} = useGetUserProfile();
+    const {data: profile} = useGetUserProfile();
 
     const filter = profile?.role === 'admin' ? {} : profile?.role === 'manager' ? {manager: profile?.id} : {id: profile?.id};
 
@@ -93,9 +93,11 @@ export const EmployeeEditCreate = () => {
                         <TextInput name="email" source="email" helperText="Email must match employees log in email"/>
                         <ReferenceInput name="manager" source="manager" reference="employee">
                             <AutocompleteInput label="Manager"
-                                               matchSuggestion={(filter, choice) => choice.name.toLowerCase().includes(filter.toLowerCase())} defaultValue={defaultValue} disabled={isManager}/>
+                                               matchSuggestion={(filter, choice) => choice.name.toLowerCase().includes(filter.toLowerCase())}
+                                               defaultValue={defaultValue} disabled={isManager}/>
                         </ReferenceInput>
-                        <BooleanInput name="active" source="active" defaultValue={true} helperText="Active employees receive a performance review"/>
+                        <BooleanInput name="active" source="active" defaultValue={true}
+                                      helperText="Active employees receive a performance review"/>
                     </Stack>
                     <Stack direction='column' spacing={2}>
                         <TextInput name="jobTitle" source="jobTitle"/>

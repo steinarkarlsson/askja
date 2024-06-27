@@ -11,11 +11,9 @@ import {
     useGetIdentity
 } from 'react-admin';
 import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
-import {reviewSchema} from '@jucy-askja/common/schemas/Review';
 import {Alert, Box, CircularProgress, Typography} from '@mui/material';
 import {ErrorComponent} from '../components/ErrorComponent';
 import {RichTextInput} from 'ra-input-rich-text';
-import {ZodError} from 'zod';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {ReviewToolbar} from '../components/review/ReviewToolbar';
@@ -58,21 +56,7 @@ export const EmployeeReviewEdit = () => {
     return (
             <Edit>
                 <SMARTGoals/>
-                <SimpleForm toolbar={<ReviewToolbar reviewType={'employeeReview'}/>} validate={async (data) => {
-                    const errors: Record<string, string> = {}
-                    try {
-                        reviewSchema.parse(data)
-                    } catch (e) {
-                        if (e instanceof ZodError) {
-                            console.log(e.flatten())
-                        }
-                        return {
-                            'name': 'Is a required field'
-                        }
-                    }
-                    //
-                    return errors
-                }}>
+                <SimpleForm toolbar={<ReviewToolbar reviewType={'employeeReview'}/>}>
                     <ReviewTitlePanel/>
                     <ArrayInput source="competencies" name="Competencies">
                         <SimpleFormIterator

@@ -1,12 +1,12 @@
 import { Review } from '@jucy-askja/common/schemas/Review';
 import { Competency } from '@jucy-askja/common/schemas/Competency';
 
-export const getUpdatedReviewStatus = (form:Review, manager:string | undefined ) => {
+export const getUpdatedReviewStatus = (form: Review, manager: string | undefined) => {
 
     const reviewStatus = form.status;
 
-    if (!form.competencies){
-        return
+    if (!form.competencies) {
+        return;
     }
     const managerApproved = !form.competencies.some((competency: Competency) => competency.managerApproved === 'Request Changes');
     const hrApproved = !form.competencies.some((competency: Competency) => competency.hrApproved === 'Request Changes');
@@ -16,8 +16,8 @@ export const getUpdatedReviewStatus = (form:Review, manager:string | undefined )
             reviewStatus === 'Pending HR' && hrApproved;
 
     if (currentStateApproved) {
-        if (!manager || reviewStatus === 'Pending Manager'){
-            return 'Pending HR'
+        if (!manager || reviewStatus === 'Pending Manager') {
+            return 'Pending HR';
         } else if (reviewStatus === 'Pending Employee') {
             return 'Pending Manager';
         } else if (reviewStatus === 'Pending HR') {

@@ -24,8 +24,8 @@ export const ReviewShow = (props: any) => (
                     <ArrayField source="competencies">
                         <Datagrid bulkActionButtons={false}>
                             <Box display="flex" alignItems="flex-start">
-                            <ReferenceField link={false} source="competencyCategory" reference="competencyCategory"
-                                            sx={{fontSize: '20px'}}/>
+                                <ReferenceField link={false} source="competencyCategory" reference="competencyCategory"
+                                                sx={{fontSize: '20px'}}/>
                             </Box>
                             <Box display="flex" alignItems="flex-start">
                                 <TextField source="title" sx={{fontSize: '16px'}}/>

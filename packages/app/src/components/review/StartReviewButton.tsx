@@ -12,7 +12,7 @@ export const StartReviewButton = ({reviewType}: startReviewButtonProps) => {
             (reviewType === 'hrReview' && record.status === 'Pending HR');
     const label = allowEdit ? 'Start Review' : record.status;
 
-    if(record.status === 'Completed') return null;
+    if (record.status === 'Completed') return null;
 
     return <EditButton
             label={label}

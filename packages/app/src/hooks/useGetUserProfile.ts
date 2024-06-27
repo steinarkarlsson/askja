@@ -6,11 +6,6 @@ import { useGetIdentity } from 'react-admin';
 export const useGetUserProfile = () => {
     const { data: identity, isLoading: identityLoading } = useGetIdentity();
 
-    // console.log('useGetUserProfile', {
-    //     identity,
-    //     enabled: Boolean(!identityLoading && identity),
-    // });
-    // console.log(identity?.id);
     return useQuery({
         queryKey: ['employee', identity?.id],
         queryFn: getUserProfile,

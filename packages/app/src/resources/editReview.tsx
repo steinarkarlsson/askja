@@ -23,7 +23,7 @@ import {
     TextInput,
 } from 'react-admin';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
-import {Divider, Grid, Stack} from '@mui/material';
+import {Grid, Stack} from '@mui/material';
 import {styles} from '../components/review/styles';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
@@ -37,7 +37,7 @@ const ReviewFilter = (props: any) => {
 };
 
 export const editReviewList = (props: any) => (
-        <List {...props} filters={<ReviewFilter/>} sort={{field: 'status', order:'DESC'}}>
+        <List {...props} filters={<ReviewFilter/>} sort={{field: 'status', order: 'DESC'}}>
             <Datagrid>
                 <TextField source="employeeName"/>
                 <TextField source="reviewPeriodName"/>
@@ -68,13 +68,13 @@ export const editReviewShow = (props: any) => (
             </Grid>
             <SimpleShowLayout>
 
-            <ArrayField source="competencies">
-                <Datagrid bulkActionButtons={false}>
-                    <TextField source="Category"/>
-                    <TextField source="Title"/>
-                    <RichTextField source="description"/>
-                </Datagrid>
-            </ArrayField>
+                <ArrayField source="competencies">
+                    <Datagrid bulkActionButtons={false}>
+                        <TextField source="Category"/>
+                        <TextField source="Title"/>
+                        <RichTextField source="description"/>
+                    </Datagrid>
+                </ArrayField>
             </SimpleShowLayout>
         </Show>
 );
@@ -96,13 +96,17 @@ export const editReviewEdit = () => {
                     </Stack>
                     <ArrayInput source="competencies">
                         <SimpleFormIterator sx={styles}>
-                            <ReferenceInput  className="competencyCategory" reference='competencyCategory' source="competencyCategory"/>
+                            <ReferenceInput className="competencyCategory" reference='competencyCategory'
+                                            source="competencyCategory"/>
                             <CustomRichTextInput className="description" source="description" label="Description"/>
-                            <TextInput  className="title" source="title"/>
-                            <CustomRichTextInput className="managerComment" source="managerComment" label="Manager Comment"/>
-                            <SelectInput choices={competencyReviewStatuses}  className="managerApproved" source="managerApproved" label="Manager Review"/>
+                            <TextInput className="title" source="title"/>
+                            <CustomRichTextInput className="managerComment" source="managerComment"
+                                                 label="Manager Comment"/>
+                            <SelectInput choices={competencyReviewStatuses} className="managerApproved"
+                                         source="managerApproved" label="Manager Review"/>
                             <CustomRichTextInput className="hrComment" source="hrComment" label="HR Comment"/>
-                            <SelectInput className="hrApproved" source="hrApproved" label="HR Review" choices={competencyReviewStatuses}/>
+                            <SelectInput className="hrApproved" source="hrApproved" label="HR Review"
+                                         choices={competencyReviewStatuses}/>
                         </SimpleFormIterator>
                     </ArrayInput>
                 </SimpleForm>
@@ -126,13 +130,17 @@ export const editReviewCreate = () => {
                     </Stack>
                     <ArrayInput source="competencies" name="Competencies">
                         <SimpleFormIterator sx={styles}>
-                            <ReferenceInput  className="competencyCategory" reference='competencyCategory' source="competencyCategory" name="category"/>
+                            <ReferenceInput className="competencyCategory" reference='competencyCategory'
+                                            source="competencyCategory" name="category"/>
                             <CustomRichTextInput className="description" source="description" label="Description"/>
-                            <TextInput  className="title" source="title"/>
-                            <CustomRichTextInput className="managerComment" source="managerComment" label="Manager Comment"/>
-                            <SelectInput choices={competencyReviewStatuses}  className="managerApproved" source="managerApproved" label="Manager Review"/>
+                            <TextInput className="title" source="title"/>
+                            <CustomRichTextInput className="managerComment" source="managerComment"
+                                                 label="Manager Comment"/>
+                            <SelectInput choices={competencyReviewStatuses} className="managerApproved"
+                                         source="managerApproved" label="Manager Review"/>
                             <CustomRichTextInput className="hrComment" source="hrComment" label="HR Comment"/>
-                            <SelectInput className="hrApproved" source="hrApproved" label="HR Review" choices={competencyReviewStatuses}/>
+                            <SelectInput className="hrApproved" source="hrApproved" label="HR Review"
+                                         choices={competencyReviewStatuses}/>
                         </SimpleFormIterator>
                     </ArrayInput>
                 </SimpleForm>

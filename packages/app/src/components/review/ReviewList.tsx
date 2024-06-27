@@ -3,7 +3,7 @@ import {useGetUserProfile} from '../../hooks/useGetUserProfile';
 import {StartReviewButton} from './StartReviewButton';
 import React from 'react';
 
-export const ReviewList = ({reviewType, resource}: {  reviewType: string, resource:string }, ...props:any) => {
+export const ReviewList = ({reviewType, resource}: { reviewType: string, resource: string }, ...props: any) => {
     const {data: profile} = useGetUserProfile();
 
     const filter = reviewType === 'hrReview' ? {} : reviewType === 'employeeReview' ? {manager: profile?.id} : {employeeId: profile?.id};

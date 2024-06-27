@@ -1,8 +1,8 @@
-import {useGetIdentity} from 'ra-core';
-import {getUserProfile} from '../services/getUserProfile';
+import { useGetIdentity } from 'ra-core';
+import { getUserProfile } from '../services/getUserProfile';
 
 const useWaitForIdentity = () => {
-    const {refetch} = useGetIdentity();
+    const { refetch } = useGetIdentity();
     return async () =>
         new Promise((resolve) => {
             const doRefetch = () => {
@@ -10,11 +10,9 @@ const useWaitForIdentity = () => {
                     resolve(null);
                     return;
                 }
-                refetch().then(({data}) => {
+                refetch().then(({ data }) => {
                     if (data) {
-                   getUserProfile().then((data) => {
-                       console.log(data)
-                   });
+                        getUserProfile();
                         resolve(data);
                         return;
                     }

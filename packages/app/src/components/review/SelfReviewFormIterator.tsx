@@ -16,7 +16,6 @@ import {styles} from './styles';
 
 export const SelfReviewFormIterator = () => {
     const record = useRecordContext();
-    console.log(record.competencies)
     return (
             <ArrayInput source="competencies" name="Competencies">
                 <SimpleFormIterator
@@ -36,12 +35,12 @@ export const SelfReviewFormIterator = () => {
                                     /> :
                                     <Typography variant="h4" color="textPrimary" sx={{paddingLeft: 2}}>
                                         <ReferenceField
-                                            source={getSource('competencyCategory')}
-                                            className="category"
-                                            reference="competencyCategory"
-                                            link={false}
-                                            {...rest}
-                                    /></Typography>;
+                                                source={getSource('competencyCategory')}
+                                                className="category"
+                                                reference="competencyCategory"
+                                                link={false}
+                                                {...rest}
+                                        /></Typography>;
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
@@ -57,7 +56,7 @@ export const SelfReviewFormIterator = () => {
                             const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             return <CustomRichTextInput source={getSource('description')}
                                                         className="description" {...rest}
-                                                        readOnly={Boolean(scopedFormData?.source === 'template' && record?.title)  || core.includes(scopedFormData?.competencyCategory)}/>;
+                                                        readOnly={Boolean(scopedFormData?.source === 'template' && record?.title) || core.includes(scopedFormData?.competencyCategory)}/>;
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
@@ -66,23 +65,27 @@ export const SelfReviewFormIterator = () => {
                             if (core.includes(scopedFormData?.competencyCategory)) {
                                 return null
                             } else {
-                            if (scopedFormData?.managerApproved) {
-                                return (
-                                        <Alert severity={scopedFormData?.managerApproved === 'Approved' ? 'success' : 'info'}
-                                               className="managerFeedback">
-                                            <Typography variant='h6'>
-                                                <ReferenceField reference={'employee'} source={'manager'} link={false}/>:
-                                            </Typography>
-                                            <RichTextField source={getSource('managerApproved')} {...rest} stripTags/>
-                                            <br/>
-                                            <RichTextField source={getSource('managerComment')} {...rest} stripTags/>
-                                        </Alert>
-                                )
-                            } else {
-                                return null
+                                if (scopedFormData?.managerApproved) {
+                                    return (
+                                            <Alert severity={scopedFormData?.managerApproved === 'Approved' ? 'success' : 'info'}
+                                                   className="managerFeedback">
+                                                <Typography variant='h6'>
+                                                    <ReferenceField reference={'employee'} source={'manager'}
+                                                                    link={false}/>:
+                                                </Typography>
+                                                <RichTextField source={getSource('managerApproved')} {...rest}
+                                                               stripTags/>
+                                                <br/>
+                                                <RichTextField source={getSource('managerComment')} {...rest}
+                                                               stripTags/>
+                                            </Alert>
+                                    )
+                                } else {
+                                    return null
+                                }
+                                ;
                             }
-                            ;
-                        }}}
+                        }}
                     </FormDataConsumer>
                 </SimpleFormIterator>
             </ArrayInput>

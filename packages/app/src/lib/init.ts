@@ -19,8 +19,8 @@ export const app = firebase.initializeApp({
     messagingSenderId: config.firebaseConfig.messagingSenderId,
     appId: config.firebaseConfig.appId,
 });
-const firestore = initializeFirestore(app, {ignoreUndefinedProperties: true});
-export const functions = getFunctions(app,'australia-southeast1');
+const firestore = initializeFirestore(app, { ignoreUndefinedProperties: true });
+export const functions = getFunctions(app, 'australia-southeast1');
 const emulatorConfig = config.firebaseConfig.emulator;
 if (emulatorConfig?.auth) {
     app.auth().useEmulator(`http://${emulatorConfig.auth.host}:${emulatorConfig.auth.port}`);
