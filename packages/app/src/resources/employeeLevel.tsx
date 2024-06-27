@@ -26,6 +26,8 @@ export const EmployeeLevelList = (props: any) => {
             <List
                     {...props}
                     sx={{padding: '20px'}}
+                    pagination={false}
+                    sort={{field: 'parentId', order: 'ASC'}}
             >
                 <Datagrid>
                     <FunctionField label="Name" render={(record: EmployeeLevel) => {

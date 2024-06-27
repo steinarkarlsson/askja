@@ -17,11 +17,11 @@ import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
 import {Stack} from '@mui/material';
 
 export const CompetencyCategoryList = (props: any) => {
-
     return (
             <List
                     {...props}
                     sx={{padding: '20px', backgroundColor: 'white'}}
+                    pagination={false}
             >
                 <Datagrid>
                     <TextField source="name"/>

@@ -30,7 +30,7 @@ import {EmployeeLevelSelectInput} from '../components/EmployeeLevelSelectInput';
 import {EmployeeLevelSelectField} from '../EmployeeLevelSelectField';
 
 export const TemplateList = (props: any) => (
-        <List {...props} >
+        <List {...props} pagination={false}>
             <Datagrid>
                 <EmployeeLevelSelectField label='Template Level'/>
                 <TextField source="type"/>
