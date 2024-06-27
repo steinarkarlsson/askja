@@ -1,25 +1,18 @@
 import React from 'react';
 import {
-    ArrayField,
     ArrayInput,
-    Datagrid,
     Edit,
-    List,
     ReferenceField,
     RichTextField,
     SelectInput,
-    Show,
-    ShowButton,
     SimpleForm,
     SimpleFormIterator,
-    SimpleShowLayout,
-    TextField,
     TextInput,
     useGetIdentity
 } from 'react-admin';
 import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
 import {reviewSchema} from '@jucy-askja/common/schemas/Review';
-import {Alert, Box, CircularProgress} from '@mui/material';
+import {Alert, Box, CircularProgress, Typography} from '@mui/material';
 import {ErrorComponent} from '../components/ErrorComponent';
 import {RichTextInput} from 'ra-input-rich-text';
 import {ZodError} from 'zod';
@@ -27,11 +20,12 @@ import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {ReviewToolbar} from '../components/review/ReviewToolbar';
 import {SMARTGoals} from '../components/review/SMARTGoals';
-import {StartReviewButton} from '../components/review/StartReviewButton';
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
 import {useGetUserProfile} from '../hooks/useGetUserProfile';
 import {FormDataConsumer} from 'ra-core';
 import {styles} from '../components/review/styles';
+import {ReviewShow} from '../components/review/ReviewShow';
+import {ReviewList} from '../components/review/ReviewList';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
@@ -49,31 +43,15 @@ export const EmployeeReviewList = (props: any) => {
         return <ErrorComponent error={identityError || new Error('Failed to fetch current user')}/>;
     }
     return (
-            <List {...props} filter={{manager: profile?.id}}>
-                <Datagrid>
-                    <TextField source="employeeName"/>
-                    <ReferenceField source="manager" reference="employee" link={false}/>
-                    <TextField source="jobTitle"/>
-                    <StartReviewButton reviewType={'managerReview'}/>
-                    <ShowButton label="View"/>
-                </Datagrid>
-            </List>
+            <Box sx={{marginTop: 10, marginX: 10}}>
+                <Typography variant="h4">Your Employee KPIs</Typography>
+                <ReviewList resource='employeeReview' reviewType='employeeReview' {...props}/>
+            </Box>
     );
 };
 
 export const EmployeeReviewShow = (props: any) => (
-        <Show {...props}>
-            <SimpleShowLayout>
-                <TextField source="jobTitle"/>
-                <ArrayField source="competencies">
-                    <Datagrid bulkActionButtons={false}>
-                        <TextField source="category"/>
-                        <TextField source="title"/>
-                        <RichTextField source="description"/>
-                    </Datagrid>
-                </ArrayField>
-            </SimpleShowLayout>
-        </Show>
+        <ReviewShow/>
 );
 
 export const EmployeeReviewEdit = () => {
@@ -139,7 +117,7 @@ export const EmployeeReviewEdit = () => {
                                             return (
                                                     <Alert severity={scopedFormData?.hrApproved === 'Approved' ? 'success' : 'info'}
                                                            className="hrFeedback">
-                                                        HR:
+                                                        <Typography variant='h6'>HR:</Typography>
                                                         <RichTextField
                                                                 source={getSource('hrApproved')} {...rest}
                                                                 stripTags className='hrApproved'/>

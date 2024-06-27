@@ -3,10 +3,6 @@ import {EmployeeCreate, EmployeeEdit, EmployeeList, EmployeeShow,} from './resou
 import {SelfReviewEdit, SelfReviewList, SelfReviewShow,} from './resources/selfReview';
 import {ReviewPeriodCreate, ReviewPeriodEdit, ReviewPeriodList, ReviewPeriodShow,} from './resources/reviewPeriod';
 import {TemplateCreate, TemplateEdit, TemplateList, TemplateShow,} from './resources/template';
-import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import PeopleIcon from '@mui/icons-material/People';
-import ReviewsIcon from '@mui/icons-material/Reviews';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/firestore';

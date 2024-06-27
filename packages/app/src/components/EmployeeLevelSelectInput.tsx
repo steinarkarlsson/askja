@@ -10,6 +10,7 @@ export const EmployeeLevelSelectInput = () => {
             <SelectInput
             source='employeeLevel'
             choices={formattedLevels || []}
+            helperText="Level controls preset KPIs"
     />
     )
 }

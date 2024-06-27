@@ -26,6 +26,8 @@ import {StartReviewButton} from '../components/review/StartReviewButton';
 import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {Grid} from '@mui/material';
 import {styles} from '../components/review/styles';
+import {FormDataConsumer} from 'ra-core';
+import {ReviewShow} from '../components/review/ReviewShow';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
@@ -38,45 +40,19 @@ const ReviewFilter = (props: any) => {
 };
 
 export const HrReviewList = (props: any) => (
-        <List {...props} filters={<ReviewFilter/>} sort={{field: 'status', order:'DESC'}}>
+        <List {...props} filters={<ReviewFilter/>} sort={{field: 'status', order: 'DESC'}}>
             <Datagrid>
                 <TextField source="employeeName"/>
                 <ReferenceField source="manager" reference="employee" link={false}/>
                 <TextField source="jobTitle"/>
                 <StartReviewButton reviewType={'hrReview'}/>
-                <ShowButton label="View"/>
+                <ShowButton label="View" variant="contained"/>
             </Datagrid>
         </List>
 );
 
-export const HrReviewShow = (props: any) => (
-        <Show {...props}>
-            <Grid container spacing={2}>
-                <Grid item xs={6}>
-                    <SimpleShowLayout>
-                        <TextField source="employeeName"/>
-                        <TextField source="jobTitle"/>
-                        <ReferenceField source="manager" reference="employee"/>
-                    </SimpleShowLayout>
-                </Grid>
-                <Grid item xs={6}>
-                    <SimpleShowLayout>
-                        <TextField source="reviewPeriodName"/>
-                        <TextField source="status"/>
-                    </SimpleShowLayout>
-                </Grid>
-            </Grid>
-            <SimpleShowLayout>
-
-            <ArrayField source="competencies">
-                <Datagrid bulkActionButtons={false}>
-                    <TextField source="Category"/>
-                    <TextField source="Title"/>
-                    <RichTextField source="description"/>
-                </Datagrid>
-            </ArrayField>
-            </SimpleShowLayout>
-        </Show>
+export const HrReviewShow = () => (
+        <ReviewShow/>
 );
 
 export const HrReviewEdit = () => {
@@ -96,17 +72,35 @@ export const HrReviewEdit = () => {
                                 disableReordering
                                 disableRemove
                                 sx={styles}>
-                            <ReferenceField link={false} className="category" source="competencyCategory" reference="competencyCategory" sx={{marginTop: 2}}/>
+                            <ReferenceField link={false} className="category" source="competencyCategory"
+                                            reference="competencyCategory" sx={{marginTop: 2}}/>
                             <RichTextInput disabled={true} toolbar={<></>} className="description" source="description"
                                            label="Description" name="description"/>
                             <TextInput disabled={true} className="title" source="title" name="title"/>
-                            <RichTextInput disabled={true} toolbar={<></>} className="managerComment"
-                                           source="managerComment" label="Manager Comment" name="Manager Comment"/>
-                            <TextInput disabled={true} className="managerApproved" source="managerApproved"
-                                       label="Manager Review" name="Manager Review"/>
-                            <CustomRichTextInput className="hrComment" source="hrComment" label="HR Comment"/>
-                            <SelectInput className="hrApproved" source="hrApproved" label="HR Review"
-                                         choices={competencyReviewStatuses} required/>
+                            <FormDataConsumer>
+                                {({scopedFormData, getSource, ...rest}) => {
+                                    const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
+                                    if (core.includes(scopedFormData?.competencyCategory)) {
+                                        return null
+                                    } else {
+                                        return(<>
+                                            <RichTextInput disabled={true} toolbar={<></>} className="managerComment"
+                                                           source={getSource('managerComment')} label="Manager Comment"
+                                                           name="Manager Comment"/>
+                                            <TextInput disabled={true} className="managerApproved"
+                                                       source={getSource('managerApproved')}
+                                                       label="Manager Review" name="Manager Review"/>
+                                            <CustomRichTextInput className="hrComment" source={getSource('hrComment')}
+                                                                 label="HR Comment"/>
+                                            <SelectInput className="hrApproved" source={getSource('hrApproved')} label="HR Review"
+                                                         choices={competencyReviewStatuses} required/>
+                                                </>
+                                    )
+                                    }
+                                }}
+
+                            </FormDataConsumer>
+
                         </SimpleFormIterator>
                     </ArrayInput>
                 </SimpleForm>

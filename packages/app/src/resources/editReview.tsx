@@ -24,6 +24,7 @@ import {
 } from 'react-admin';
 import {CustomRichTextInput} from '../components/CustomRichTextInput';
 import {Divider, Grid, Stack} from '@mui/material';
+import {styles} from '../components/review/styles';
 
 const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema._def.values);
 
@@ -93,53 +94,8 @@ export const editReviewEdit = () => {
                             <SelectInput source='status' choices={mapArrayToChoices(reviewStatusSchema._def.values)}/>
                         </Stack>
                     </Stack>
-                    <ArrayInput source="competencies" >
-                        <SimpleFormIterator
-                                sx={{
-                                    '& .RaSimpleFormIterator-form': {
-                                        display: 'grid',
-                                        gap: 2,
-                                        marginTop: '20px'
-                                    },
-                                    '& .category': {
-                                        gridColumn: '1 / 1',
-                                        gridRow: '1 / 1',
-                                        width: '150px',
-                                    },
-                                    '& .title': {
-                                        gridColumn: '2 / 2',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                    },
-
-                                    '& .description': {
-                                        gridColumn: '2 / 3',
-                                        gridRow: '2 / 2',
-                                        width: '400px',
-                                    },
-                                    '& .managerApproved': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '1 / 2',
-                                        width: '300px',
-
-                                    },
-                                    '& .managerComment': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '2 / 2',
-                                        width: '300px',
-                                    },
-                                    '& .hrApproved': {
-                                        gridColumn: '7 / 8',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                        marginTop: '0px'
-                                    },
-                                    '& .hrComment': {
-                                        gridColumn: '7 / 8',
-                                        gridRow: '2 / 2',
-                                        width: '400px',
-                                    },
-                                }}>
+                    <ArrayInput source="competencies">
+                        <SimpleFormIterator sx={styles}>
                             <ReferenceInput  className="competencyCategory" reference='competencyCategory' source="competencyCategory"/>
                             <CustomRichTextInput className="description" source="description" label="Description"/>
                             <TextInput  className="title" source="title"/>
@@ -169,52 +125,7 @@ export const editReviewCreate = () => {
                         </Stack>
                     </Stack>
                     <ArrayInput source="competencies" name="Competencies">
-                        <SimpleFormIterator
-                                sx={{
-                                    '& .RaSimpleFormIterator-form': {
-                                        display: 'grid',
-                                        gap: 2,
-                                        marginTop: '20px'
-                                    },
-                                    '& .category': {
-                                        gridColumn: '1 / 1',
-                                        gridRow: '1 / 1',
-                                        width: '150px',
-                                    },
-                                    '& .title': {
-                                        gridColumn: '2 / 3',
-                                        gridRow: '1 / 2',
-                                        width: '400px',
-                                    },
-
-                                    '& .description': {
-                                        gridColumn: '2 / 3',
-                                        gridRow: '2 / 2',
-                                        width: '400px',
-                                    },
-                                    '& .managerApproved': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '1 / 2',
-                                        width: '300px',
-
-                                    },
-                                    '& .managerComment': {
-                                        gridColumn: '4 / 5',
-                                        gridRow: '2 / 2',
-                                        width: '300px',
-                                    },
-                                    '& .hrApproved': {
-                                        gridColumn: '6 / 7',
-                                        gridRow: '1 / 2',
-                                        width: '300px',
-                                        marginTop: '0px'
-                                    },
-                                    '& .hrComment': {
-                                        gridColumn: '6 / 7',
-                                        gridRow: '2 / 2',
-                                        width: '300px',
-                                    },
-                                }}>
+                        <SimpleFormIterator sx={styles}>
                             <ReferenceInput  className="competencyCategory" reference='competencyCategory' source="competencyCategory" name="category"/>
                             <CustomRichTextInput className="description" source="description" label="Description"/>
                             <TextInput  className="title" source="title"/>

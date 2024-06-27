@@ -46,28 +46,33 @@ export const SelfReviewFormIterator = () => {
                     </FormDataConsumer>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
+                            const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             return <TextInput source={getSource('title')} className="title" {...rest}
-                                              readOnly={Boolean(scopedFormData?.source === 'template' && record?.title)}
-                                              sx={{width: 'fit-content', minWidth: 300}}
+                                              readOnly={Boolean(scopedFormData?.source === 'template' && record?.title) || core.includes(scopedFormData?.competencyCategory)}
                             />;
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
+                            const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             return <CustomRichTextInput source={getSource('description')}
                                                         className="description" {...rest}
-                                                        readOnly={Boolean(scopedFormData?.source === 'template' && record?.title)}/>;
+                                                        readOnly={Boolean(scopedFormData?.source === 'template' && record?.title)  || core.includes(scopedFormData?.competencyCategory)}/>;
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
+                            const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
+                            if (core.includes(scopedFormData?.competencyCategory)) {
+                                return null
+                            } else {
                             if (scopedFormData?.managerApproved) {
                                 return (
                                         <Alert severity={scopedFormData?.managerApproved === 'Approved' ? 'success' : 'info'}
                                                className="managerFeedback">
-                                            <ReferenceField reference={'employee'} source={'manager'} link={false}
-                                                            sx={{fontWeight: 'bold', fontSize: 'large'}}/>:
-                                            <br/>
+                                            <Typography variant='h6'>
+                                                <ReferenceField reference={'employee'} source={'manager'} link={false}/>:
+                                            </Typography>
                                             <RichTextField source={getSource('managerApproved')} {...rest} stripTags/>
                                             <br/>
                                             <RichTextField source={getSource('managerComment')} {...rest} stripTags/>
@@ -77,7 +82,7 @@ export const SelfReviewFormIterator = () => {
                                 return null
                             }
                             ;
-                        }}
+                        }}}
                     </FormDataConsumer>
                 </SimpleFormIterator>
             </ArrayInput>

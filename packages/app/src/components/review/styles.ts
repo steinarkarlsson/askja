@@ -13,7 +13,7 @@ export const styles =
             marginTop: '3px',
         },
         '& .MuiTypography-body2': {
-            fontSize: '20px',
+            fontSize: '16px',
         },
         '& .title': {
             gridColumn: '2 / 4',
@@ -23,7 +23,6 @@ export const styles =
         '& .description': {
             gridColumn: '2 / 4',
             gridRow: '2 / 2',
-            marginTop: '42px',
         },
         '& .managerApproved': {
             gridColumn: '4 / 4',
@@ -45,10 +44,10 @@ export const styles =
         },
         '& .hrFeedback': {
             gridColumn: '5 / 5',
-            gridRow: '2 / 2',
+            gridRow: '1 / 1',
         },
         '& .managerFeedback': {
             gridColumn: '4 / 4',
-            gridRow: '2 / 2',
+            gridRow: '1 / 1',
         },
     };

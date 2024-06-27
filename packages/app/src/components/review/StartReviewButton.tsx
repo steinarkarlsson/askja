@@ -8,9 +8,11 @@ interface startReviewButtonProps {
 export const StartReviewButton = ({reviewType}: startReviewButtonProps) => {
     const record = useRecordContext();
     const allowEdit = (reviewType === 'selfReview' && record.status === 'Pending Employee') ||
-            (reviewType === 'managerReview' && record.status === 'Pending Manager') ||
+            (reviewType === 'employeeReview' && record.status === 'Pending Manager') ||
             (reviewType === 'hrReview' && record.status === 'Pending HR');
     const label = allowEdit ? 'Start Review' : record.status;
+
+    if(record.status === 'Completed') return null;
 
     return <EditButton
             label={label}

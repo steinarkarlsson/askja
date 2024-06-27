@@ -13,18 +13,15 @@ import {Divider, Typography} from '@mui/material';
 export const CustomMenu = () => {
     const {data: user} = useGetUserProfile();
 
-    //const isAdmin = user?.role == 'admin';
-    //const isManager = user?.role == 'manager';
-    const isAdmin = true
-    const isManager = true
+    const isAdmin = user?.role == 'admin';
+    const isManager = user?.role == 'manager';
 
     return (
             !isAdmin && !isManager ? null : (
             isAdmin ? (
                     <Menu>
                         <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Reviews</Typography>
-                        <Menu.Item to="/selfReview" primaryText="KPI Review" leftIcon={<ReviewsIcon/>}/>
-                        <Menu.Item to="/employeeReview" primaryText="Employee Reviews" leftIcon={<ReviewsIcon/>}/>
+                        <Menu.Item to="/" primaryText="Your KPIs" leftIcon={<ReviewsIcon/>}/>
                         <Menu.Item to="/hrReview" primaryText="HR Reviews" leftIcon={<ReviewsIcon/>}/>
                         <Divider/>
                         <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Admin</Typography>
@@ -38,8 +35,7 @@ export const CustomMenu = () => {
                     ) : isManager ? (
                     <Menu>
                         <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Reviews</Typography>
-                        <Menu.Item to="/selfReview" primaryText="KPI Review" leftIcon={<ReviewsIcon/>}/>
-                        <Menu.Item to="/employeeReview" primaryText="Employee Reviews" leftIcon={<ReviewsIcon/>}/>
+                        <Menu.Item to="/" primaryText="Your KPIs" leftIcon={<ReviewsIcon/>}/>
                         <Divider/>
                         <Typography variant="h6" color="textSecondary" sx={{paddingLeft: 2}}>Admin</Typography>
                         <Menu.Item to="/employee" primaryText="Employees" leftIcon={<PeopleIcon/>}/>

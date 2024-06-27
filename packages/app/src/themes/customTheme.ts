@@ -1,16 +1,17 @@
 export const customTheme = {
-  palette: {
-    primary: {
-      main: '#ac8239',
+    palette: {
+        primary: {
+            main: '#ac8239',
+        },
+        secondary: {
+            main: '#7094cc',
+            secondary: '#6b7b8e',
+        },
+        text: {
+            primary: '#000000',
+        },
     },
-    secondary: {
-      main: '#7094cc',
+    typography: {
+        fontFamily: ['Poppins', 'Verdana', 'sans-serif'].join(','),
     },
-    text: {
-      primary: '#000000',
-    },
-  },
-  typography: {
-    fontFamily: ['Poppins', 'Verdana', 'sans-serif'].join(','),
-  },
 };

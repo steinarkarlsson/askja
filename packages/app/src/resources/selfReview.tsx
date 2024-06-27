@@ -1,29 +1,18 @@
 import React from 'react';
-import {
-    ArrayField,
-    Datagrid,
-    Edit,
-    List,
-    ReferenceField,
-    RichTextField,
-    Show, ShowButton,
-    SimpleForm,
-    SimpleShowLayout,
-    TextField,
-    useGetIdentity
-} from 'react-admin';
-import {Box, CircularProgress} from '@mui/material';
+import {Edit, SimpleForm, useGetIdentity} from 'react-admin';
+import {Box, CircularProgress, Typography} from '@mui/material';
 import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {ReviewToolbar} from '../components/review/ReviewToolbar';
 import {SMARTGoals} from '../components/review/SMARTGoals';
 import {SelfReviewFormIterator} from '../components/review/SelfReviewFormIterator';
-import {StartReviewButton} from '../components/review/StartReviewButton';
 import {ErrorComponent} from './../components/ErrorComponent';
 import {useGetUserProfile} from '../hooks/useGetUserProfile';
+import {ReviewShow} from '../components/review/ReviewShow';
+import {ReviewList} from '../components/review/ReviewList';
 
 export const SelfReviewList = (props: any) => {
-    const { isLoading: identityLoading, error: identityError} = useGetIdentity();
-    const {data:profile} = useGetUserProfile();
+    const {isLoading: identityLoading, error: identityError} = useGetIdentity();
+    const {data: profile} = useGetUserProfile();
 
     if (identityLoading) {
         return (
@@ -37,31 +26,17 @@ export const SelfReviewList = (props: any) => {
         return <ErrorComponent error={identityError}/>;
     }
     return (
-            <List {...props} filter={{employeeId:profile?.id}}>
-                <Datagrid>
-                    <TextField source="employeeName"/>
-                    <ReferenceField source="manager" reference="employee" link={false}/>
-                    <TextField source="jobTitle"/>
-                    <StartReviewButton reviewType={'selfReview'}/>
-                    <ShowButton label="View"/>
-                </Datagrid>
-            </List>
+            <>
+                <Box sx={{marginTop: 10, marginX: 10}}>
+                    <Typography variant="h4">Your KPIs</Typography>
+                    <ReviewList reviewType='selfReview' {...props}/>
+                </Box>
+            </>
     );
 };
 
-export const SelfReviewShow = (props: any) => (
-        <Show {...props}>
-            <SimpleShowLayout>
-                <TextField source="jobTitle"/>
-                <ArrayField source="competencies">
-                    <Datagrid bulkActionButtons={false}>
-                        <TextField source="category"/>
-                        <TextField source="title"/>
-                        <RichTextField source="description"/>
-                    </Datagrid>
-                </ArrayField>
-            </SimpleShowLayout>
-        </Show>
+export const SelfReviewShow = () => (
+        <ReviewShow/>
 );
 
 export const SelfReviewEdit = () => (
