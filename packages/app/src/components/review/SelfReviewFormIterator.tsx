@@ -25,7 +25,7 @@ export const SelfReviewFormIterator = () => {
                         disableRemove
                         sx={styles}>
                     <FormDataConsumer>
-                        {({scopedFormData, getSource, ...rest}) => {
+                        {({scopedFormData, getSource, formData,...rest}) => {
                             const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             return (core.includes(scopedFormData?.competencyCategory)) ?
                                     <ReferenceField
@@ -46,7 +46,7 @@ export const SelfReviewFormIterator = () => {
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
-                        {({scopedFormData, getSource, ...rest}) => {
+                        {({scopedFormData, getSource, formData,...rest}) => {
                             const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             return <TextInput source={getSource('title')} className="title" {...rest}
                                               readOnly={Boolean(scopedFormData?.source === 'template' && record?.title) || core.includes(scopedFormData?.competencyCategory)}
@@ -54,7 +54,7 @@ export const SelfReviewFormIterator = () => {
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
-                        {({scopedFormData, getSource, ...rest}) => {
+                        {({scopedFormData, getSource, formData, ...rest}) => {
                             const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             return <CustomRichTextInput source={getSource('description')}
                                                         className="description" {...rest}
@@ -62,7 +62,7 @@ export const SelfReviewFormIterator = () => {
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
-                        {({scopedFormData, getSource, ...rest}) => {
+                        {({scopedFormData, getSource, formData,...rest}) => {
                             const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                             if (core.includes(scopedFormData?.competencyCategory)) {
                                 return null
