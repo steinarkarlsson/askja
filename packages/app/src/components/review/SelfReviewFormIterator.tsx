@@ -21,6 +21,7 @@ export const SelfReviewFormIterator = () => {
                 <SimpleFormIterator
                         disableClear
                         disableReordering
+                        disableRemove
                         sx={styles}>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
