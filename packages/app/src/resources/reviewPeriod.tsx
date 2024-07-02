@@ -25,7 +25,7 @@ export const ReviewPeriodList = (props: any) => (
                 <DateField source="startDate"/>
                 <DateField source="endDate"/>
                 <TextField source="type"/>
-                <EditButton label=""/>
+                <EditButton label="Edit" variant="contained"/>
             </Datagrid>
         </List>
 );

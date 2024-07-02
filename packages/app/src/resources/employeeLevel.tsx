@@ -16,7 +16,6 @@ import {
     TextInput,
     useGetList,
 } from 'react-admin';
-import {EmployeeLevel} from '@jucy-askja/common/schemas/employeeLevel';
 
 
 export const EmployeeLevelList = (props: any) => {
@@ -30,7 +29,7 @@ export const EmployeeLevelList = (props: any) => {
                     sort={{field: 'parentId', order: 'ASC'}}
             >
                 <Datagrid>
-                    <FunctionField label="Name" render={(record: EmployeeLevel) => {
+                    <FunctionField label="Name" render={(record) => {
                         const parent = data?.find((d: any) => d.id === record.parentId);
                         if (parent) {
                             return `${parent.name} - ${record.name}`

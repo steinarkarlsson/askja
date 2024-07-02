@@ -3,16 +3,17 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { info, warn } from 'firebase-functions/logger';
 import { region } from 'firebase-functions';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import { getReviewPeriodStartingToday } from './lib/getReviewPeriodStartingToday';
+import { getReviewPeriod} from './lib/getReviewPeriod';
 import { getTemplate } from './lib/getTemplate';
 import { setGlobalOptions } from 'firebase-functions/v2';
 import { onCall } from 'firebase-functions/v2/https';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { employeeSchema } from '@jucy-askja/common/schemas/Employee';
+import {reviewSchema} from '@jucy-askja/common/schemas/Review';
+import { templateSchema} from '@jucy-askja/common/schemas/Template';
 import { Competency } from '@jucy-askja/common/schemas/Competency';
-import { Review } from '@jucy-askja/common/schemas/Review';
-import { beforeUserCreated, HttpsError } from 'firebase-functions/v2/identity';
+import { HttpsError } from 'firebase-functions/v2/identity';
 
 initializeApp()
 
@@ -28,7 +29,7 @@ export const createReviews = onSchedule(
     async () => {
         const db = getFirestore();
         const reviewPeriodSnapshot = await db.collection('reviewPeriod').get();
-        const reviewPeriod = getReviewPeriodStartingToday(reviewPeriodSnapshot);
+        const reviewPeriod = getReviewPeriod(reviewPeriodSnapshot, 'startDate');
 
         if (!reviewPeriod) {
             info('No review period starting today');
@@ -37,17 +38,16 @@ export const createReviews = onSchedule(
 
         console.log(`Review Period starting today: ${reviewPeriod.data().title}`);
 
-        const templateSnapshot = await db.collection('template').where('active','==',true).get();
+        const templateSnapshot = await db.collection('template').where('active', '==', true).get();
         const employeeSnapshot = await db.collection('employee').where('active', '==', true).get();
         const employeeLevelSnapshot = await db.collection('employeeLevel').get();
 
-        const reviews = employeeSnapshot.docs.map((employeeDoc): Review[] | undefined => {
-            // console.log('mapping employeeDoc:', employeeDoc.data());
+        const reviews = employeeSnapshot.docs.map((employeeDoc) => {
             const employee = employeeSchema.parse(employeeDoc.data());
             const coreTemplate = getTemplate({
                 employee: employee,
                 templates: templateSnapshot,
-                type: 'Core'
+                type: 'Core',
             });
             const functionalTemplate = getTemplate({
                 employee: employee,
@@ -76,9 +76,9 @@ export const createReviews = onSchedule(
 
                 const employeeLevel = employeeLevelSnapshot.docs.find(doc => doc.id === employee.employeeLevel);
                 const initialStatus = employeeLevel && employeeLevel.data().selfReview ? 'Pending Employee' : 'Completed';
-
-                return {
-                    competencies:template.competencies,
+                return reviewSchema.parse({
+                    id: '',
+                    competencies: template.competencies,
                     employeeName: employee.name,
                     manager: employee.manager,
                     status: initialStatus,
@@ -90,7 +90,7 @@ export const createReviews = onSchedule(
                     employeeId: employee.id,
                     coreTemplateId: template.coreTemplateId,
                     functionalTemplateId: template.functionalTemplateId,
-                };
+                });
             } else {
                 warn(
                     `Template not found for ${employee.name} - ${employee.jobTitle} - ${employee.employeeLevel}\n    - Core template: ${coreTemplate?.jobTitle} - ${
@@ -103,10 +103,51 @@ export const createReviews = onSchedule(
 
         reviews.forEach(async (review) => {
             if (review) {
-                await db.collection('review').add(review);
+                const docRef = db.collection('review').doc();
+                review.id = docRef.id;
+                await docRef.set(review);
             }
         });
         info(`Created ${reviews.length} reviews for ${reviewPeriod.data().title}`);
+    },
+);
+
+export const closeReviews = onSchedule(
+    {
+        schedule: 'every day 23:00',
+        timeoutSeconds: 1800,
+    },
+    async () => {
+        const db = getFirestore();
+        const reviewPeriodSnapshot = await db.collection('reviewPeriod').get();
+        const reviewPeriodDoc = getReviewPeriod(reviewPeriodSnapshot, 'endDate');
+
+        if (!reviewPeriodDoc) {
+            info('No review period ending today');
+            return;
+        }
+        const reviewPeriod = reviewPeriodDoc.data();
+        console.log(`Review Period ending today: ${reviewPeriod.title}`);
+
+        const reviewSnapshot = await db.collection('review').where('reviewPeriodId', '==', reviewPeriod.id).get();
+
+        const reviews = reviewSnapshot.docs.map((reviewDoc) => {
+            const review = reviewSchema.parse(reviewDoc.data());
+            if (review.status === 'Completed') {
+                return;
+            }
+            return {
+                ...review,
+                status: 'Completed',
+            };
+        });
+
+        reviews.forEach(async (review) => {
+            if (review) {
+                await db.collection('review').doc(review.id).update(review);
+            }
+        });
+        info(`Closed ${reviews.length} reviews for ${reviewPeriod.title}`);
     },
 );
 
@@ -120,16 +161,67 @@ export const getProfile = onCall(async (request) => {
     return employeeSnapshot?.data() || {};
 });
 
-export const beforecreated = beforeUserCreated(async (event) => {
-    if (!event.data.uid) {
-        throw new HttpsError('invalid-argument', 'No user id available');
+export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    if (!after) {
+        return;
+    }
+    await getAuth()
+        .updateUser(after.id, {
+            email: after.email,
+            displayName: after.name,
+        });
+    console.log({
+        before,
+        after,
+    });
+    await getAuth().setCustomUserClaims(after.id, {
+        email: after.email,
+        role: after.role,
+        employeeId: after.id,
+    });
+    const updatedUser = await getAuth().getUser(after.id);
+    console.log({ updatedUser });
+});
+
+export const onTemplateUpdated = onDocumentWritten('template/{docId}', async (event) => {
+    info('onTemplateUpdated triggered.');
+    const template = templateSchema.parse(event.data?.after.data());
+    if (!template) {
+        warn('No template found');
+        return;
     }
 
-    const employeeSnapshotQuery = await db.collection('employee').where('email', '==', event.data.email).get();
+    const reviews = await db.collection('review').where(
+        template.type === 'Core' ? 'coreTemplateId' : 'functionalTemplateId', '==', template?.id).get();
 
-    if (employeeSnapshotQuery.empty) {
-        throw new HttpsError('invalid-argument', 'No employee found with that email');
+    info(`${reviews.docs.length} reviews found for that template`);
+    reviews.forEach((reviewDoc)=> info(`Updating review for: ${reviewDoc.data().employeeName} - with new template: ${template.id}`))
+
+    for (const reviewDoc of reviews.docs) {
+
+        const review = reviewSchema.parse(reviewDoc.data());
+        const alternateTemplateId = review[template.type === 'Core' ? 'functionalTemplateId' : 'coreTemplateId'];
+        const alternateTemplate = templateSchema.parse((await db.collection('template').doc(alternateTemplateId).get()).data());
+
+        const competencies: Competency[] = [];
+
+        if (template.type === 'Core') {
+            template.competencies.forEach((compentency) => competencies.push(compentency));
+            alternateTemplate.competencies.forEach((compentency) => competencies.push(compentency));
+        } else {
+            alternateTemplate.competencies.forEach((compentency) => competencies.push(compentency));
+            template.competencies.forEach((compentency) => competencies.push(compentency));
+        }
+        const userCompentencies = review.competencies.filter((compentency) => compentency.source !== 'template');
+        userCompentencies.forEach((compentency) => competencies.push(compentency));
+        info(competencies);
+        await db.collection('review').doc(review.id).update({
+            competencies: competencies,
+        });
     }
+    info('onTemplateUpdated completed.');
 });
 
 export const onUserCreated = functions.auth.user().onCreate(async (user) => {
@@ -155,28 +247,4 @@ export const onUserCreated = functions.auth.user().onCreate(async (user) => {
     const updatedEmployee = await db.collection('employee').doc(user.uid).get();
     console.log('onUserCreated updatedEmployee.data:', { updatedEmployee });
     return;
-});
-
-export const onEmployeeUpdated = onDocumentWritten('employee/{docId}', async (event) => {
-    const before = event.data?.before.data();
-    const after = event.data?.after.data();
-    if (!after) {
-        return;
-    }
-    await getAuth()
-        .updateUser(after.id, {
-            email: after.email,
-            displayName: after.name,
-        });
-    console.log({
-        before,
-        after,
-    });
-    await getAuth().setCustomUserClaims(after.id, {
-        email: after.email,
-        role: after.role,
-        employeeId: after.id,
-    });
-    const updatedUser = await getAuth().getUser(after.id);
-    console.log({ updatedUser });
 });

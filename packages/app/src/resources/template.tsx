@@ -92,6 +92,7 @@ const TemplateEditCreate = () => {
                         />
                         <TextInput source="title" sx={{marginTop: 1}}/>
                         <RichTextInput source="description"/>
+                        <TextInput source="source" defaultValue="template" style={{display: 'none'}}/>
                     </SimpleFormIterator>
                 </ArrayInput>
             </SimpleForm>

@@ -1,20 +1,22 @@
 import React from 'react';
-import {AppBar} from 'react-admin';
-import {Typography} from '@mui/material';
-
+import {UserMenu} from 'react-admin';
+import {Box, Typography} from '@mui/material';
+import {palette} from '../../themes/customTheme';
 export const CustomAppBar = () => {
     return (
-            <AppBar color="secondary" userMenu={true} sx={{
-                '& .MuiToolbar-root': {
-                    justifyItems: 'center',
-                    alignItems: 'center',
-                    alignContent: 'center',
-                    justifyContent: 'center'
-                }
-            }}>
-                <Typography variant='h4'>
+            <Box sx={{
+                justifyContent: 'space-between',
+                display:'flex',
+                flexDirection:'row',
+                backgroundColor:'secondary',
+                alignContent:'center',
+                marginTop: '-50px',
+                paddingX: '10px',
+                }}>
+                <Typography variant='h3' color={palette.text.primary}>
                     Road2Excellence
                 </Typography>
-            </AppBar>
+                <UserMenu/>
+            </Box>
     )
 };

@@ -18,5 +18,6 @@ export const StartReviewButton = ({reviewType}: startReviewButtonProps) => {
             label={label}
             variant="contained"
             disabled={!allowEdit}
+            sx={{borderRadius:'12px'}}
     />
 }
