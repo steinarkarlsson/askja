@@ -20,7 +20,6 @@ export const CompetencyCategoryList = (props: any) => {
     return (
             <List
                     {...props}
-                    sx={{padding: '20px', backgroundColor: 'white'}}
                     pagination={false}
             >
                 <Datagrid>
