@@ -7,7 +7,7 @@ export const employeeSchema = z.object({
     id: z.string(),
     jobTitle: z.string(),
     employeeLevel: z.string(),
-    manager: z.string().optional(),
+    manager: z.string().optional().nullable(),
     name: z.string(),
     role: z.enum(['employee', 'manager', 'admin']),
 });

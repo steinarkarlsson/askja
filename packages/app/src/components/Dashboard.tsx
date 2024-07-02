@@ -7,9 +7,13 @@ import {ErrorComponent} from './ErrorComponent';
 
 export default (...props: any) => {
     const {isLoading: identityLoading, error: identityError} = useGetIdentity();
-    const {data: profile} = useGetUserProfile();
+    const {data: profile, isLoading} = useGetUserProfile();
+    console.log('profile.id',profile?.userId)
+    if (identityError) {
+        return <ErrorComponent error={identityError}/>;
+    }
 
-    if (identityLoading) {
+    if (isLoading || identityLoading) {
         return (
                 <Box display="flex" justifyContent="center" padding={2} width="100%">
                     <CircularProgress/>
@@ -17,18 +21,15 @@ export default (...props: any) => {
         );
     }
 
-    if (identityError) {
-        return <ErrorComponent error={identityError}/>;
-    }
 
     return (
             <>
-                <Box sx={{marginTop: 10, marginX: 40}}>
+                <Box sx={{marginTop: 10, marginX: 20}}>
                     <Typography variant="h4">Your KPIs</Typography>
                     <ReviewList resource='selfReview' reviewType='selfReview' {...props}/>
                 </Box>
                 {profile?.role === 'employee' ? null :
-                        <Box sx={{marginTop: 10, marginX: 40}}>
+                        <Box sx={{marginTop: 10, marginX: 20}}>
                             <Typography variant="h4">Your Employee KPIs</Typography>
                             <ReviewList resource='employeeReview' reviewType='employeeReview' {...props}/>
                         </Box>

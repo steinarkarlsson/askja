@@ -4,7 +4,6 @@ import {Box, Typography} from '@mui/material';
 import {palette} from '../../themes/customTheme';
 
 export const CustomAppBar = () => {
-
     return (
             <Box sx={{
                 justifyContent: 'space-between',
@@ -20,7 +19,6 @@ export const CustomAppBar = () => {
                         Road2Excellence
                     </Typography>
                 </Link>
-
                 <UserMenu/>
             </Box>
     )

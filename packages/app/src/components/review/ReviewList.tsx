@@ -14,8 +14,9 @@ export const ReviewList = ({reviewType, resource}: { reviewType: string, resourc
                     <TextField source="employeeName"/>
                     <ReferenceField source="manager" reference="employee" link={false}/>
                     <TextField source="jobTitle"/>
+                    <TextField source="reviewPeriodName"/>
                     <StartReviewButton reviewType={reviewType}/>
-                    <ShowButton label="View" variant="contained" style={{borderRadius:'12px'}}/>
+                    <ShowButton variant="contained" style={{borderRadius:'12px'}}/>
                 </Datagrid>
             </List>
     );
