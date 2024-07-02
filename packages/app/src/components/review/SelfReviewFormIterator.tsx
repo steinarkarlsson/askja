@@ -13,9 +13,10 @@ import {CustomRichTextInput} from '../CustomRichTextInput';
 import {Alert, Typography} from '@mui/material';
 import {styles} from './styles';
 
-
 export const SelfReviewFormIterator = () => {
+
     const record = useRecordContext();
+    console.log({record})
     return (
             <ArrayInput source="competencies" name="Competencies">
                 <SimpleFormIterator
@@ -25,7 +26,15 @@ export const SelfReviewFormIterator = () => {
                         sx={styles}>
                     <FormDataConsumer>
                         {({scopedFormData, getSource, ...rest}) => {
-                            return !(scopedFormData?.source === 'template' && scopedFormData?.competencyCategory) ?
+                            const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
+                            return (core.includes(scopedFormData?.competencyCategory)) ?
+                                    <ReferenceField
+                                            source={getSource('competencyCategory')}
+                                            className="category"
+                                            reference="competencyCategory"
+                                            link={false}
+                                            {...rest}
+                                    />:
                                     <ReferenceInput
                                             source={getSource('competencyCategory')}
                                             className="category"
@@ -33,15 +42,7 @@ export const SelfReviewFormIterator = () => {
                                             sx={{width: 'fit-content', minWidth: 200}}
                                             filter={{type: 'Functional'}}
                                             {...rest}
-                                    /> :
-                                    <Typography variant="h4" color="textPrimary" sx={{paddingLeft: 2}}>
-                                        <ReferenceField
-                                                source={getSource('competencyCategory')}
-                                                className="category"
-                                                reference="competencyCategory"
-                                                link={false}
-                                                {...rest}
-                                        /></Typography>;
+                                    />
                         }}
                     </FormDataConsumer>
                     <FormDataConsumer>
