@@ -61,3 +61,17 @@ FIRESTORE_EMULATOR_HOST="127.0.0.1:8080" yarn run test
 
 ## Deployment
 Refer to the React-Admin documentation for instructions on deploying the application to a production environment.
+
+
+## Cloud Functions
+To manually trigger a cloud function such as CreateReviews, you can use the Firebase CLI:
+
+```bash
+yarn start:shell
+```
+
+Then run the function with the following command:
+
+```bash
+createReviews()
+```
