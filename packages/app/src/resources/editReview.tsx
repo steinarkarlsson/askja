@@ -43,7 +43,7 @@ export const editReviewList = (props: any) => (
                 <TextField source="reviewPeriodName"/>
                 <ReferenceField source="manager" reference="employee" link={false}/>
                 <TextField source="jobTitle"/>
-                <EditButton label="Edit"/>
+                <EditButton label="Edit" />
             </Datagrid>
         </List>
 );

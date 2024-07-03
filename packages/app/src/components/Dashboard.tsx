@@ -8,7 +8,6 @@ import {ErrorComponent} from './ErrorComponent';
 export default (...props: any) => {
     const {isLoading: identityLoading, error: identityError} = useGetIdentity();
     const {data: profile, isLoading} = useGetUserProfile();
-    console.log('profile.id',profile?.userId)
     if (identityError) {
         return <ErrorComponent error={identityError}/>;
     }

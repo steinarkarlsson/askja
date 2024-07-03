@@ -16,7 +16,6 @@ import {styles} from './styles';
 export const SelfReviewFormIterator = () => {
 
     const record = useRecordContext();
-    console.log({record})
     return (
             <ArrayInput source="competencies" name="Competencies">
                 <SimpleFormIterator

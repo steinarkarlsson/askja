@@ -41,7 +41,6 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
 
   const handleSignUpRequest = (email: string) => {
     setShowSignUp(false);
-    console.log('Sign up request', { email });
 
     const actionCodeSettings = {
       url: 'http://localhost:5173/#/review',
@@ -70,27 +69,17 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
     if (email !== null) {
       signInWithEmailLink(auth, email, window.location.href)
         .then((result) => {
-          console.log(result);
           window.localStorage.removeItem('emailForSignIn');
-          // You can access the new user via result.user
 
-          login(result.user).catch((error) => console.log(error));
-          // Additional user info profile not available via:
-          // result.additionalUserInfo.profile == null
-          // You can check if the user is new or existing:
-          // result.additionalUserInfo.isNewUser
+          login(result.user).catch((error) => notify(error));
         })
-        .catch((error) => console.log(error));
+        .catch((error) => notify(error));
     } else {
-      console.log('No email provided');
+      notify('No email provided');
     }
   }
 
   const waitForIdentity = useWaitForIdentity();
-  console.log({
-    loading,
-    loginSuccess,
-  });
 
   const handleStaffLogin = () => {
     setLoading(true);
@@ -101,18 +90,15 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
         const idToken = credential?.idToken;
         setLoginSuccess(Boolean(accessToken && idToken));
         if (!accessToken || !idToken) {
-          console.log('Invalid credentials');
           notify('Invalid email or password');
           return;
         }
         waitForIdentity().then((data) => {
-          console.log({ data });
           setLoading(false);
         });
       })
       .catch((error) => {
         setLoading(false);
-        console.log({ error });
         notify('Invalid email or password');
         setError(error);
       });
@@ -143,7 +129,6 @@ const CustomLoginPage: React.FC<LoginProps> = () => {
   }
 
   if (loginSuccess) {
-    console.log('Navigation home', { loginSuccess });
     return <Navigate to={'/'} />;
   }
   return (
