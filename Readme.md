@@ -1,18 +1,15 @@
-
-
 # HR Performance Review App
 
 ## Overview
 
-The HR Performance Review App is a comprehensive solution designed to streamline the performance review process within organizations. Built on top of React-Admin, this application facilitates the management of employee reviews, competencies, and feedback in an efficient and user-friendly manner.
+The HR Performance Review App is a comprehensive solution designed to streamline the performance review process within organizations. Built with React-Admin and Firebase Cloud Functions, this application facilitates the management of employee reviews, competencies, and feedback in a user-friendly manner.
 
 ## Features
 
-- **Employee Management**: Easily manage employee information including job titles, managers, and review periods.
-- **Review Management**: Conduct and manage performance reviews, track status, and archive past reviews for future reference.
+- **Employee Management**: Easily manage employee information including job titles, managers, and emails.
+- **Review Management**: Conduct and manage performance reviews, track status, and view past reviews.
 - **Competency Tracking**: Define and manage key competencies for each role, allowing for targeted feedback and development.
 - **Feedback Mechanism**: Facilitate the provision of feedback from managers and HR, including approval workflows.
-- **Reporting and Analytics**: Generate reports on performance trends, competency gaps, and review outcomes to inform decision-making.
 
 ## Getting Started
 
