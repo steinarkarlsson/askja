@@ -1,5 +1,5 @@
 {
-    "name": "@jucy-askja/functions",
+    "name": "@performus/functions",
     "private": true,
     "scripts": {
         "build": "rollup --config rollup.config.ts --configPlugin rollup-plugin-swc3",
@@ -24,7 +24,6 @@
     },
     "devDependencies": {
         "@firebase/rules-unit-testing": "^3.0.3",
-        "@jucy-askja/common": "workspace:.",
         "@jucy/build-utils": "^1.0.282",
         "@rollup/plugin-alias": "^5.1.0",
         "@rollup/plugin-json": "^6.1.0",

@@ -1,5 +1,5 @@
 {
-    "name": "@jucy-askja/common",
+    "name": "@performus/common",
     "private": true,
     "engines": {
         "node": "18"

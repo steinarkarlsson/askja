@@ -18,7 +18,7 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
-import {employeeSchema} from '@jucy-askja/common/schemas/Employee';
+import {employeeSchema} from '@performus/common/schemas/Employee';
 import {AccountCircle} from '@mui/icons-material';
 import {Stack} from '@mui/material';
 import {EmployeeLevelSelectInput} from '../components/EmployeeLevelSelectInput';

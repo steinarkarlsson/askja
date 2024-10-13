@@ -13,7 +13,7 @@ import {
     TextInput,
 } from 'react-admin';
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
+import {competencyTypeSchema} from '@performus/common/schemas/CompetencyType';
 import {Stack} from '@mui/material';
 
 export const CompetencyCategoryList = (props: any) => {

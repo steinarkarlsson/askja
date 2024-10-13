@@ -1,4 +1,4 @@
-import { reviewPeriodSchema } from '@jucy-askja/common/schemas/ReviewPeriod';
+import { reviewPeriodSchema } from '@performus/common/schemas/ReviewPeriod';
 import firestoreAdmin from './firestoreAdmin';
 import { mapReviewPeriod } from './mappers/mapReviewPeriod';
 

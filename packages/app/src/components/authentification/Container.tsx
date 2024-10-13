@@ -16,7 +16,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
         alignItems: 'center',
         justifyContent: 'flex-start',
         background:
-          'url(https://aadcdn.msauthimages.net/81d6b03a-qoi1sj0b-jedyqhmr1ee2lkugok698aiatxhqseod0a/logintenantbranding/0/illustration?ts=637291661041084892)',
+          'url(https://img.freepik.com/free-vector/digital-technology-background-vector-with-hexagon-pattern-white-tone_53876-110878.jpg?t=st=1720584368~exp=1720587968~hmac=dff5463e7e4d0d9b9c6f8495d73c6beaa530de46440fb475cadae7e2a3049063&w=1480)',
         '&:after': {
           content: '""',
           display: 'block',
@@ -26,7 +26,6 @@ const Container = ({ children }: { children: React.ReactNode }) => {
           zIndex: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(0,0,0,0.55)',
         },
       }}
     >

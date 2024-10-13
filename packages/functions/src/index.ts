@@ -9,10 +9,10 @@ import { setGlobalOptions } from 'firebase-functions/v2';
 import { onCall } from 'firebase-functions/v2/https';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { getAuth } from 'firebase-admin/auth';
-import { employeeSchema } from '@jucy-askja/common/schemas/Employee';
-import {reviewSchema} from '@jucy-askja/common/schemas/Review';
-import { templateSchema} from '@jucy-askja/common/schemas/Template';
-import { Competency } from '@jucy-askja/common/schemas/Competency';
+import { employeeSchema } from '@performus/common/schemas/Employee';
+import {reviewSchema} from '@performus/common/schemas/Review';
+import { templateSchema} from '@performus/common/schemas/Template';
+import { Competency } from '@performus/common/schemas/Competency';
 import { HttpsError } from 'firebase-functions/v2/identity';
 
 initializeApp()

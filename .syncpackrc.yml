@@ -33,9 +33,9 @@ versionGroups:
     - packages:
           - '**'
       dependencies:
-          - '@jucy-askja/app'
-          - '@jucy-askja/common'
-          - '@jucy-askja/functions'
+          - '@performus/app'
+          - '@performus/common'
+          - '@performus/functions'
       dependencyTypes:
           - dev
           - prod

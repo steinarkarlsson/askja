@@ -1,5 +1,5 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {reviewTypeSchema} from '@jucy-askja/common/schemas/ReviewType';
+import {reviewTypeSchema} from '@performus/common/schemas/ReviewType';
 import React from 'react';
 import {
     Create,

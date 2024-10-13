@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import { Employee } from '@jucy-askja/common/schemas/Employee';
+import { Employee } from '@performus/common/schemas/Employee';
 import { functions } from '../lib/init';
 
 export const getUserProfile = async ()=>{

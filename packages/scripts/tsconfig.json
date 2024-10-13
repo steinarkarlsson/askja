@@ -6,7 +6,7 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
-          "@jucy-askja/common/*": ["../common/*"],
+          "@performus/common/*": ["../common/*"],
         }
       },
 

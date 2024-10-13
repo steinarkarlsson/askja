@@ -1,4 +1,4 @@
-import { templateSchema } from '@jucy-askja/common/schemas/Template';
+import { templateSchema } from '@performus/common/schemas/Template';
 import firestoreAdmin from './firestoreAdmin';
 import { mapTemplate } from './mappers/mapTemplate';
 

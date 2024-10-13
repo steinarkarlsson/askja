@@ -1,10 +1,9 @@
 import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomLoginPage from './CustomLoginPage';
-import {customTheme} from '../themes/customTheme';
 import {app} from '../lib/init';
 import {FirebaseAuthProvider, FirebaseDataProvider, RAFirebaseOptions} from '../lib/react-admin-firebase';
-import {Admin as RaAdmin} from 'react-admin';
+import {Admin as RaAdmin, radiantLightTheme} from 'react-admin';
 import {ProfileLoader} from './ProfileLoader';
 import {Layout, LayoutProps} from 'ra-ui-materialui';
 import {CustomMenu} from './layout/CustomMenu';
@@ -53,7 +52,7 @@ export const Admin = ({children}: { children: React.ReactNode }) => {
             <RaAdmin
                     dashboard={Dashboard}
                     loginPage={CustomLoginPage}
-                    theme={customTheme}
+                    theme={radiantLightTheme}
                     layout={CustomLayout}
                     dataProvider={dataProvider}
                     authProvider={authProvider}

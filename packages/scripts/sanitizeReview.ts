@@ -1,4 +1,4 @@
-import { reviewSchema } from '@jucy-askja/common/schemas/Review';
+import { reviewSchema } from '@performus/common/schemas/Review';
 import firestoreAdmin from './firestoreAdmin';
 import { mapReview } from './mappers/mapReview';
 

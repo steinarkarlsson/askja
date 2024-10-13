@@ -1,6 +1,6 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {reviewStatusSchema} from '@jucy-askja/common/schemas/ReviewStatus';
-import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
+import {reviewStatusSchema} from '@performus/common/schemas/ReviewStatus';
+import {competencyReviewStatusSchema} from '@performus/common/schemas/CompetencyReviewStatus';
 import React from 'react';
 import {
     ArrayField,

@@ -6,9 +6,9 @@ The HR Performance Review App is a comprehensive solution designed to streamline
 
 ## Features
 
-- **Employee Management**: Easily manage employee information including job titles, managers, and emails.
-- **Review Management**: Conduct and manage performance reviews, track status, and view past reviews.
-- **Competency Tracking**: Define and manage key competencies for each role, allowing for targeted feedback and development.
+- **Employee Management**: Manage employee information including job titles, managers, and emails.
+- **Review Management**: Conduct and manage performance reviews, track review status, and view past reviews.
+- **Competency Tracking**: Create key competencies for each role, allowing for targeted feedback and development.
 - **Feedback Mechanism**: Facilitate the provision of feedback from managers and HR, including approval workflows.
 
 ## Getting Started

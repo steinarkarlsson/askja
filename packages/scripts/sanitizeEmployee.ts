@@ -1,6 +1,6 @@
 const firestoreAdmin = require('./firestoreAdmin');
 const mapEmployee = require('./mappers/mapEmployee').mapEmployee;
-const employeeSchema = require('@jucy-askja/common/schemas/Employee').employeeSchema;
+const employeeSchema = require('@performus/common/schemas/Employee').employeeSchema;
 
 
 const collection = firestoreAdmin.collection('employee');

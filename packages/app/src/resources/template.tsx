@@ -1,5 +1,5 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
+import {competencyTypeSchema} from '@performus/common/schemas/CompetencyType';
 import {RichTextInput} from 'ra-input-rich-text';
 import React from 'react';
 import {

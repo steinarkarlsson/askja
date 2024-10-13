@@ -1,4 +1,4 @@
-import { config } from '@jucy-askja/common/config';
+import { config } from '@performus/common/config';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';

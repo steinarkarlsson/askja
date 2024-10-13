@@ -2,7 +2,7 @@
 import {FirebaseFirestore } from '@firebase/firestore-types';
 
 
-import { Employee } from '@jucy-askja/common/schemas/Employee';
+import { Employee } from '@performus/common/schemas/Employee';
 interface GetTemplateProps {
     employee: Employee;
     templates: FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>;

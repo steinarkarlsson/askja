@@ -10,7 +10,7 @@ import {
     TextInput,
     useGetIdentity
 } from 'react-admin';
-import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
+import {competencyReviewStatusSchema} from '@performus/common/schemas/CompetencyReviewStatus';
 import {Alert, Box, CircularProgress, Typography} from '@mui/material';
 import {ErrorComponent} from '../components/ErrorComponent';
 import {RichTextInput} from 'ra-input-rich-text';
@@ -19,7 +19,6 @@ import {ReviewTitlePanel} from '../components/review/ReviewTitlePanel';
 import {ReviewToolbar} from '../components/review/ReviewToolbar';
 import {SMARTGoals} from '../components/review/SMARTGoals';
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {useGetUserProfile} from '../hooks/useGetUserProfile';
 import {FormDataConsumer} from 'ra-core';
 import {styles} from '../components/review/styles';
 import {ReviewShow} from '../components/review/ReviewShow';
@@ -29,7 +28,6 @@ const competencyReviewStatuses = mapArrayToChoices(competencyReviewStatusSchema.
 
 export const EmployeeReviewList = (props: any) => {
     const {data: identity, isLoading: identityLoading, error: identityError} = useGetIdentity();
-    const {data: profile} = useGetUserProfile();
     if (identityLoading) {
         return (
                 <Box display="flex" justifyContent="center" padding={2} width="100%">
@@ -48,7 +46,7 @@ export const EmployeeReviewList = (props: any) => {
     );
 };
 
-export const EmployeeReviewShow = (props: any) => (
+export const EmployeeReviewShow = () => (
         <ReviewShow/>
 );
 
@@ -113,7 +111,6 @@ export const EmployeeReviewEdit = () => {
                                         } else {
                                             return null
                                         }
-                                        ;
                                     }
                                 }}
                             </FormDataConsumer>

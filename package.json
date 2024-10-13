@@ -1,5 +1,5 @@
 {
-    "name": "jucy-askja",
+    "name": "performus",
     "private": true,
     "scripts": {
         "start:emulator": "mkdir -p emulator-data &&  yarn firebase emulators:start --only firestore,storage,auth,functions,pubsub --import emulator-data --export-on-exit emulator-data",
@@ -25,5 +25,8 @@
         "packages": [
             "packages/*"
         ]
+    },
+    "dependencies": {
+        "firebase": "^10.12.3"
     }
 }

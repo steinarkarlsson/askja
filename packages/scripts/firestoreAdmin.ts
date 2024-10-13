@@ -1,8 +1,7 @@
-const config = require('@jucy-askja/common/config');
+const config = require('@performus/common/config');
 const firebase = require('firebase-admin');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
-const fs = require('fs');
 
 if (!firebase.apps.length) {
     const settings: firebase.AppOptions = {

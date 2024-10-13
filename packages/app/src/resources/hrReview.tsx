@@ -1,6 +1,6 @@
 import {mapArrayToChoices} from '../lib/mapArrayToChoices';
-import {competencyTypeSchema} from '@jucy-askja/common/schemas/CompetencyType';
-import {competencyReviewStatusSchema} from '@jucy-askja/common/schemas/CompetencyReviewStatus';
+import {competencyTypeSchema} from '@performus/common/schemas/CompetencyType';
+import {competencyReviewStatusSchema} from '@performus/common/schemas/CompetencyReviewStatus';
 import React from 'react';
 import {
     ArrayInput,
@@ -74,7 +74,7 @@ export const HrReviewEdit = () => {
                                            label="Description" name="description"/>
                             <TextInput disabled={true} className="title" source="title" name="title"/>
                             <FormDataConsumer>
-                                {({scopedFormData, getSource, ...rest}) => {
+                                {({scopedFormData, getSource}) => {
                                     const core = ['Hvzl6W0sL3unlUvEKznC', 'JwFz8xNx2KSVYen4zL6f', 'XtmdMXYGBSUwT0YfcrtM', 'pLzxA5qPpDHW001NRVbg']
                                     if (core.includes(scopedFormData?.competencyCategory)) {
                                         return null

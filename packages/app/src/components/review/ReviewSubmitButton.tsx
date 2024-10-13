@@ -3,16 +3,17 @@ import {useNotify, useRecordContext, useRedirect, useUpdate} from 'react-admin';
 import {getUpdatedReviewStatus} from '../../lib/getUpdatedReviewStatus';
 import {Button} from '@mui/material';
 import {useFormContext} from 'react-hook-form';
-import {Review} from '@jucy-askja/common/schemas/Review';
+import {Review} from '@performus/common/schemas/Review';
 import {useGetUserProfile} from '../../hooks/useGetUserProfile';
 
-export const ReviewSubmitButton = (props: { reviewType: string }) => {
+export const ReviewSubmitButton = () => {
     const record = useRecordContext();
     const redirect = useRedirect();
     const [update, {error}] = useUpdate();
     const notify = useNotify();
     const formState = useFormContext();
     const updatedForm = formState.getValues() as Review;
+    // eslint-disable-next-line no-unused-vars
     const {status, ...updatedFormWithoutStatus} = updatedForm
     const {data: profile} = useGetUserProfile();
 

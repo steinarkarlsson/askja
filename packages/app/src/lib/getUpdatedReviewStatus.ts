@@ -1,5 +1,5 @@
-import { Review } from '@jucy-askja/common/schemas/Review';
-import { Competency } from '@jucy-askja/common/schemas/Competency';
+import { Review } from '@performus/common/schemas/Review';
+import { Competency } from '@performus/common/schemas/Competency';
 
 export const getUpdatedReviewStatus = (form: Review, manager: string | undefined) => {
 

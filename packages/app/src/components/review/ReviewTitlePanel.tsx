@@ -1,7 +1,7 @@
 import React from 'react';
 import {Stack, Typography} from '@mui/material';
 import {useRecordContext} from 'react-admin';
-import {Review} from '@jucy-askja/common/schemas/Review';
+import {Review} from '@performus/common/schemas/Review';
 
 export const ReviewTitlePanel = () => {
     const review: Review = useRecordContext();
